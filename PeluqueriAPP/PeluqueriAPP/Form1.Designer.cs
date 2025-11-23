@@ -699,7 +699,7 @@
             label5.Name = "label5";
             label5.Size = new Size(43, 30);
             label5.TabIndex = 1;
-            label5.Text = "4,2";
+            label5.Text = "4,3";
             // 
             // label6
             // 

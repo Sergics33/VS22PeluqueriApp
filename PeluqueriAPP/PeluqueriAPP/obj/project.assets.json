@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Proyectos VisualStudio22\\PeluqueriAPP\\PeluqueriAPP\\PeluqueriAPP.csproj",
+      "projectUniqueName": "C:\\Users\\sergi\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\PeluqueriAPP.csproj",
       "projectName": "PeluqueriAPP",
-      "projectPath": "D:\\Proyectos VisualStudio22\\PeluqueriAPP\\PeluqueriAPP\\PeluqueriAPP.csproj",
+      "projectPath": "C:\\Users\\sergi\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\PeluqueriAPP.csproj",
       "packagesPath": "C:\\Users\\sergi\\.nuget\\packages\\",
-      "outputPath": "D:\\Proyectos VisualStudio22\\PeluqueriAPP\\PeluqueriAPP\\obj\\",
+      "outputPath": "C:\\Users\\sergi\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
