@@ -16,3 +16,22 @@ D:\Proyectos VisualStudio22\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\P
 D:\Proyectos VisualStudio22\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.genruntimeconfig.cache
 D:\Proyectos VisualStudio22\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\ref\PeluqueriAPP.dll
 D:\Proyectos VisualStudio22\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.Form2.resources
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\bin\Debug\net8.0-windows\PeluqueriAPP.exe
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\bin\Debug\net8.0-windows\PeluqueriAPP.deps.json
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\bin\Debug\net8.0-windows\PeluqueriAPP.runtimeconfig.json
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\bin\Debug\net8.0-windows\PeluqueriAPP.dll
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\bin\Debug\net8.0-windows\PeluqueriAPP.pdb
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.Home.resources
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.Properties.Resources.resources
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.Servicios.resources
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.csproj.GenerateResource.cache
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.AssemblyInfoInputs.cache
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.AssemblyInfo.cs
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.csproj.CoreCompileInputs.cache
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.sourcelink.json
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.dll
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\refint\PeluqueriAPP.dll
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.pdb
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.genruntimeconfig.cache
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\ref\PeluqueriAPP.dll

@@ -1,6 +1,6 @@
 ﻿namespace PeluqueriAPP
 {
-    partial class Form2
+    partial class Servicios
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Servicios));
             panel1 = new Panel();
             IconoPersonal = new PictureBox();
             IconoServicios = new PictureBox();

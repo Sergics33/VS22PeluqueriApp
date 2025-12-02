@@ -1,26 +1,26 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\sergi\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\",
+  "WorkspaceRootPath": "C:\\Users\\sercarsen\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|c:\\users\\sergi\\documents\\github\\vs22peluqueriapp\\peluqueriapp\\peluqueriapp\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|solutionrelative:peluqueriapp\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|c:\\users\\sercarsen\\documents\\github\\vs22peluqueriapp\\peluqueriapp\\peluqueriapp\\home.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|solutionrelative:peluqueriapp\\home.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|C:\\Users\\sergi\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\peluqueriapp\\form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|solutionrelative:peluqueriapp\\form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|c:\\users\\sercarsen\\documents\\github\\vs22peluqueriapp\\peluqueriapp\\peluqueriapp\\servicios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|solutionrelative:peluqueriapp\\servicios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|c:\\users\\sergi\\documents\\github\\vs22peluqueriapp\\peluqueriapp\\peluqueriapp\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|solutionrelative:peluqueriapp\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|c:\\users\\sercarsen\\documents\\github\\vs22peluqueriapp\\peluqueriapp\\peluqueriapp\\home.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|solutionrelative:peluqueriapp\\home.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|c:\\users\\sergi\\documents\\github\\vs22peluqueriapp\\peluqueriapp\\peluqueriapp\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|solutionrelative:peluqueriapp\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|c:\\users\\sercarsen\\documents\\github\\vs22peluqueriapp\\peluqueriapp\\peluqueriapp\\home.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|solutionrelative:peluqueriapp\\home.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|c:\\users\\sergi\\documents\\github\\vs22peluqueriapp\\peluqueriapp\\peluqueriapp\\form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|solutionrelative:peluqueriapp\\form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|c:\\users\\sercarsen\\documents\\github\\vs22peluqueriapp\\peluqueriapp\\peluqueriapp\\servicios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EBC6A832-DB61-426D-8253-CAD280B2DDF7}|PeluqueriAPP\\PeluqueriAPP.csproj|solutionrelative:peluqueriapp\\servicios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,11 +35,11 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Form1.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\sergi\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Form1.cs",
-              "RelativeDocumentMoniker": "PeluqueriAPP\\Form1.cs",
-              "ToolTip": "C:\\Users\\sergi\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Form1.cs [Dise\u00F1o]",
-              "RelativeToolTip": "PeluqueriAPP\\Form1.cs [Dise\u00F1o]",
+              "Title": "Home.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\sercarsen\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Home.cs",
+              "RelativeDocumentMoniker": "PeluqueriAPP\\Home.cs",
+              "ToolTip": "C:\\Users\\sercarsen\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Home.cs [Dise\u00F1o]*",
+              "RelativeToolTip": "PeluqueriAPP\\Home.cs [Dise\u00F1o]*",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-23T09:53:56.915Z",
               "EditorCaption": " [Dise\u00F1o]"
@@ -47,11 +47,11 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Form2.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\sergi\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Form2.cs",
-              "RelativeDocumentMoniker": "PeluqueriAPP\\Form2.cs",
-              "ToolTip": "C:\\Users\\sergi\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Form2.cs [Dise\u00F1o]",
-              "RelativeToolTip": "PeluqueriAPP\\Form2.cs [Dise\u00F1o]",
+              "Title": "Servicios.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\sercarsen\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Servicios.cs",
+              "RelativeDocumentMoniker": "PeluqueriAPP\\Servicios.cs",
+              "ToolTip": "C:\\Users\\sercarsen\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Servicios.cs [Dise\u00F1o]*",
+              "RelativeToolTip": "PeluqueriAPP\\Servicios.cs [Dise\u00F1o]*",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-07T16:45:58.947Z",
               "EditorCaption": " [Dise\u00F1o]"
@@ -59,11 +59,11 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Form1.Designer.cs",
-              "DocumentMoniker": "C:\\Users\\sergi\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Form1.Designer.cs",
-              "RelativeDocumentMoniker": "PeluqueriAPP\\Form1.Designer.cs",
-              "ToolTip": "C:\\Users\\sergi\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Form1.Designer.cs",
-              "RelativeToolTip": "PeluqueriAPP\\Form1.Designer.cs",
+              "Title": "Home.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\sercarsen\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Home.Designer.cs",
+              "RelativeDocumentMoniker": "PeluqueriAPP\\Home.Designer.cs",
+              "ToolTip": "C:\\Users\\sercarsen\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Home.Designer.cs*",
+              "RelativeToolTip": "PeluqueriAPP\\Home.Designer.cs*",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-07T16:43:17.143Z",
@@ -72,28 +72,26 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Form1.cs",
-              "DocumentMoniker": "C:\\Users\\sergi\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Form1.cs",
-              "RelativeDocumentMoniker": "PeluqueriAPP\\Form1.cs",
-              "ToolTip": "C:\\Users\\sergi\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Form1.cs",
-              "RelativeToolTip": "PeluqueriAPP\\Form1.cs",
+              "Title": "Home.cs",
+              "DocumentMoniker": "C:\\Users\\sercarsen\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Home.cs",
+              "RelativeDocumentMoniker": "PeluqueriAPP\\Home.cs",
+              "ToolTip": "C:\\Users\\sercarsen\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Home.cs",
+              "RelativeToolTip": "PeluqueriAPP\\Home.cs",
               "ViewState": "AgIAAB4AAAAAAAAAAAAkwC0AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-07T16:43:25.21Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-07T16:43:25.21Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Form2.cs",
-              "DocumentMoniker": "C:\\Users\\sergi\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Form2.cs",
-              "RelativeDocumentMoniker": "PeluqueriAPP\\Form2.cs",
-              "ToolTip": "C:\\Users\\sergi\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Form2.cs",
-              "RelativeToolTip": "PeluqueriAPP\\Form2.cs",
+              "Title": "Servicios.cs",
+              "DocumentMoniker": "C:\\Users\\sercarsen\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Servicios.cs",
+              "RelativeDocumentMoniker": "PeluqueriAPP\\Servicios.cs",
+              "ToolTip": "C:\\Users\\sercarsen\\Documents\\GitHub\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\Servicios.cs",
+              "RelativeToolTip": "PeluqueriAPP\\Servicios.cs",
               "ViewState": "AgIAACAAAAAAAAAAAAAawC8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T18:35:55.645Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-06T18:35:55.645Z"
             }
           ]
         }

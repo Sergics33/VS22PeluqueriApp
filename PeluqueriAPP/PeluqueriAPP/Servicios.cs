@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace PeluqueriAPP
 {
-    public partial class Form2 : Form
+    public partial class Servicios : Form
     {
-        public Form2()
+        public Servicios()
         {
             InitializeComponent();
         }
@@ -24,7 +24,7 @@ namespace PeluqueriAPP
 
         private void lblHome_Click(object sender, EventArgs e)
         {
-            Form1 anterior = new Form1();
+            Home anterior = new Home();
             anterior.Show();
             this.Close();
         }
