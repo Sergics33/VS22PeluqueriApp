@@ -293,6 +293,7 @@
             lblHome.Size = new Size(64, 25);
             lblHome.TabIndex = 5;
             lblHome.Text = "Home";
+            lblHome.Click += lblHome_Click;
             // 
             // lblGestion
             // 
@@ -1059,7 +1060,7 @@
             btnAnyadir.UseVisualStyleBackColor = false;
             btnAnyadir.Click += btnAnyadir_Click;
             // 
-            // Form2
+            // Servicios
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -1083,7 +1084,7 @@
             Controls.Add(panel10);
             Controls.Add(panel11);
             Controls.Add(panel12);
-            Name = "Form2";
+            Name = "Servicios";
             Text = "Form2";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

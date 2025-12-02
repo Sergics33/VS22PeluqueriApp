@@ -932,147 +932,118 @@ namespace PeluqueriAPP
 
         private void label4_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void label6_Click_1(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void lblBernatS_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void lblNumCitas_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void panelCitas_Paint(object sender, PaintEventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void panelPorServi_Paint(object sender, PaintEventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void label5_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void panel3_Paint(object sender, PaintEventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void lblNombre9_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void panel4_Paint(object sender, PaintEventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void lblBernat_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void lblPanel_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void label3_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void iconoFP_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void lblGestion_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void lblHome_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void lblCitas_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void lblPersonal_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void lblAdmin_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void lblCerrarSesion_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void IconoPerfil_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void IconoHome_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void IconoCitas_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void IconoServicios_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void IconoPersonal_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void lblTitulo_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void lblUbi_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         #endregion
