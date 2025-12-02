@@ -1,4 +1,5 @@
-﻿namespace PeluqueriAPP
+﻿
+namespace PeluqueriAPP
 {
     partial class Home
     {
@@ -148,6 +149,7 @@
             IconoPersonal.SizeMode = PictureBoxSizeMode.Zoom;
             IconoPersonal.TabIndex = 17;
             IconoPersonal.TabStop = false;
+            IconoPersonal.Click += this.IconoPersonal_Click;
             // 
             // IconoServicios
             // 
@@ -158,6 +160,7 @@
             IconoServicios.SizeMode = PictureBoxSizeMode.Zoom;
             IconoServicios.TabIndex = 16;
             IconoServicios.TabStop = false;
+            IconoServicios.Click += this.IconoServicios_Click;
             // 
             // IconoCitas
             // 
@@ -168,6 +171,7 @@
             IconoCitas.SizeMode = PictureBoxSizeMode.Zoom;
             IconoCitas.TabIndex = 15;
             IconoCitas.TabStop = false;
+            IconoCitas.Click += this.IconoCitas_Click;
             // 
             // IconoHome
             // 
@@ -178,6 +182,7 @@
             IconoHome.SizeMode = PictureBoxSizeMode.Zoom;
             IconoHome.TabIndex = 14;
             IconoHome.TabStop = false;
+            IconoHome.Click += this.IconoHome_Click;
             // 
             // IconoPerfil
             // 
@@ -188,6 +193,7 @@
             IconoPerfil.SizeMode = PictureBoxSizeMode.Zoom;
             IconoPerfil.TabIndex = 13;
             IconoPerfil.TabStop = false;
+            IconoPerfil.Click += this.IconoPerfil_Click;
             // 
             // lblCerrarSesion
             // 
@@ -198,6 +204,7 @@
             lblCerrarSesion.Size = new Size(103, 20);
             lblCerrarSesion.TabIndex = 12;
             lblCerrarSesion.Text = "Cerrar Sesión";
+            lblCerrarSesion.Click += this.lblCerrarSesion_Click;
             // 
             // lblAdmin
             // 
@@ -208,6 +215,7 @@
             lblAdmin.Size = new Size(90, 20);
             lblAdmin.TabIndex = 11;
             lblAdmin.Text = "Administradora";
+            lblAdmin.Click += this.lblAdmin_Click;
             // 
             // label1
             // 
@@ -219,6 +227,7 @@
             label1.Size = new Size(90, 20);
             label1.TabIndex = 10;
             label1.Text = "Profesora 1";
+            label1.Click += this.label1_Click;
             // 
             // label9
             // 
@@ -238,6 +247,7 @@
             lblPersonal.Size = new Size(84, 25);
             lblPersonal.TabIndex = 8;
             lblPersonal.Text = "Personal";
+            lblPersonal.Click += this.lblPersonal_Click;
             // 
             // lblServicios
             // 
@@ -261,6 +271,7 @@
             lblCitas.Size = new Size(54, 25);
             lblCitas.TabIndex = 6;
             lblCitas.Text = "Citas";
+            lblCitas.Click += this.lblCitas_Click;
             // 
             // lblHome
             // 
@@ -272,6 +283,7 @@
             lblHome.Size = new Size(64, 25);
             lblHome.TabIndex = 5;
             lblHome.Text = "Home";
+            lblHome.Click += this.lblHome_Click;
             // 
             // lblGestion
             // 
@@ -283,6 +295,7 @@
             lblGestion.Size = new Size(59, 20);
             lblGestion.TabIndex = 4;
             lblGestion.Text = "Gestión";
+            lblGestion.Click += this.lblGestion_Click;
             // 
             // iconoFP
             // 
@@ -293,6 +306,7 @@
             iconoFP.SizeMode = PictureBoxSizeMode.Zoom;
             iconoFP.TabIndex = 3;
             iconoFP.TabStop = false;
+            iconoFP.Click += this.iconoFP_Click;
             // 
             // label3
             // 
@@ -301,6 +315,7 @@
             label3.Name = "label3";
             label3.Size = new Size(228, 1);
             label3.TabIndex = 2;
+            label3.Click += this.label3_Click;
             // 
             // lblPanel
             // 
@@ -312,6 +327,7 @@
             lblPanel.Size = new Size(169, 20);
             lblPanel.TabIndex = 1;
             lblPanel.Text = "Panel de Administración";
+            lblPanel.Click += this.lblPanel_Click;
             // 
             // lblBernat
             // 
@@ -323,6 +339,7 @@
             lblBernat.Size = new Size(172, 31);
             lblBernat.TabIndex = 0;
             lblBernat.Text = "Bernat Sarriá";
+            lblBernat.Click += this.lblBernat_Click;
             // 
             // panel2
             // 
@@ -377,6 +394,7 @@
             panel4.Name = "panel4";
             panel4.Size = new Size(941, 241);
             panel4.TabIndex = 24;
+            panel4.Paint += this.panel4_Paint;
             // 
             // label7
             // 
@@ -408,6 +426,7 @@
             lblNombre9.Size = new Size(119, 21);
             lblNombre9.TabIndex = 26;
             lblNombre9.Text = "Mireia Sanchez";
+            lblNombre9.Click += this.lblNombre9_Click;
             // 
             // label11
             // 
@@ -680,6 +699,7 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(290, 135);
             panel3.TabIndex = 23;
+            panel3.Paint += this.panel3_Paint;
             // 
             // pictureBox1
             // 
@@ -690,6 +710,7 @@
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 18;
             pictureBox1.TabStop = false;
+            pictureBox1.Click += this.pictureBox1_Click;
             // 
             // label5
             // 
@@ -700,6 +721,7 @@
             label5.Size = new Size(43, 30);
             label5.TabIndex = 1;
             label5.Text = "4,3";
+            label5.Click += this.label5_Click;
             // 
             // label6
             // 
@@ -710,6 +732,7 @@
             label6.Size = new Size(239, 21);
             label6.TabIndex = 0;
             label6.Text = "Media valoraciones de la semana";
+            label6.Click += this.label6_Click_1;
             // 
             // panelPorServi
             // 
@@ -724,6 +747,7 @@
             panelPorServi.Name = "panelPorServi";
             panelPorServi.Size = new Size(290, 135);
             panelPorServi.TabIndex = 23;
+            panelPorServi.Paint += this.panelPorServi_Paint;
             // 
             // lblCambio
             // 
@@ -796,6 +820,7 @@
             panelCitas.Name = "panelCitas";
             panelCitas.Size = new Size(290, 135);
             panelCitas.TabIndex = 22;
+            panelCitas.Paint += this.panelCitas_Paint;
             // 
             // lblNumCitas
             // 
@@ -806,6 +831,7 @@
             lblNumCitas.Size = new Size(222, 30);
             lblNumCitas.TabIndex = 1;
             lblNumCitas.Text = "20 citas programadas";
+            lblNumCitas.Click += this.lblNumCitas_Click;
             // 
             // lblCitasHoy
             // 
@@ -827,6 +853,7 @@
             label4.Size = new Size(203, 17);
             label4.TabIndex = 21;
             label4.Text = "Bienvenida de nuevo, Profesora 1";
+            label4.Click += this.label4_Click;
             // 
             // lblTitulo
             // 
@@ -837,6 +864,7 @@
             lblTitulo.Size = new Size(95, 37);
             lblTitulo.TabIndex = 20;
             lblTitulo.Text = "Home";
+            lblTitulo.Click += this.lblTitulo_Click;
             // 
             // label2
             // 
@@ -857,6 +885,7 @@
             lblUbi.Size = new Size(51, 20);
             lblUbi.TabIndex = 19;
             lblUbi.Text = "Home";
+            lblUbi.Click += this.lblUbi_Click;
             // 
             // lblBernatS
             // 
@@ -868,15 +897,16 @@
             lblBernatS.Size = new Size(108, 20);
             lblBernatS.TabIndex = 18;
             lblBernatS.Text = "Bernat Sarriá >";
+            lblBernatS.Click += this.lblBernatS_Click;
             // 
-            // Form1
+            // Home
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1272, 628);
             Controls.Add(panel2);
             Controls.Add(panel1);
-            Name = "Form1";
+            Name = "Home";
             Text = "Form1";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -898,6 +928,151 @@
             panelCitas.ResumeLayout(false);
             panelCitas.PerformLayout();
             ResumeLayout(false);
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void label6_Click_1(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void lblBernatS_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void lblNumCitas_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void panelCitas_Paint(object sender, PaintEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void panelPorServi_Paint(object sender, PaintEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void lblNombre9_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void panel4_Paint(object sender, PaintEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void lblBernat_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void lblPanel_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void iconoFP_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void lblGestion_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void lblHome_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void lblCitas_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void lblPersonal_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void lblAdmin_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void lblCerrarSesion_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void IconoPerfil_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void IconoHome_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void IconoCitas_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void IconoServicios_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void IconoPersonal_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void lblTitulo_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void lblUbi_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
