@@ -1,4 +1,5 @@
-﻿namespace PeluqueriAPP
+﻿
+namespace PeluqueriAPP
 {
     partial class Usuarios
     {
@@ -427,6 +428,16 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             panel4.ResumeLayout(false);
             ResumeLayout(false);
+        }
+
+        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void lblPersonal_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
