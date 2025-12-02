@@ -31,6 +31,19 @@ namespace PeluqueriAPP
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Usuarios));
             panel2 = new Panel();
+            panel3 = new Panel();
+            btnBorrar = new Button();
+            btnEditar = new Button();
+            textBox1 = new TextBox();
+            lblBuscar = new Label();
+            btnAnyadir = new Button();
+            panel4 = new Panel();
+            dataGridView2 = new DataGridView();
+            ID = new DataGridViewTextBoxColumn();
+            Nombre = new DataGridViewTextBoxColumn();
+            Telefono = new DataGridViewTextBoxColumn();
+            Alérgenos = new DataGridViewTextBoxColumn();
+            Observaciones = new DataGridViewTextBoxColumn();
             label4 = new Label();
             lblTitulo = new Label();
             label2 = new Label();
@@ -55,14 +68,10 @@ namespace PeluqueriAPP
             label3 = new Label();
             lblPanel = new Label();
             lblBernat = new Label();
-            dataGridView2 = new DataGridView();
-            panel4 = new Panel();
-            ID = new DataGridViewTextBoxColumn();
-            Nombre = new DataGridViewTextBoxColumn();
-            Telefono = new DataGridViewTextBoxColumn();
-            Alérgenos = new DataGridViewTextBoxColumn();
-            Observaciones = new DataGridViewTextBoxColumn();
             panel2.SuspendLayout();
+            panel3.SuspendLayout();
+            panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)IconoPersonal).BeginInit();
             ((System.ComponentModel.ISupportInitialize)IconoServicios).BeginInit();
@@ -70,13 +79,12 @@ namespace PeluqueriAPP
             ((System.ComponentModel.ISupportInitialize)IconoHome).BeginInit();
             ((System.ComponentModel.ISupportInitialize)IconoPerfil).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconoFP).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
-            panel4.SuspendLayout();
             SuspendLayout();
             // 
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(238, 238, 238);
+            panel2.Controls.Add(panel3);
             panel2.Controls.Add(panel4);
             panel2.Controls.Add(label4);
             panel2.Controls.Add(lblTitulo);
@@ -85,8 +93,130 @@ namespace PeluqueriAPP
             panel2.Controls.Add(lblBernatS);
             panel2.Location = new Point(231, 4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1048, 630);
+            panel2.Size = new Size(1051, 630);
             panel2.TabIndex = 3;
+            // 
+            // panel3
+            // 
+            panel3.BackColor = SystemColors.AppWorkspace;
+            panel3.Controls.Add(btnBorrar);
+            panel3.Controls.Add(btnEditar);
+            panel3.Controls.Add(textBox1);
+            panel3.Controls.Add(lblBuscar);
+            panel3.Controls.Add(btnAnyadir);
+            panel3.Location = new Point(34, 152);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(788, 83);
+            panel3.TabIndex = 44;
+            // 
+            // btnBorrar
+            // 
+            btnBorrar.BackColor = Color.White;
+            btnBorrar.FlatStyle = FlatStyle.Flat;
+            btnBorrar.ForeColor = SystemColors.ControlText;
+            btnBorrar.Location = new Point(668, 42);
+            btnBorrar.Name = "btnBorrar";
+            btnBorrar.Size = new Size(97, 23);
+            btnBorrar.TabIndex = 45;
+            btnBorrar.Text = "Borrar Usuario";
+            btnBorrar.UseVisualStyleBackColor = false;
+            // 
+            // btnEditar
+            // 
+            btnEditar.BackColor = Color.White;
+            btnEditar.FlatStyle = FlatStyle.Flat;
+            btnEditar.ForeColor = SystemColors.ControlText;
+            btnEditar.Location = new Point(554, 42);
+            btnEditar.Name = "btnEditar";
+            btnEditar.Size = new Size(97, 23);
+            btnEditar.TabIndex = 44;
+            btnEditar.Text = "Editar Usuario";
+            btnEditar.UseVisualStyleBackColor = false;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(17, 42);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(388, 23);
+            textBox1.TabIndex = 43;
+            // 
+            // lblBuscar
+            // 
+            lblBuscar.AutoSize = true;
+            lblBuscar.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblBuscar.Location = new Point(17, 14);
+            lblBuscar.Name = "lblBuscar";
+            lblBuscar.Size = new Size(137, 25);
+            lblBuscar.TabIndex = 42;
+            lblBuscar.Text = "Buscar Cliente";
+            // 
+            // btnAnyadir
+            // 
+            btnAnyadir.BackColor = Color.White;
+            btnAnyadir.FlatStyle = FlatStyle.Flat;
+            btnAnyadir.ForeColor = SystemColors.ControlText;
+            btnAnyadir.Location = new Point(431, 42);
+            btnAnyadir.Name = "btnAnyadir";
+            btnAnyadir.Size = new Size(105, 23);
+            btnAnyadir.TabIndex = 41;
+            btnAnyadir.Text = "Añadir Usuario";
+            btnAnyadir.UseVisualStyleBackColor = false;
+            // 
+            // panel4
+            // 
+            panel4.BackColor = Color.White;
+            panel4.Controls.Add(dataGridView2);
+            panel4.Location = new Point(34, 256);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(788, 350);
+            panel4.TabIndex = 24;
+            // 
+            // dataGridView2
+            // 
+            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView2.Columns.AddRange(new DataGridViewColumn[] { ID, Nombre, Telefono, Alérgenos, Observaciones });
+            dataGridView2.Dock = DockStyle.Fill;
+            dataGridView2.Location = new Point(0, 0);
+            dataGridView2.Name = "dataGridView2";
+            dataGridView2.ReadOnly = true;
+            dataGridView2.Size = new Size(788, 350);
+            dataGridView2.TabIndex = 1;
+            dataGridView2.CellContentClick += dataGridView2_CellContentClick;
+            // 
+            // ID
+            // 
+            ID.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            ID.HeaderText = "ID";
+            ID.Name = "ID";
+            ID.ReadOnly = true;
+            // 
+            // Nombre
+            // 
+            Nombre.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Nombre.HeaderText = "Nombre";
+            Nombre.Name = "Nombre";
+            Nombre.ReadOnly = true;
+            // 
+            // Telefono
+            // 
+            Telefono.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Telefono.HeaderText = "Teléfono";
+            Telefono.Name = "Telefono";
+            Telefono.ReadOnly = true;
+            // 
+            // Alérgenos
+            // 
+            Alérgenos.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Alérgenos.HeaderText = "Alérgenos";
+            Alérgenos.Name = "Alérgenos";
+            Alérgenos.ReadOnly = true;
+            // 
+            // Observaciones
+            // 
+            Observaciones.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Observaciones.HeaderText = "Observaciones";
+            Observaciones.Name = "Observaciones";
+            Observaciones.ReadOnly = true;
             // 
             // label4
             // 
@@ -124,9 +254,9 @@ namespace PeluqueriAPP
             lblUbi.ForeColor = SystemColors.ActiveCaptionText;
             lblUbi.Location = new Point(163, 13);
             lblUbi.Name = "lblUbi";
-            lblUbi.Size = new Size(70, 20);
+            lblUbi.Size = new Size(64, 20);
             lblUbi.TabIndex = 19;
-            lblUbi.Text = "Usuarios";
+            lblUbi.Text = "Clientes";
             // 
             // lblBernatS
             // 
@@ -264,7 +394,6 @@ namespace PeluqueriAPP
             lblPersonal.Size = new Size(80, 25);
             lblPersonal.TabIndex = 8;
             lblPersonal.Text = "Clientes";
-            lblPersonal.Click += this.lblPersonal_Click;
             // 
             // lblServicios
             // 
@@ -276,6 +405,7 @@ namespace PeluqueriAPP
             lblServicios.Size = new Size(88, 25);
             lblServicios.TabIndex = 7;
             lblServicios.Text = "Servicios";
+            lblServicios.Click += lblServicios_Click;
             // 
             // lblCitas
             // 
@@ -298,6 +428,7 @@ namespace PeluqueriAPP
             lblHome.Size = new Size(64, 25);
             lblHome.TabIndex = 5;
             lblHome.Text = "Home";
+            lblHome.Click += lblHome_Click;
             // 
             // lblGestion
             // 
@@ -350,73 +481,21 @@ namespace PeluqueriAPP
             lblBernat.TabIndex = 0;
             lblBernat.Text = "Bernat Sarriá";
             // 
-            // dataGridView2
-            // 
-            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Columns.AddRange(new DataGridViewColumn[] { ID, Nombre, Telefono, Alérgenos, Observaciones });
-            dataGridView2.Dock = DockStyle.Fill;
-            dataGridView2.Location = new Point(0, 0);
-            dataGridView2.Name = "dataGridView2";
-            dataGridView2.ReadOnly = true;
-            dataGridView2.Size = new Size(1005, 350);
-            dataGridView2.TabIndex = 1;
-            dataGridView2.CellContentClick += this.dataGridView2_CellContentClick;
-            // 
-            // panel4
-            // 
-            panel4.BackColor = Color.White;
-            panel4.Controls.Add(dataGridView2);
-            panel4.Location = new Point(34, 256);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(1005, 350);
-            panel4.TabIndex = 24;
-            // 
-            // ID
-            // 
-            ID.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            ID.HeaderText = "ID";
-            ID.Name = "ID";
-            ID.ReadOnly = true;
-            // 
-            // Nombre
-            // 
-            Nombre.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Nombre.HeaderText = "Nombre";
-            Nombre.Name = "Nombre";
-            Nombre.ReadOnly = true;
-            // 
-            // Telefono
-            // 
-            Telefono.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Telefono.HeaderText = "Teléfono";
-            Telefono.Name = "Telefono";
-            Telefono.ReadOnly = true;
-            // 
-            // Alérgenos
-            // 
-            Alérgenos.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Alérgenos.HeaderText = "Alérgenos";
-            Alérgenos.Name = "Alérgenos";
-            Alérgenos.ReadOnly = true;
-            // 
-            // Observaciones
-            // 
-            Observaciones.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Observaciones.HeaderText = "Observaciones";
-            Observaciones.Name = "Observaciones";
-            Observaciones.ReadOnly = true;
-            // 
             // Usuarios
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1282, 641);
+            ClientSize = new Size(1095, 641);
             Controls.Add(panel2);
             Controls.Add(panel1);
             Name = "Usuarios";
             Text = "Form1";
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
+            panel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)IconoPersonal).EndInit();
@@ -425,8 +504,6 @@ namespace PeluqueriAPP
             ((System.ComponentModel.ISupportInitialize)IconoHome).EndInit();
             ((System.ComponentModel.ISupportInitialize)IconoPerfil).EndInit();
             ((System.ComponentModel.ISupportInitialize)iconoFP).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
-            panel4.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -435,10 +512,7 @@ namespace PeluqueriAPP
             throw new NotImplementedException();
         }
 
-        private void lblPersonal_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         #endregion
 
@@ -474,5 +548,11 @@ namespace PeluqueriAPP
         private DataGridViewTextBoxColumn Telefono;
         private DataGridViewTextBoxColumn Alérgenos;
         private DataGridViewTextBoxColumn Observaciones;
+        private Panel panel3;
+        private Button btnBorrar;
+        private Button btnEditar;
+        private TextBox textBox1;
+        private Label lblBuscar;
+        private Button btnAnyadir;
     }
 }

@@ -34,7 +34,7 @@
             lblUsuario = new Label();
             lblContrasenya = new Label();
             txtContrasenya = new TextBox();
-            button1 = new Button();
+            btnIniciar = new Button();
             ((System.ComponentModel.ISupportInitialize)iconoFP).BeginInit();
             SuspendLayout();
             // 
@@ -81,21 +81,22 @@
             txtContrasenya.Size = new Size(141, 23);
             txtContrasenya.TabIndex = 8;
             // 
-            // button1
+            // btnIniciar
             // 
-            button1.Location = new Point(177, 183);
-            button1.Name = "button1";
-            button1.Size = new Size(87, 23);
-            button1.TabIndex = 9;
-            button1.Text = "Iniciar Sesion";
-            button1.UseVisualStyleBackColor = true;
+            btnIniciar.Location = new Point(177, 183);
+            btnIniciar.Name = "btnIniciar";
+            btnIniciar.Size = new Size(87, 23);
+            btnIniciar.TabIndex = 9;
+            btnIniciar.Text = "Iniciar Sesion";
+            btnIniciar.UseVisualStyleBackColor = true;
+            btnIniciar.Click += btnIniciar_Click;
             // 
             // iniciar
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(343, 229);
-            Controls.Add(button1);
+            Controls.Add(btnIniciar);
             Controls.Add(txtContrasenya);
             Controls.Add(lblContrasenya);
             Controls.Add(lblUsuario);
@@ -115,6 +116,6 @@
         private Label lblUsuario;
         private Label lblContrasenya;
         private TextBox txtContrasenya;
-        private Button button1;
+        private Button btnIniciar;
     }
 }

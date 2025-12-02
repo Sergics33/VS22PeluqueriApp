@@ -40,7 +40,7 @@ namespace PeluqueriAPP
             lblAdmin = new Label();
             label1 = new Label();
             label9 = new Label();
-            lblPersonal = new Label();
+            lblClientes = new Label();
             lblServicios = new Label();
             lblCitas = new Label();
             lblHome = new Label();
@@ -50,6 +50,7 @@ namespace PeluqueriAPP
             lblPanel = new Label();
             lblBernat = new Label();
             panel2 = new Panel();
+            panel4 = new Panel();
             panel3 = new Panel();
             label5 = new Label();
             panelPorServi = new Panel();
@@ -59,7 +60,6 @@ namespace PeluqueriAPP
             label2 = new Label();
             lblUbi = new Label();
             lblBernatS = new Label();
-            panel4 = new Panel();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)IconoPersonal).BeginInit();
             ((System.ComponentModel.ISupportInitialize)IconoServicios).BeginInit();
@@ -83,7 +83,7 @@ namespace PeluqueriAPP
             panel1.Controls.Add(lblAdmin);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(label9);
-            panel1.Controls.Add(lblPersonal);
+            panel1.Controls.Add(lblClientes);
             panel1.Controls.Add(lblServicios);
             panel1.Controls.Add(lblCitas);
             panel1.Controls.Add(lblHome);
@@ -96,7 +96,6 @@ namespace PeluqueriAPP
             panel1.Name = "panel1";
             panel1.Size = new Size(228, 633);
             panel1.TabIndex = 0;
-            panel1.Paint += panel1_Paint;
             // 
             // IconoPersonal
             // 
@@ -195,17 +194,17 @@ namespace PeluqueriAPP
             label9.Size = new Size(228, 1);
             label9.TabIndex = 9;
             // 
-            // lblPersonal
+            // lblClientes
             // 
-            lblPersonal.AutoSize = true;
-            lblPersonal.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblPersonal.ForeColor = Color.White;
-            lblPersonal.Location = new Point(39, 313);
-            lblPersonal.Name = "lblPersonal";
-            lblPersonal.Size = new Size(84, 25);
-            lblPersonal.TabIndex = 8;
-            lblPersonal.Text = "Personal";
-            lblPersonal.Click += lblPersonal_Click;
+            lblClientes.AutoSize = true;
+            lblClientes.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblClientes.ForeColor = Color.White;
+            lblClientes.Location = new Point(39, 313);
+            lblClientes.Name = "lblClientes";
+            lblClientes.Size = new Size(80, 25);
+            lblClientes.TabIndex = 8;
+            lblClientes.Text = "Clientes";
+            lblClientes.Click += lblUsuarios_Click;
             // 
             // lblServicios
             // 
@@ -315,7 +314,15 @@ namespace PeluqueriAPP
             panel2.Name = "panel2";
             panel2.Size = new Size(1048, 630);
             panel2.TabIndex = 1;
-            panel2.Paint += panel2_Paint;
+            // 
+            // panel4
+            // 
+            panel4.BackColor = Color.White;
+            panel4.Location = new Point(39, 296);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(941, 241);
+            panel4.TabIndex = 24;
+            panel4.Paint += panel4_Paint;
             // 
             // panel3
             // 
@@ -382,7 +389,6 @@ namespace PeluqueriAPP
             label2.Name = "label2";
             label2.Size = new Size(1045, 1);
             label2.TabIndex = 18;
-            label2.Click += label2_Click;
             // 
             // lblUbi
             // 
@@ -407,15 +413,6 @@ namespace PeluqueriAPP
             lblBernatS.TabIndex = 18;
             lblBernatS.Text = "Bernat Sarriá >";
             lblBernatS.Click += lblBernatS_Click;
-            // 
-            // panel4
-            // 
-            panel4.BackColor = Color.White;
-            panel4.Location = new Point(39, 296);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(941, 241);
-            panel4.TabIndex = 24;
-            panel4.Paint += panel4_Paint;
             // 
             // Home
             // 
@@ -512,9 +509,7 @@ namespace PeluqueriAPP
         {
         }
 
-        private void lblPersonal_Click(object sender, EventArgs e)
-        {
-        }
+        
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -588,5 +583,7 @@ namespace PeluqueriAPP
         private Panel panel3;
         private Label label5;
         private Panel panel4;
+        private Label lblUsuarios;
+        private Label lblClientes;
     }
 }

@@ -16,5 +16,19 @@ namespace PeluqueriAPP
         {
             InitializeComponent();
         }
+
+        private void lblServicios_Click(object sender, EventArgs e)
+        {
+            Servicios nuevaVentana = new Servicios();
+            nuevaVentana.Show();
+            this.Close();
+        }
+
+        private void lblHome_Click(object sender, EventArgs e)
+        {
+            Home nuevaVentana = new Home();
+            nuevaVentana.Show();
+            this.Close();
+        }
     }
 }

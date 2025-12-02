@@ -17,11 +17,6 @@ namespace PeluqueriAPP
             InitializeComponent();
         }
 
-        private void Form2_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void lblHome_Click(object sender, EventArgs e)
         {
             Home anterior = new Home();
@@ -29,19 +24,12 @@ namespace PeluqueriAPP
             this.Close();
         }
 
-        private void label39_Click(object sender, EventArgs e)
+
+        private void lblClientes_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void btnAnyadir_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-
+            Usuarios anterior = new Usuarios();
+            anterior.Show();
+            this.Close();
         }
     }
 }
