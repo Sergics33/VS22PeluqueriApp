@@ -31,5 +31,11 @@ namespace PeluqueriAPP
             anterior.Show();
             this.Close();
         }
+
+        private void btnAnyadir_Click(object sender, EventArgs e)
+        {
+            AnyadirServicio anterior = new AnyadirServicio();
+            anterior.Show();
+        }
     }
 }

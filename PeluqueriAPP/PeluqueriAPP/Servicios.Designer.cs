@@ -352,6 +352,7 @@
             btnAnyadir.TabIndex = 41;
             btnAnyadir.Text = "Añadir servicio";
             btnAnyadir.UseVisualStyleBackColor = false;
+            btnAnyadir.Click += btnAnyadir_Click;
             // 
             // panel2
             // 

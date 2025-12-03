@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PeluqueriAPP")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+10ecb41e87b43e1e400e4836982f7b92a0eaba3a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fe909378d713d7497d24f893ec9b7316c872db63")]
 [assembly: System.Reflection.AssemblyProductAttribute("PeluqueriAPP")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PeluqueriAPP")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
