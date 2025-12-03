@@ -317,16 +317,16 @@ namespace PeluqueriAPP
             // 
             // panel4
             // 
-            panel4.BackColor = Color.White;
+            panel4.BackColor = SystemColors.ControlDark;
             panel4.Location = new Point(39, 296);
             panel4.Name = "panel4";
-            panel4.Size = new Size(941, 241);
+            panel4.Size = new Size(941, 310);
             panel4.TabIndex = 24;
             panel4.Paint += panel4_Paint;
             // 
             // panel3
             // 
-            panel3.BackColor = Color.White;
+            panel3.BackColor = SystemColors.ControlDark;
             panel3.Controls.Add(label5);
             panel3.Location = new Point(690, 135);
             panel3.Name = "panel3";
@@ -343,7 +343,7 @@ namespace PeluqueriAPP
             // 
             // panelPorServi
             // 
-            panelPorServi.BackColor = Color.White;
+            panelPorServi.BackColor = SystemColors.ControlDark;
             panelPorServi.Location = new Point(365, 135);
             panelPorServi.Name = "panelPorServi";
             panelPorServi.Size = new Size(290, 135);
@@ -352,7 +352,7 @@ namespace PeluqueriAPP
             // 
             // panelCitas
             // 
-            panelCitas.BackColor = Color.White;
+            panelCitas.BackColor = SystemColors.ControlDark;
             panelCitas.Location = new Point(39, 135);
             panelCitas.Name = "panelCitas";
             panelCitas.Size = new Size(290, 135);
