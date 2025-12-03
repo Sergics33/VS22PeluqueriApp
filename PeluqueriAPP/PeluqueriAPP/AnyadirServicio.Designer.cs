@@ -37,6 +37,7 @@
             tbDuracion = new TextBox();
             lblPrecio = new Label();
             tbPrecio = new TextBox();
+            btnAnyadir = new Button();
             SuspendLayout();
             // 
             // lbltitulo
@@ -117,11 +118,22 @@
             tbPrecio.Size = new Size(140, 23);
             tbPrecio.TabIndex = 8;
             // 
+            // btnAnyadir
+            // 
+            btnAnyadir.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            btnAnyadir.Location = new Point(138, 313);
+            btnAnyadir.Name = "btnAnyadir";
+            btnAnyadir.Size = new Size(144, 23);
+            btnAnyadir.TabIndex = 9;
+            btnAnyadir.Text = "AÑADIR SERVICIO";
+            btnAnyadir.UseVisualStyleBackColor = true;
+            // 
             // AnyadirServicio
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(336, 363);
+            Controls.Add(btnAnyadir);
             Controls.Add(tbPrecio);
             Controls.Add(lblPrecio);
             Controls.Add(tbDuracion);
@@ -148,5 +160,6 @@
         private TextBox tbDuracion;
         private Label lblPrecio;
         private TextBox tbPrecio;
+        private Button btnAnyadir;
     }
 }

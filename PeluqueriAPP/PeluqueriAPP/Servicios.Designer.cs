@@ -55,7 +55,7 @@
             lblTitulo = new Label();
             btnAnyadir = new Button();
             panel2 = new Panel();
-            dataGridView1 = new DataGridView();
+            dgvServicios = new DataGridView();
             ID = new DataGridViewTextBoxColumn();
             Nombre = new DataGridViewTextBoxColumn();
             Descripcion = new DataGridViewTextBoxColumn();
@@ -74,7 +74,7 @@
             ((System.ComponentModel.ISupportInitialize)IconoPerfil).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconoFP).BeginInit();
             panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvServicios).BeginInit();
             panel3.SuspendLayout();
             SuspendLayout();
             // 
@@ -356,20 +356,20 @@
             // 
             // panel2
             // 
-            panel2.Controls.Add(dataGridView1);
+            panel2.Controls.Add(dgvServicios);
             panel2.Location = new Point(252, 242);
             panel2.Name = "panel2";
             panel2.Size = new Size(788, 379);
             panel2.TabIndex = 42;
             // 
-            // dataGridView1
+            // dgvServicios
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ID, Nombre, Descripcion, Duración, Precio });
-            dataGridView1.Location = new Point(0, 0);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(788, 379);
-            dataGridView1.TabIndex = 0;
+            dgvServicios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvServicios.Columns.AddRange(new DataGridViewColumn[] { ID, Nombre, Descripcion, Duración, Precio });
+            dgvServicios.Location = new Point(0, 0);
+            dgvServicios.Name = "dgvServicios";
+            dgvServicios.Size = new Size(788, 379);
+            dgvServicios.TabIndex = 0;
             // 
             // ID
             // 
@@ -479,7 +479,7 @@
             ((System.ComponentModel.ISupportInitialize)IconoPerfil).EndInit();
             ((System.ComponentModel.ISupportInitialize)iconoFP).EndInit();
             panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvServicios).EndInit();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
             ResumeLayout(false);
@@ -514,7 +514,7 @@
         private Label lblTitulo;
         private Button btnAnyadir;
         private Panel panel2;
-        private DataGridView dataGridView1;
+        private DataGridView dgvServicios;
         private DataGridViewTextBoxColumn ID;
         private DataGridViewTextBoxColumn Nombre;
         private DataGridViewTextBoxColumn Descripcion;

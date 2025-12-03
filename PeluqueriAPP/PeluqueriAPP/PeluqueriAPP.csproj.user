@@ -4,6 +4,9 @@
     <Compile Update="AnyadirServicio.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="AnyadirUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="iniciar.cs">
       <SubType>Form</SubType>
     </Compile>
