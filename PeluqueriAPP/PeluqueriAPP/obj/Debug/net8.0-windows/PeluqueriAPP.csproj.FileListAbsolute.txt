@@ -59,3 +59,4 @@ C:\Users\sergi\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\D
 C:\Users\sergi\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.genruntimeconfig.cache
 C:\Users\sergi\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\ref\PeluqueriAPP.dll
 C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.AnyadirServicio.resources
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.AnyadirUsuario.resources
