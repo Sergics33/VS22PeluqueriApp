@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,18 +20,75 @@ namespace PeluqueriAPP
             InitializeComponent();
             Load += Usuarios_Load;
 
-            // Evento para filtrar
             textBox1.TextChanged += textBox1_TextChanged;
 
-            // Configuración del DataGridView
             dataGridView2.AutoGenerateColumns = false;
             dataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView2.MultiSelect = false;
             dataGridView2.ReadOnly = true;
             dataGridView2.AllowUserToAddRows = false;
             dataGridView2.AllowUserToDeleteRows = false;
+
+            ConfigurarColumnas(); // 🔥 Evita errores de columnas inexistentes
+
+            if (Session.IsLoggedIn)
+            {
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
+            }
         }
 
+        // ============================
+        //   CARGA DE COLUMNAS
+        // ============================
+        private void ConfigurarColumnas()
+        {
+            dataGridView2.Columns.Clear();
+
+            dataGridView2.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                Name = "ID",
+                HeaderText = "ID",
+                DataPropertyName = "Id",
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            });
+
+            dataGridView2.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                Name = "Nombre",
+                HeaderText = "Nombre Completo",
+                DataPropertyName = "NombreCompleto",
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            });
+
+            dataGridView2.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                Name = "Telefono",
+                HeaderText = "Teléfono",
+                DataPropertyName = "Telefono",
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            });
+
+            dataGridView2.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                Name = "Alergenos",
+                HeaderText = "Alérgenos",
+                DataPropertyName = "Alergenos",
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            });
+
+            dataGridView2.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                Name = "Observaciones",
+                HeaderText = "Observaciones",
+                DataPropertyName = "Observaciones",
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            });
+        }
+
+        // ============================
+        //   CARGAR USUARIOS
+        // ============================
         private async void Usuarios_Load(object sender, EventArgs e)
         {
             await CargarUsuarios();
@@ -50,21 +108,12 @@ namespace PeluqueriAPP
 
                 var todosUsuarios = await response.Content.ReadFromJsonAsync<List<Usuario>>();
 
-                // Filtrar solo clientes (Role == 0)
                 listaClientes = todosUsuarios
-                    .Where(u => u.Role == 0)
+                    .Where(u => u.Role == "ROLE_CLIENTE")
                     .ToList();
 
-                // Mostrar en DataGridView
                 dataGridView2.DataSource = null;
                 dataGridView2.DataSource = listaClientes;
-
-                // Mapear columnas con nombres exactos (sin tildes en Name)
-                dataGridView2.Columns["ID"].DataPropertyName = "Id";
-                dataGridView2.Columns["Nombre"].DataPropertyName = "Nombre";
-                dataGridView2.Columns["Telefono"].DataPropertyName = "Telefono";
-                dataGridView2.Columns["Alergenos"].DataPropertyName = "Alergenos";
-                dataGridView2.Columns["Observaciones"].DataPropertyName = "Observaciones";
             }
             catch (Exception ex)
             {
@@ -72,18 +121,25 @@ namespace PeluqueriAPP
             }
         }
 
+        // ============================
+        //   BUSCAR POR NOMBRE
+        // ============================
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             string filtro = textBox1.Text.ToLower();
 
             var listaFiltrada = listaClientes
-                .Where(u => !string.IsNullOrEmpty(u.Nombre) && u.Nombre.ToLower().Contains(filtro))
+                .Where(u => !string.IsNullOrEmpty(u.NombreCompleto) &&
+                            u.NombreCompleto.ToLower().Contains(filtro))
                 .ToList();
 
             dataGridView2.DataSource = null;
             dataGridView2.DataSource = listaFiltrada;
         }
 
+        // ============================
+        //   NAVEGACIÓN
+        // ============================
         private void lblHome_Click(object sender, EventArgs e)
         {
             Home home = new Home();
@@ -97,5 +153,20 @@ namespace PeluqueriAPP
             servicios.Show();
             Close();
         }
+    }
+
+    // ============================
+    //   CLASE USUARIO CORRECTA
+    // ============================
+    public class Usuario
+    {
+        public long Id { get; set; }
+        public string NombreCompleto { get; set; }
+        public string Email { get; set; }
+        public string Contrasena { get; set; }
+        public string Role { get; set; }
+        public string Telefono { get; set; }
+        public string Observaciones { get; set; }
+        public string Alergenos { get; set; }
     }
 }
