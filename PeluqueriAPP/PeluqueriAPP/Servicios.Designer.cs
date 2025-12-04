@@ -370,6 +370,7 @@
             dgvServicios.Name = "dgvServicios";
             dgvServicios.Size = new Size(788, 379);
             dgvServicios.TabIndex = 0;
+            dgvServicios.CellContentClick += dgvServicios_CellContentClick;
             // 
             // ID
             // 
