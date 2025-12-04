@@ -181,7 +181,6 @@ namespace PeluqueriAPP
             dataGridView2.ReadOnly = true;
             dataGridView2.Size = new Size(788, 350);
             dataGridView2.TabIndex = 1;
-            dataGridView2.CellContentClick += dataGridView2_CellContentClick;
             // 
             // ID
             // 
@@ -507,10 +506,6 @@ namespace PeluqueriAPP
             ResumeLayout(false);
         }
 
-        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
         
 

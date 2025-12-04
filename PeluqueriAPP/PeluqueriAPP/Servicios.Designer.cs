@@ -2,15 +2,8 @@
 {
     partial class Servicios
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,12 +13,6 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Servicios));
@@ -364,10 +351,16 @@
             // 
             // dgvServicios
             // 
+            dgvServicios.AllowUserToAddRows = false;
+            dgvServicios.AllowUserToDeleteRows = false;
+            dgvServicios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvServicios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvServicios.Columns.AddRange(new DataGridViewColumn[] { ID, Nombre, Descripcion, Duración, Precio });
+            dgvServicios.Dock = DockStyle.Fill;
             dgvServicios.Location = new Point(0, 0);
+            dgvServicios.MultiSelect = false;
             dgvServicios.Name = "dgvServicios";
+            dgvServicios.ReadOnly = true;
+            dgvServicios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvServicios.Size = new Size(788, 379);
             dgvServicios.TabIndex = 0;
             dgvServicios.CellContentClick += dgvServicios_CellContentClick;
@@ -445,6 +438,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(388, 23);
             textBox1.TabIndex = 43;
+            textBox1.TextChanged += textBox1_TextChanged_1;
             // 
             // lblBuscar
             // 
@@ -487,8 +481,6 @@
             PerformLayout();
         }
 
-        #endregion
-
         private Panel panel1;
         private PictureBox IconoPersonal;
         private PictureBox IconoServicios;
@@ -499,7 +491,7 @@
         private Label lblAdmin;
         private Label label1;
         private Label label9;
-        private Label lblPersonal;
+        private Label lblClientes;
         private Label lblServicios;
         private Label lblCitas;
         private Label lblHome;
@@ -526,6 +518,5 @@
         private Button btnBorrar;
         private Button btnEditar;
         private TextBox textBox1;
-        private Label lblClientes;
     }
 }

@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net.Http.Headers;
 
 namespace PeluqueriAPP
 {
@@ -15,7 +16,13 @@ namespace PeluqueriAPP
         public Servicios()
         {
             InitializeComponent();
-            Load += Servicios_Load; // Evento Load del formulario
+            Load += Servicios_Load;
+            dgvServicios.AutoGenerateColumns = true;
+            dgvServicios.ReadOnly = true;
+            dgvServicios.AllowUserToAddRows = false;
+            dgvServicios.AllowUserToDeleteRows = false;
+            dgvServicios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvServicios.MultiSelect = false;
         }
 
         private async void Servicios_Load(object sender, EventArgs e)
@@ -27,10 +34,27 @@ namespace PeluqueriAPP
         {
             try
             {
-                var servicios = await httpClient.GetFromJsonAsync<List<Servicio>>(API_BASE_URL);
+                if (!Session.IsLoggedIn)
+                {
+                    MessageBox.Show("No hay sesión iniciada.");
+                    return;
+                }
+
+                httpClient.DefaultRequestHeaders.Clear();
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
+
+                var response = await httpClient.GetAsync(API_BASE_URL);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Error al obtener servicios: " + response.StatusCode);
+                    return;
+                }
+
+                var servicios = await response.Content.ReadFromJsonAsync<List<Servicio>>();
                 dgvServicios.DataSource = servicios;
 
-                // Ajustar cabeceras
                 if (dgvServicios.Columns.Contains("Id")) dgvServicios.Columns["Id"].HeaderText = "ID";
                 if (dgvServicios.Columns.Contains("Nombre")) dgvServicios.Columns["Nombre"].HeaderText = "Nombre";
                 if (dgvServicios.Columns.Contains("Descripcion")) dgvServicios.Columns["Descripcion"].HeaderText = "Descripción";
@@ -47,35 +71,59 @@ namespace PeluqueriAPP
         {
             Home anterior = new Home();
             anterior.Show();
-            this.Close();
+            Close();
         }
 
         private void lblClientes_Click(object sender, EventArgs e)
         {
             Usuarios anterior = new Usuarios();
             anterior.Show();
-            this.Close();
+            Close();
         }
 
-        private void btnAnyadir_Click(object sender, EventArgs e)
+        private async void btnAnyadir_Click(object sender, EventArgs e)
         {
-            AnyadirServicio anterior = new AnyadirServicio();
-            anterior.Show();
+            AnyadirServicio formAnyadir = new AnyadirServicio();
+            if (formAnyadir.ShowDialog() == DialogResult.OK)
+            {
+                var nuevoServicio = formAnyadir.NuevoServicio;
+
+                try
+                {
+                    httpClient.DefaultRequestHeaders.Clear();
+                    httpClient.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
+
+                    var response = await httpClient.PostAsJsonAsync(API_BASE_URL, nuevoServicio);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("Servicio añadido correctamente.");
+                        await CargarServicios();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error al añadir servicio: " + response.StatusCode);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al añadir servicio: " + ex.Message);
+                }
+            }
         }
 
         private void dgvServicios_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Aquí puedes añadir lógica para clicks en la tabla
         }
 
-        // Clase para mapear los servicios del API
-        public class Servicio
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            public long Id { get; set; }
-            public string Nombre { get; set; }
-            public string Descripcion { get; set; }
-            public int Duracion { get; set; }
-            public double Precio { get; set; }
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

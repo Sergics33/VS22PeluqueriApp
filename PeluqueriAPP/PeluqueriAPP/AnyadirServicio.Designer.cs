@@ -2,15 +2,8 @@
 {
     partial class AnyadirServicio
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,119 +13,113 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            lbltitulo = new Label();
-            lblNombre = new Label();
-            tbNombre = new TextBox();
-            lblDescripcion = new Label();
-            tbDescripcion = new TextBox();
-            lblDuracion = new Label();
-            tbDuracion = new TextBox();
-            lblPrecio = new Label();
-            tbPrecio = new TextBox();
-            btnAnyadir = new Button();
+            lbltitulo = new System.Windows.Forms.Label();
+            lblNombre = new System.Windows.Forms.Label();
+            tbNombre = new System.Windows.Forms.TextBox();
+            lblDescripcion = new System.Windows.Forms.Label();
+            tbDescripcion = new System.Windows.Forms.TextBox();
+            lblDuracion = new System.Windows.Forms.Label();
+            tbDuracion = new System.Windows.Forms.TextBox();
+            lblPrecio = new System.Windows.Forms.Label();
+            tbPrecio = new System.Windows.Forms.TextBox();
+            btnAnyadir = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
             // lbltitulo
             // 
             lbltitulo.AutoSize = true;
-            lbltitulo.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbltitulo.Location = new Point(45, 23);
+            lbltitulo.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold);
+            lbltitulo.Location = new System.Drawing.Point(45, 23);
             lbltitulo.Name = "lbltitulo";
-            lbltitulo.Size = new Size(250, 37);
+            lbltitulo.Size = new System.Drawing.Size(250, 37);
             lbltitulo.TabIndex = 0;
             lbltitulo.Text = "AÑADIR SERVICIO";
             // 
             // lblNombre
             // 
             lblNombre.AutoSize = true;
-            lblNombre.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblNombre.Location = new Point(45, 116);
+            lblNombre.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold);
+            lblNombre.Location = new System.Drawing.Point(45, 116);
             lblNombre.Name = "lblNombre";
-            lblNombre.Size = new Size(70, 20);
+            lblNombre.Size = new System.Drawing.Size(70, 20);
             lblNombre.TabIndex = 1;
             lblNombre.Text = "Nombre:";
             // 
             // tbNombre
             // 
-            tbNombre.Location = new Point(138, 116);
+            tbNombre.Location = new System.Drawing.Point(138, 116);
             tbNombre.Name = "tbNombre";
-            tbNombre.Size = new Size(140, 23);
+            tbNombre.Size = new System.Drawing.Size(140, 23);
             tbNombre.TabIndex = 2;
             // 
             // lblDescripcion
             // 
             lblDescripcion.AutoSize = true;
-            lblDescripcion.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblDescripcion.Location = new Point(45, 167);
+            lblDescripcion.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold);
+            lblDescripcion.Location = new System.Drawing.Point(45, 167);
             lblDescripcion.Name = "lblDescripcion";
-            lblDescripcion.Size = new Size(93, 20);
+            lblDescripcion.Size = new System.Drawing.Size(93, 20);
             lblDescripcion.TabIndex = 3;
             lblDescripcion.Text = "Descripción:";
             // 
             // tbDescripcion
             // 
-            tbDescripcion.Location = new Point(138, 166);
+            tbDescripcion.Location = new System.Drawing.Point(138, 166);
             tbDescripcion.Name = "tbDescripcion";
-            tbDescripcion.Size = new Size(140, 23);
+            tbDescripcion.Size = new System.Drawing.Size(140, 23);
             tbDescripcion.TabIndex = 4;
             // 
             // lblDuracion
             // 
             lblDuracion.AutoSize = true;
-            lblDuracion.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblDuracion.Location = new Point(45, 220);
+            lblDuracion.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold);
+            lblDuracion.Location = new System.Drawing.Point(45, 220);
             lblDuracion.Name = "lblDuracion";
-            lblDuracion.Size = new Size(76, 20);
+            lblDuracion.Size = new System.Drawing.Size(76, 20);
             lblDuracion.TabIndex = 5;
             lblDuracion.Text = "Duración:";
             // 
             // tbDuracion
             // 
-            tbDuracion.Location = new Point(138, 217);
+            tbDuracion.Location = new System.Drawing.Point(138, 217);
             tbDuracion.Name = "tbDuracion";
-            tbDuracion.Size = new Size(140, 23);
+            tbDuracion.Size = new System.Drawing.Size(140, 23);
             tbDuracion.TabIndex = 6;
             // 
             // lblPrecio
             // 
             lblPrecio.AutoSize = true;
-            lblPrecio.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblPrecio.Location = new Point(45, 268);
+            lblPrecio.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold);
+            lblPrecio.Location = new System.Drawing.Point(45, 268);
             lblPrecio.Name = "lblPrecio";
-            lblPrecio.Size = new Size(56, 20);
+            lblPrecio.Size = new System.Drawing.Size(56, 20);
             lblPrecio.TabIndex = 7;
             lblPrecio.Text = "Precio:";
             // 
             // tbPrecio
             // 
-            tbPrecio.Location = new Point(138, 265);
+            tbPrecio.Location = new System.Drawing.Point(138, 265);
             tbPrecio.Name = "tbPrecio";
-            tbPrecio.Size = new Size(140, 23);
+            tbPrecio.Size = new System.Drawing.Size(140, 23);
             tbPrecio.TabIndex = 8;
             // 
             // btnAnyadir
             // 
-            btnAnyadir.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            btnAnyadir.Location = new Point(138, 313);
+            btnAnyadir.Font = new System.Drawing.Font("Segoe UI Black", 9F, System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic);
+            btnAnyadir.Location = new System.Drawing.Point(138, 313);
             btnAnyadir.Name = "btnAnyadir";
-            btnAnyadir.Size = new Size(144, 23);
+            btnAnyadir.Size = new System.Drawing.Size(144, 23);
             btnAnyadir.TabIndex = 9;
             btnAnyadir.Text = "AÑADIR SERVICIO";
             btnAnyadir.UseVisualStyleBackColor = true;
             // 
             // AnyadirServicio
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(336, 363);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(336, 363);
             Controls.Add(btnAnyadir);
             Controls.Add(tbPrecio);
             Controls.Add(lblPrecio);
@@ -144,22 +131,20 @@
             Controls.Add(lblNombre);
             Controls.Add(lbltitulo);
             Name = "AnyadirServicio";
-            Text = "Form1";
+            Text = "Añadir Servicio";
             ResumeLayout(false);
             PerformLayout();
         }
 
-        #endregion
-
-        private Label lbltitulo;
-        private Label lblNombre;
-        private TextBox tbNombre;
-        private Label lblDescripcion;
-        private TextBox tbDescripcion;
-        private Label lblDuracion;
-        private TextBox tbDuracion;
-        private Label lblPrecio;
-        private TextBox tbPrecio;
-        private Button btnAnyadir;
+        private System.Windows.Forms.Label lbltitulo;
+        private System.Windows.Forms.Label lblNombre;
+        private System.Windows.Forms.TextBox tbNombre;
+        private System.Windows.Forms.Label lblDescripcion;
+        private System.Windows.Forms.TextBox tbDescripcion;
+        private System.Windows.Forms.Label lblDuracion;
+        private System.Windows.Forms.TextBox tbDuracion;
+        private System.Windows.Forms.Label lblPrecio;
+        private System.Windows.Forms.TextBox tbPrecio;
+        private System.Windows.Forms.Button btnAnyadir;
     }
 }
