@@ -51,7 +51,7 @@
             panel3 = new Panel();
             btnBorrar = new Button();
             btnEditar = new Button();
-            textBox1 = new TextBox();
+            tbBusqueda = new TextBox();
             lblBuscar = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)IconoPersonal).BeginInit();
@@ -400,7 +400,7 @@
             panel3.BackColor = SystemColors.AppWorkspace;
             panel3.Controls.Add(btnBorrar);
             panel3.Controls.Add(btnEditar);
-            panel3.Controls.Add(textBox1);
+            panel3.Controls.Add(tbBusqueda);
             panel3.Controls.Add(lblBuscar);
             panel3.Controls.Add(btnAnyadir);
             panel3.Location = new Point(252, 149);
@@ -419,6 +419,7 @@
             btnBorrar.TabIndex = 45;
             btnBorrar.Text = "Borrar servicio";
             btnBorrar.UseVisualStyleBackColor = false;
+            btnBorrar.Click += btnBorrar_Click;
             // 
             // btnEditar
             // 
@@ -432,13 +433,13 @@
             btnEditar.Text = "Editar servicio";
             btnEditar.UseVisualStyleBackColor = false;
             // 
-            // textBox1
+            // tbBusqueda
             // 
-            textBox1.Location = new Point(17, 42);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(388, 23);
-            textBox1.TabIndex = 43;
-            textBox1.TextChanged += textBox1_TextChanged_1;
+            tbBusqueda.Location = new Point(17, 42);
+            tbBusqueda.Name = "tbBusqueda";
+            tbBusqueda.Size = new Size(388, 23);
+            tbBusqueda.TabIndex = 43;
+            tbBusqueda.TextChanged += tbBusqueda_TextChanged;
             // 
             // lblBuscar
             // 
@@ -518,5 +519,6 @@
         private Button btnBorrar;
         private Button btnEditar;
         private TextBox textBox1;
+        private TextBox tbBusqueda;
     }
 }

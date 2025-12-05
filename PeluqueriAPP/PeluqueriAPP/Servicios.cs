@@ -13,11 +13,14 @@ namespace PeluqueriAPP
         private readonly HttpClient httpClient = new HttpClient();
         private const string API_BASE_URL = "http://localhost:8080/api/servicios/";
 
+        private List<Servicio> listaServiciosOriginal = new List<Servicio>();
+
         public Servicios()
         {
             InitializeComponent();
             Load += Servicios_Load;
-            dgvServicios.AutoGenerateColumns = false; // Cambiamos a falso para controlar columnas
+
+            dgvServicios.AutoGenerateColumns = false; // Controlamos las columnas
             dgvServicios.ReadOnly = true;
             dgvServicios.AllowUserToAddRows = false;
             dgvServicios.AllowUserToDeleteRows = false;
@@ -66,7 +69,6 @@ namespace PeluqueriAPP
                 Name = "PrecioCol"
             });
 
-            // Columna solo para mostrar el nombre del tipo de servicio
             dgvServicios.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Tipo de Servicio",
@@ -104,27 +106,42 @@ namespace PeluqueriAPP
 
                 var servicios = await response.Content.ReadFromJsonAsync<List<Servicio>>();
 
-                // Creamos un listado temporal con solo los datos necesarios
-                var listaParaGrid = new List<object>();
-                foreach (var s in servicios)
-                {
-                    listaParaGrid.Add(new
-                    {
-                        s.id,
-                        s.nombre,
-                        s.descripcion,
-                        s.duracion,
-                        s.precio,
-                        tipoServicioNombre = s.tipoServicio?.nombre ?? ""
-                    });
-                }
-
-                dgvServicios.DataSource = listaParaGrid;
+                listaServiciosOriginal = servicios; // Guardamos la lista original
+                ActualizarGrid(listaServiciosOriginal);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar los servicios: " + ex.Message);
             }
+        }
+
+        private void ActualizarGrid(List<Servicio> lista)
+        {
+            var listaParaGrid = new List<object>();
+            foreach (var s in lista)
+            {
+                listaParaGrid.Add(new
+                {
+                    s.id,
+                    s.nombre,
+                    s.descripcion,
+                    s.duracion,
+                    s.precio,
+                    tipoServicioNombre = s.tipoServicio?.nombre ?? ""
+                });
+            }
+
+            dgvServicios.DataSource = listaParaGrid;
+        }
+
+        private void tbBusqueda_TextChanged(object sender, EventArgs e)
+        {
+            string filtro = tbBusqueda.Text.Trim().ToLower();
+
+            var filtrados = listaServiciosOriginal
+                .FindAll(s => s.nombre.ToLower().StartsWith(filtro));
+
+            ActualizarGrid(filtrados);
         }
 
         private void lblHome_Click(object sender, EventArgs e)
@@ -177,13 +194,44 @@ namespace PeluqueriAPP
         {
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private async void btnBorrar_Click(object sender, EventArgs e)
         {
-        }
+            if (dgvServicios.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Selecciona un servicio para borrar.");
+                return;
+            }
 
-        private void textBox1_TextChanged_1(object sender, EventArgs e)
-        {
+            // Obtener el ID del servicio seleccionado
+            var row = dgvServicios.SelectedRows[0];
+            int idServicio = Convert.ToInt32(row.Cells["IdCol"].Value);
 
+            // Confirmar borrado
+            var confirm = MessageBox.Show("¿Seguro que quieres borrar este servicio?", "Confirmar borrado", MessageBoxButtons.YesNo);
+            if (confirm != DialogResult.Yes) return;
+
+            try
+            {
+                httpClient.DefaultRequestHeaders.Clear();
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
+
+                var response = await httpClient.DeleteAsync(API_BASE_URL + idServicio);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Servicio borrado correctamente.");
+                    await CargarServicios(); // Actualizar el grid
+                }
+                else
+                {
+                    MessageBox.Show("Error al borrar servicio: " + response.StatusCode);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al borrar servicio: " + ex.Message);
+            }
         }
     }
 }
