@@ -165,22 +165,36 @@ namespace PeluqueriAPP
             {
                 var nuevoServicio = formAnyadir.NuevoServicio;
 
+                // Preparamos objeto sin el ID para el backend
+                var nuevoServicioParaEnviar = new
+                {
+                    nombre = nuevoServicio.nombre,
+                    descripcion = nuevoServicio.descripcion,
+                    duracion = nuevoServicio.duracion,
+                    precio = nuevoServicio.precio,
+                    tipoServicio = new { id = nuevoServicio.tipoServicio.id }
+                };
+
                 try
                 {
+                    // Limpiar headers y añadir token
                     httpClient.DefaultRequestHeaders.Clear();
                     httpClient.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
+                        new System.Net.Http.Headers.AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
 
-                    var response = await httpClient.PostAsJsonAsync(API_BASE_URL, nuevoServicio);
+                    // Hacemos POST
+                    var response = await httpClient.PostAsJsonAsync(API_BASE_URL, nuevoServicioParaEnviar);
 
                     if (response.IsSuccessStatusCode)
                     {
                         MessageBox.Show("Servicio añadido correctamente.");
-                        await CargarServicios();
+                        await CargarServicios(); // Recargamos grid
                     }
                     else
                     {
-                        MessageBox.Show("Error al añadir servicio: " + response.StatusCode);
+                        // Mostrar mensaje del backend
+                        var contenido = await response.Content.ReadAsStringAsync();
+                        MessageBox.Show($"Error al añadir servicio: {response.StatusCode}\n{contenido}");
                     }
                 }
                 catch (Exception ex)
@@ -189,6 +203,9 @@ namespace PeluqueriAPP
                 }
             }
         }
+
+
+
 
         private void dgvServicios_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -232,6 +249,11 @@ namespace PeluqueriAPP
             {
                 MessageBox.Show("Error al borrar servicio: " + ex.Message);
             }
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -432,6 +432,7 @@
             btnEditar.TabIndex = 44;
             btnEditar.Text = "Editar servicio";
             btnEditar.UseVisualStyleBackColor = false;
+            btnEditar.Click += btnEditar_Click;
             // 
             // tbBusqueda
             // 

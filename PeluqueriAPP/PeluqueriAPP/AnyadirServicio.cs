@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.Json;
 using System.Windows.Forms;
 
 namespace PeluqueriAPP
@@ -16,6 +15,7 @@ namespace PeluqueriAPP
 
         private void BtnAnyadir_Click(object sender, EventArgs e)
         {
+            // Validar campos
             if (string.IsNullOrWhiteSpace(tbNombre.Text) ||
                 string.IsNullOrWhiteSpace(tbDescripcion.Text) ||
                 string.IsNullOrWhiteSpace(tbDuracion.Text) ||
@@ -44,25 +44,22 @@ namespace PeluqueriAPP
                 return;
             }
 
+            // Creamos el servicio **sin asignar ID**
             NuevoServicio = new Servicio
             {
-                nombre = tbNombre.Text,
-                descripcion = tbDescripcion.Text,
+                // id = 0, <-- NO se asigna
+                nombre = tbNombre.Text.Trim(),
+                descripcion = tbDescripcion.Text.Trim(),
                 duracion = duracion,
                 precio = precio,
-                tipoServicio = new TipoServicio { id = tipoServicioId }
+                tipoServicio = new TipoServicio
+                {
+                    id = tipoServicioId
+                }
             };
-
-            // Mostrar JSON antes de cerrar
-            string json = JsonSerializer.Serialize(NuevoServicio, new JsonSerializerOptions { WriteIndented = true });
-            MessageBox.Show("JSON a enviar al servidor:\n" + json, "Depuración");
 
             DialogResult = DialogResult.OK;
             Close();
-        }
-
-        private void tbTipo_TextChanged(object sender, EventArgs e)
-        {
         }
     }
 }
