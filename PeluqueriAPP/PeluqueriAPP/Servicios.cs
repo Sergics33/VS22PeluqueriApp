@@ -251,9 +251,62 @@ namespace PeluqueriAPP
             }
         }
 
-        private void btnEditar_Click(object sender, EventArgs e)
+        private async void btnEditar_Click(object sender, EventArgs e)
         {
+            if (dgvServicios.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Selecciona un servicio para editar.");
+                return;
+            }
 
+            // Obtener el servicio seleccionado
+            var row = dgvServicios.SelectedRows[0];
+            int idServicio = Convert.ToInt32(row.Cells["IdCol"].Value);
+            var servicioSeleccionado = listaServiciosOriginal.Find(s => s.id == idServicio);
+
+            // Abrir formulario AnyadirServicio en modo edición
+            AnyadirServicio formEditar = new AnyadirServicio(servicioSeleccionado);
+            if (formEditar.ShowDialog() == DialogResult.OK)
+            {
+                var servicioEditado = formEditar.NuevoServicio;
+
+                // Preparar objeto para enviar al backend
+                var servicioParaEnviar = new
+                {
+                    nombre = servicioEditado.nombre,
+                    descripcion = servicioEditado.descripcion,
+                    duracion = servicioEditado.duracion,
+                    precio = servicioEditado.precio,
+                    tipoServicio = new { id = servicioEditado.tipoServicio.id }
+                };
+
+                try
+                {
+                    // Limpiar headers y añadir token
+                    httpClient.DefaultRequestHeaders.Clear();
+                    httpClient.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
+
+                    // Hacer PUT al backend
+                    var response = await httpClient.PutAsJsonAsync(API_BASE_URL + idServicio, servicioParaEnviar);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("Servicio editado correctamente.");
+                        await CargarServicios(); // Recargar grid
+                    }
+                    else
+                    {
+                        var contenido = await response.Content.ReadAsStringAsync();
+                        MessageBox.Show($"Error al editar servicio: {response.StatusCode}\n{contenido}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al editar servicio: " + ex.Message);
+                }
+            }
         }
+
     }
 }
