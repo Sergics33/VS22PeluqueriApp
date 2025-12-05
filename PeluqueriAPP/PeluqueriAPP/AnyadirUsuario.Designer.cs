@@ -2,164 +2,118 @@
 {
     partial class AnyadirUsuario
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private Label lblTitulo;
+        private Label lblNombre, lblEmail, lblContrasena, lblTelefono, lblAlergenos, lblObservaciones;
+        private TextBox tbNombre, tbEmail, tbContrasena, tbTelefono, tbAlergenos, tbObservaciones;
+        private Button btnAnyadir;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
+            if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            btnAnyadir = new Button();
-            tbPrecio = new TextBox();
-            lblObservaciones = new Label();
-            tbDuracion = new TextBox();
-            lblAlérgenos = new Label();
-            tbDescripcion = new TextBox();
-            lblTelefono = new Label();
-            tbNombre = new TextBox();
-            lblNombre = new Label();
-            lbltitulo = new Label();
-            SuspendLayout();
-            // 
-            // btnAnyadir
-            // 
-            btnAnyadir.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            btnAnyadir.Location = new Point(146, 320);
-            btnAnyadir.Name = "btnAnyadir";
-            btnAnyadir.Size = new Size(144, 23);
-            btnAnyadir.TabIndex = 19;
-            btnAnyadir.Text = "AÑADIR USUARIO";
-            btnAnyadir.UseVisualStyleBackColor = true;
-            // 
-            // tbPrecio
-            // 
-            tbPrecio.Location = new Point(146, 272);
-            tbPrecio.Name = "tbPrecio";
-            tbPrecio.Size = new Size(140, 23);
-            tbPrecio.TabIndex = 18;
-            // 
-            // lblObservaciones
-            // 
-            lblObservaciones.AutoSize = true;
-            lblObservaciones.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblObservaciones.Location = new Point(27, 275);
-            lblObservaciones.Name = "lblObservaciones";
-            lblObservaciones.Size = new Size(113, 20);
-            lblObservaciones.TabIndex = 17;
-            lblObservaciones.Text = "Observaciones:";
-            // 
-            // tbDuracion
-            // 
-            tbDuracion.Location = new Point(146, 224);
-            tbDuracion.Name = "tbDuracion";
-            tbDuracion.Size = new Size(140, 23);
-            tbDuracion.TabIndex = 16;
-            // 
-            // lblAlérgenos
-            // 
-            lblAlérgenos.AutoSize = true;
-            lblAlérgenos.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblAlérgenos.Location = new Point(53, 227);
-            lblAlérgenos.Name = "lblAlérgenos";
-            lblAlérgenos.Size = new Size(82, 20);
-            lblAlérgenos.TabIndex = 15;
-            lblAlérgenos.Text = "Alérgenos:";
-            // 
-            // tbDescripcion
-            // 
-            tbDescripcion.Location = new Point(146, 173);
-            tbDescripcion.Name = "tbDescripcion";
-            tbDescripcion.Size = new Size(140, 23);
-            tbDescripcion.TabIndex = 14;
-            // 
-            // lblTelefono
-            // 
-            lblTelefono.AutoSize = true;
-            lblTelefono.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTelefono.Location = new Point(53, 174);
-            lblTelefono.Name = "lblTelefono";
-            lblTelefono.Size = new Size(72, 20);
-            lblTelefono.TabIndex = 13;
-            lblTelefono.Text = "Teléfono:";
-            // 
-            // tbNombre
-            // 
-            tbNombre.Location = new Point(146, 123);
-            tbNombre.Name = "tbNombre";
-            tbNombre.Size = new Size(140, 23);
-            tbNombre.TabIndex = 12;
-            // 
+            this.lblTitulo = new Label();
+            this.lblNombre = new Label();
+            this.tbNombre = new TextBox();
+            this.lblEmail = new Label();
+            this.tbEmail = new TextBox();
+            this.lblContrasena = new Label();
+            this.tbContrasena = new TextBox();
+            this.lblTelefono = new Label();
+            this.tbTelefono = new TextBox();
+            this.lblAlergenos = new Label();
+            this.tbAlergenos = new TextBox();
+            this.lblObservaciones = new Label();
+            this.tbObservaciones = new TextBox();
+            this.btnAnyadir = new Button();
+            this.SuspendLayout();
+
+            // lblTitulo
+            this.lblTitulo.AutoSize = true;
+            this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
+            this.lblTitulo.Location = new System.Drawing.Point(100, 20);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Size = new System.Drawing.Size(200, 32);
+            this.lblTitulo.Text = "AÑADIR USUARIO";
+
             // lblNombre
-            // 
-            lblNombre.AutoSize = true;
-            lblNombre.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblNombre.Location = new Point(53, 123);
-            lblNombre.Name = "lblNombre";
-            lblNombre.Size = new Size(70, 20);
-            lblNombre.TabIndex = 11;
-            lblNombre.Text = "Nombre:";
-            // 
-            // lbltitulo
-            // 
-            lbltitulo.AutoSize = true;
-            lbltitulo.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbltitulo.Location = new Point(53, 30);
-            lbltitulo.Name = "lbltitulo";
-            lbltitulo.Size = new Size(250, 37);
-            lbltitulo.TabIndex = 10;
-            lbltitulo.Text = "AÑADIR USUARIO";
-            // 
+            this.lblNombre.AutoSize = true;
+            this.lblNombre.Location = new System.Drawing.Point(30, 70);
+            this.lblNombre.Text = "Nombre:";
+            // tbNombre
+            this.tbNombre.Location = new System.Drawing.Point(150, 70);
+            this.tbNombre.Width = 200;
+
+            // lblEmail
+            this.lblEmail.AutoSize = true;
+            this.lblEmail.Location = new System.Drawing.Point(30, 110);
+            this.lblEmail.Text = "Email:";
+            // tbEmail
+            this.tbEmail.Location = new System.Drawing.Point(150, 110);
+            this.tbEmail.Width = 200;
+
+            // lblContrasena
+            this.lblContrasena.AutoSize = true;
+            this.lblContrasena.Location = new System.Drawing.Point(30, 150);
+            this.lblContrasena.Text = "Contraseña:";
+            // tbContrasena
+            this.tbContrasena.Location = new System.Drawing.Point(150, 150);
+            this.tbContrasena.Width = 200;
+            this.tbContrasena.PasswordChar = '*';
+
+            // lblTelefono
+            this.lblTelefono.AutoSize = true;
+            this.lblTelefono.Location = new System.Drawing.Point(30, 190);
+            this.lblTelefono.Text = "Teléfono:";
+            // tbTelefono
+            this.tbTelefono.Location = new System.Drawing.Point(150, 190);
+            this.tbTelefono.Width = 200;
+
+            // lblAlergenos
+            this.lblAlergenos.AutoSize = true;
+            this.lblAlergenos.Location = new System.Drawing.Point(30, 230);
+            this.lblAlergenos.Text = "Alérgenos:";
+            // tbAlergenos
+            this.tbAlergenos.Location = new System.Drawing.Point(150, 230);
+            this.tbAlergenos.Width = 200;
+
+            // lblObservaciones
+            this.lblObservaciones.AutoSize = true;
+            this.lblObservaciones.Location = new System.Drawing.Point(30, 270);
+            this.lblObservaciones.Text = "Observaciones:";
+            // tbObservaciones
+            this.tbObservaciones.Location = new System.Drawing.Point(150, 270);
+            this.tbObservaciones.Width = 200;
+
+            // btnAnyadir
+            this.btnAnyadir.Location = new System.Drawing.Point(150, 320);
+            this.btnAnyadir.Size = new System.Drawing.Size(200, 30);
+            this.btnAnyadir.Text = "AÑADIR USUARIO";
+
             // AnyadirUsuario
-            // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(350, 362);
-            Controls.Add(btnAnyadir);
-            Controls.Add(tbPrecio);
-            Controls.Add(lblObservaciones);
-            Controls.Add(tbDuracion);
-            Controls.Add(lblAlérgenos);
-            Controls.Add(tbDescripcion);
-            Controls.Add(lblTelefono);
-            Controls.Add(tbNombre);
-            Controls.Add(lblNombre);
-            Controls.Add(lbltitulo);
-            Name = "AnyadirUsuario";
-            Text = "Form1";
-            ResumeLayout(false);
-            PerformLayout();
+            this.ClientSize = new System.Drawing.Size(400, 380);
+            this.Controls.Add(this.lblTitulo);
+            this.Controls.Add(this.lblNombre);
+            this.Controls.Add(this.tbNombre);
+            this.Controls.Add(this.lblEmail);
+            this.Controls.Add(this.tbEmail);
+            this.Controls.Add(this.lblContrasena);
+            this.Controls.Add(this.tbContrasena);
+            this.Controls.Add(this.lblTelefono);
+            this.Controls.Add(this.tbTelefono);
+            this.Controls.Add(this.lblAlergenos);
+            this.Controls.Add(this.tbAlergenos);
+            this.Controls.Add(this.lblObservaciones);
+            this.Controls.Add(this.tbObservaciones);
+            this.Controls.Add(this.btnAnyadir);
+
+            this.Text = "Añadir Usuario";
+            this.ResumeLayout(false);
+            this.PerformLayout();
         }
-
-        #endregion
-
-        private Button btnAnyadir;
-        private TextBox tbPrecio;
-        private Label lblObservaciones;
-        private TextBox tbDuracion;
-        private Label lblAlérgenos;
-        private TextBox tbDescripcion;
-        private Label lblTelefono;
-        private TextBox tbNombre;
-        private Label lblNombre;
-        private Label lbltitulo;
     }
 }

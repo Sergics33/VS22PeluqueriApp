@@ -7,6 +7,9 @@
     <Compile Update="AnyadirUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="SeleccionarTipoUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="iniciar.cs">
       <SubType>Form</SubType>
     </Compile>

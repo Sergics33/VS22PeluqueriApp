@@ -13,7 +13,9 @@ namespace PeluqueriAPP
     {
         private readonly HttpClient httpClient = new HttpClient();
         private const string API_BASE_URL = "http://localhost:8080/api/usuarios/";
-        private List<Usuario> listaClientes = new List<Usuario>();
+
+        // 🔥 Lista general de usuarios
+        private List<Usuario> listaUsuariosOriginal = new List<Usuario>();
 
         public Usuarios()
         {
@@ -29,7 +31,7 @@ namespace PeluqueriAPP
             dataGridView2.AllowUserToAddRows = false;
             dataGridView2.AllowUserToDeleteRows = false;
 
-            ConfigurarColumnas(); // 🔥 Evita errores de columnas inexistentes
+            ConfigurarColumnas();
 
             if (Session.IsLoggedIn)
             {
@@ -87,13 +89,25 @@ namespace PeluqueriAPP
         }
 
         // ============================
-        //   CARGAR USUARIOS
+        //   LOAD
         // ============================
-        private async void Usuarios_Load(object sender, EventArgs e)
+        private void Usuarios_Load(object sender, EventArgs e)
         {
-            await CargarUsuarios();
+            // 🔥 Opciones del ComboBox
+            comboBox1.Items.Add("Usuarios");
+            comboBox1.Items.Add("Cliente");
+            comboBox1.Items.Add("Admin");
+
+            comboBox1.SelectedIndex = 1; // por defecto Cliente
+
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+
+            _ = CargarUsuarios();
         }
 
+        // ============================
+        //   CARGAR USUARIOS DEL API
+        // ============================
         private async Task CargarUsuarios()
         {
             try
@@ -106,14 +120,9 @@ namespace PeluqueriAPP
                     return;
                 }
 
-                var todosUsuarios = await response.Content.ReadFromJsonAsync<List<Usuario>>();
+                listaUsuariosOriginal = await response.Content.ReadFromJsonAsync<List<Usuario>>();
 
-                listaClientes = todosUsuarios
-                    .Where(u => u.Role == "ROLE_CLIENTE")
-                    .ToList();
-
-                dataGridView2.DataSource = null;
-                dataGridView2.DataSource = listaClientes;
+                FiltrarUsuarios();
             }
             catch (Exception ex)
             {
@@ -122,36 +131,135 @@ namespace PeluqueriAPP
         }
 
         // ============================
-        //   BUSCAR POR NOMBRE
+        //   FILTRO PRINCIPAL
+        // ============================
+        private void FiltrarUsuarios()
+        {
+            if (listaUsuariosOriginal == null) return;
+
+            string seleccion = comboBox1.SelectedItem?.ToString() ?? "";
+            List<Usuario> filtrados;
+
+            switch (seleccion)
+            {
+                case "Admin":
+                    filtrados = listaUsuariosOriginal
+                        .Where(u => u.Role == "ROLE_ADMIN")
+                        .ToList();
+                    break;
+
+                case "Cliente":
+                    filtrados = listaUsuariosOriginal
+                        .Where(u => u.Role == "ROLE_CLIENTE")
+                        .ToList();
+                    break;
+
+                case "Usuarios":
+                    filtrados = listaUsuariosOriginal
+                        .Where(u => u.Role == "ROLE_USUARIO")
+                        .ToList();
+                    break;
+
+                default:
+                    filtrados = listaUsuariosOriginal;
+                    break;
+            }
+
+            // 🔍 Buscador
+            string textoBusqueda = textBox1.Text.ToLower();
+
+            if (!string.IsNullOrWhiteSpace(textoBusqueda))
+            {
+                filtrados = filtrados
+                    .Where(u => !string.IsNullOrEmpty(u.NombreCompleto) &&
+                                u.NombreCompleto.ToLower().Contains(textoBusqueda))
+                    .ToList();
+            }
+
+            dataGridView2.DataSource = null;
+            dataGridView2.DataSource = filtrados;
+        }
+
+        // ============================
+        //   BUSCADOR
         // ============================
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            string filtro = textBox1.Text.ToLower();
+            FiltrarUsuarios();
+        }
 
-            var listaFiltrada = listaClientes
-                .Where(u => !string.IsNullOrEmpty(u.NombreCompleto) &&
-                            u.NombreCompleto.ToLower().Contains(filtro))
-                .ToList();
-
-            dataGridView2.DataSource = null;
-            dataGridView2.DataSource = listaFiltrada;
+        // ============================
+        //   COMBOBOX CAMBIO
+        // ============================
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FiltrarUsuarios();
         }
 
         // ============================
         //   NAVEGACIÓN
         // ============================
-        private void lblHome_Click(object sender, EventArgs e)
+        private void lblHome_Click_1(object sender, EventArgs e)
         {
             Home home = new Home();
             home.Show();
             Close();
         }
 
-        private void lblServicios_Click(object sender, EventArgs e)
+        private void lblServicios_Click_1(object sender, EventArgs e)
         {
             Servicios servicios = new Servicios();
             servicios.Show();
             Close();
+        }
+
+        private void btnAnyadir_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void btnBorrar_Click(object sender, EventArgs e)
+        {
+            if (dataGridView2.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Selecciona un usuario para eliminar.");
+                return;
+            }
+
+            var usuarioSeleccionado = (Usuario)dataGridView2.SelectedRows[0].DataBoundItem;
+
+            var confirm = MessageBox.Show(
+                $"¿Estás seguro de eliminar a {usuarioSeleccionado.NombreCompleto}?",
+                "Confirmar eliminación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (confirm != DialogResult.Yes) return;
+
+            try
+            {
+                var response = await httpClient.DeleteAsync(API_BASE_URL + usuarioSeleccionado.Id);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    listaUsuariosOriginal.Remove(usuarioSeleccionado);
+                    FiltrarUsuarios();
+                    MessageBox.Show("Usuario eliminado correctamente.");
+                }
+                else
+                {
+                    MessageBox.Show("Error al eliminar usuario: " + response.StatusCode);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error de conexión: " + ex.Message);
+            }
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+
         }
     }
 

@@ -24,6 +24,7 @@ namespace PeluqueriAPP
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Usuarios));
             panel2 = new Panel();
             panel3 = new Panel();
+            comboBox1 = new ComboBox();
             btnBorrar = new Button();
             btnEditar = new Button();
             textBox1 = new TextBox();
@@ -72,7 +73,9 @@ namespace PeluqueriAPP
             ((System.ComponentModel.ISupportInitialize)IconoPerfil).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconoFP).BeginInit();
             SuspendLayout();
+            // 
             // panel2
+            // 
             panel2.BackColor = Color.FromArgb(238, 238, 238);
             panel2.Controls.Add(panel3);
             panel2.Controls.Add(panel4);
@@ -85,8 +88,11 @@ namespace PeluqueriAPP
             panel2.Name = "panel2";
             panel2.Size = new Size(1051, 630);
             panel2.TabIndex = 3;
+            // 
             // panel3
+            // 
             panel3.BackColor = SystemColors.AppWorkspace;
+            panel3.Controls.Add(comboBox1);
             panel3.Controls.Add(btnBorrar);
             panel3.Controls.Add(btnEditar);
             panel3.Controls.Add(textBox1);
@@ -96,7 +102,18 @@ namespace PeluqueriAPP
             panel3.Name = "panel3";
             panel3.Size = new Size(788, 83);
             panel3.TabIndex = 44;
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(319, 43);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(106, 23);
+            comboBox1.TabIndex = 46;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
             // btnBorrar
+            // 
             btnBorrar.BackColor = Color.White;
             btnBorrar.FlatStyle = FlatStyle.Flat;
             btnBorrar.ForeColor = SystemColors.ControlText;
@@ -106,7 +123,10 @@ namespace PeluqueriAPP
             btnBorrar.TabIndex = 45;
             btnBorrar.Text = "Borrar Usuario";
             btnBorrar.UseVisualStyleBackColor = false;
+            btnBorrar.Click += btnBorrar_Click;
+            // 
             // btnEditar
+            // 
             btnEditar.BackColor = Color.White;
             btnEditar.FlatStyle = FlatStyle.Flat;
             btnEditar.ForeColor = SystemColors.ControlText;
@@ -116,12 +136,16 @@ namespace PeluqueriAPP
             btnEditar.TabIndex = 44;
             btnEditar.Text = "Editar Usuario";
             btnEditar.UseVisualStyleBackColor = false;
+            // 
             // textBox1
+            // 
             textBox1.Location = new Point(17, 42);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(388, 23);
+            textBox1.Size = new Size(284, 23);
             textBox1.TabIndex = 43;
+            // 
             // lblBuscar
+            // 
             lblBuscar.AutoSize = true;
             lblBuscar.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblBuscar.Location = new Point(17, 14);
@@ -129,7 +153,9 @@ namespace PeluqueriAPP
             lblBuscar.Size = new Size(137, 25);
             lblBuscar.TabIndex = 42;
             lblBuscar.Text = "Buscar Cliente";
+            // 
             // btnAnyadir
+            // 
             btnAnyadir.BackColor = Color.White;
             btnAnyadir.FlatStyle = FlatStyle.Flat;
             btnAnyadir.ForeColor = SystemColors.ControlText;
@@ -139,14 +165,19 @@ namespace PeluqueriAPP
             btnAnyadir.TabIndex = 41;
             btnAnyadir.Text = "Añadir Usuario";
             btnAnyadir.UseVisualStyleBackColor = false;
+            btnAnyadir.Click += btnAnyadir_Click;
+            // 
             // panel4
+            // 
             panel4.BackColor = Color.White;
             panel4.Controls.Add(dataGridView2);
             panel4.Location = new Point(34, 256);
             panel4.Name = "panel4";
             panel4.Size = new Size(788, 350);
             panel4.TabIndex = 24;
+            // 
             // dataGridView2
+            // 
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView2.Columns.AddRange(new DataGridViewColumn[] { ID, Nombre, Telefono, Alérgenos, Observaciones });
             dataGridView2.Dock = DockStyle.Fill;
@@ -155,33 +186,44 @@ namespace PeluqueriAPP
             dataGridView2.ReadOnly = true;
             dataGridView2.Size = new Size(788, 350);
             dataGridView2.TabIndex = 1;
-            // Columns
+            // 
+            // ID
+            // 
             ID.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             ID.HeaderText = "ID";
             ID.Name = "ID";
             ID.ReadOnly = true;
-
+            // 
+            // Nombre
+            // 
             Nombre.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             Nombre.HeaderText = "Nombre";
             Nombre.Name = "Nombre";
             Nombre.ReadOnly = true;
-
+            // 
+            // Telefono
+            // 
             Telefono.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             Telefono.HeaderText = "Teléfono";
             Telefono.Name = "Telefono";
             Telefono.ReadOnly = true;
-
+            // 
+            // Alérgenos
+            // 
             Alérgenos.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             Alérgenos.HeaderText = "Alérgenos";
             Alérgenos.Name = "Alérgenos";
             Alérgenos.ReadOnly = true;
-
+            // 
+            // Observaciones
+            // 
             Observaciones.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             Observaciones.HeaderText = "Observaciones";
             Observaciones.Name = "Observaciones";
             Observaciones.ReadOnly = true;
-
-            // Labels and panels
+            // 
+            // label4
+            // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ForeColor = SystemColors.ControlDark;
@@ -190,7 +232,9 @@ namespace PeluqueriAPP
             label4.Size = new Size(203, 17);
             label4.TabIndex = 21;
             label4.Text = "Bienvenida de nuevo, Profesora 1";
-
+            // 
+            // lblTitulo
+            // 
             lblTitulo.AutoSize = true;
             lblTitulo.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTitulo.Location = new Point(34, 61);
@@ -198,13 +242,17 @@ namespace PeluqueriAPP
             lblTitulo.Size = new Size(119, 37);
             lblTitulo.TabIndex = 20;
             lblTitulo.Text = "Clientes";
-
+            // 
+            // label2
+            // 
             label2.BackColor = Color.FromArgb(177, 177, 177);
             label2.Location = new Point(1, 36);
             label2.Name = "label2";
             label2.Size = new Size(1045, 1);
             label2.TabIndex = 18;
-
+            // 
+            // lblUbi
+            // 
             lblUbi.AutoSize = true;
             lblUbi.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblUbi.ForeColor = SystemColors.ActiveCaptionText;
@@ -213,7 +261,9 @@ namespace PeluqueriAPP
             lblUbi.Size = new Size(64, 20);
             lblUbi.TabIndex = 19;
             lblUbi.Text = "Clientes";
-
+            // 
+            // lblBernatS
+            // 
             lblBernatS.AutoSize = true;
             lblBernatS.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblBernatS.ForeColor = SystemColors.ControlDark;
@@ -222,8 +272,9 @@ namespace PeluqueriAPP
             lblBernatS.Size = new Size(108, 20);
             lblBernatS.TabIndex = 18;
             lblBernatS.Text = "Bernat Sarriá >";
-
+            // 
             // panel1
+            // 
             panel1.BackColor = Color.FromArgb(40, 40, 40);
             panel1.Controls.Add(IconoPersonal);
             panel1.Controls.Add(IconoServicios);
@@ -247,8 +298,9 @@ namespace PeluqueriAPP
             panel1.Name = "panel1";
             panel1.Size = new Size(228, 633);
             panel1.TabIndex = 2;
-
-            // PictureBoxes and labels
+            // 
+            // IconoPersonal
+            // 
             IconoPersonal.Image = (Image)resources.GetObject("IconoPersonal.Image");
             IconoPersonal.Location = new Point(4, 311);
             IconoPersonal.Name = "IconoPersonal";
@@ -256,7 +308,9 @@ namespace PeluqueriAPP
             IconoPersonal.SizeMode = PictureBoxSizeMode.Zoom;
             IconoPersonal.TabIndex = 17;
             IconoPersonal.TabStop = false;
-
+            // 
+            // IconoServicios
+            // 
             IconoServicios.Image = (Image)resources.GetObject("IconoServicios.Image");
             IconoServicios.Location = new Point(3, 274);
             IconoServicios.Name = "IconoServicios";
@@ -264,7 +318,9 @@ namespace PeluqueriAPP
             IconoServicios.SizeMode = PictureBoxSizeMode.Zoom;
             IconoServicios.TabIndex = 16;
             IconoServicios.TabStop = false;
-
+            // 
+            // IconoCitas
+            // 
             IconoCitas.Image = (Image)resources.GetObject("IconoCitas.Image");
             IconoCitas.Location = new Point(2, 241);
             IconoCitas.Name = "IconoCitas";
@@ -272,7 +328,9 @@ namespace PeluqueriAPP
             IconoCitas.SizeMode = PictureBoxSizeMode.Zoom;
             IconoCitas.TabIndex = 15;
             IconoCitas.TabStop = false;
-
+            // 
+            // IconoHome
+            // 
             IconoHome.Image = (Image)resources.GetObject("IconoHome.Image");
             IconoHome.Location = new Point(4, 206);
             IconoHome.Name = "IconoHome";
@@ -280,7 +338,9 @@ namespace PeluqueriAPP
             IconoHome.SizeMode = PictureBoxSizeMode.Zoom;
             IconoHome.TabIndex = 14;
             IconoHome.TabStop = false;
-
+            // 
+            // IconoPerfil
+            // 
             IconoPerfil.Image = (Image)resources.GetObject("IconoPerfil.Image");
             IconoPerfil.Location = new Point(9, 540);
             IconoPerfil.Name = "IconoPerfil";
@@ -288,7 +348,9 @@ namespace PeluqueriAPP
             IconoPerfil.SizeMode = PictureBoxSizeMode.Zoom;
             IconoPerfil.TabIndex = 13;
             IconoPerfil.TabStop = false;
-
+            // 
+            // lblCerrarSesion
+            // 
             lblCerrarSesion.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblCerrarSesion.ForeColor = Color.White;
             lblCerrarSesion.Location = new Point(59, 586);
@@ -296,7 +358,9 @@ namespace PeluqueriAPP
             lblCerrarSesion.Size = new Size(103, 20);
             lblCerrarSesion.TabIndex = 12;
             lblCerrarSesion.Text = "Cerrar Sesión";
-
+            // 
+            // lblAdmin
+            // 
             lblAdmin.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblAdmin.ForeColor = SystemColors.ControlDark;
             lblAdmin.Location = new Point(59, 557);
@@ -304,7 +368,9 @@ namespace PeluqueriAPP
             lblAdmin.Size = new Size(90, 20);
             lblAdmin.TabIndex = 11;
             lblAdmin.Text = "Administradora";
-
+            // 
+            // label1
+            // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
@@ -313,13 +379,17 @@ namespace PeluqueriAPP
             label1.Size = new Size(90, 20);
             label1.TabIndex = 10;
             label1.Text = "Profesora 1";
-
+            // 
+            // label9
+            // 
             label9.BackColor = Color.White;
             label9.Location = new Point(0, 525);
             label9.Name = "label9";
             label9.Size = new Size(228, 1);
             label9.TabIndex = 9;
-
+            // 
+            // lblPersonal
+            // 
             lblPersonal.AutoSize = true;
             lblPersonal.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblPersonal.ForeColor = Color.White;
@@ -328,7 +398,9 @@ namespace PeluqueriAPP
             lblPersonal.Size = new Size(80, 25);
             lblPersonal.TabIndex = 8;
             lblPersonal.Text = "Clientes";
-
+            // 
+            // lblServicios
+            // 
             lblServicios.AutoSize = true;
             lblServicios.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblServicios.ForeColor = Color.White;
@@ -337,7 +409,9 @@ namespace PeluqueriAPP
             lblServicios.Size = new Size(88, 25);
             lblServicios.TabIndex = 7;
             lblServicios.Text = "Servicios";
-
+            // 
+            // lblCitas
+            // 
             lblCitas.AutoSize = true;
             lblCitas.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblCitas.ForeColor = Color.White;
@@ -346,7 +420,9 @@ namespace PeluqueriAPP
             lblCitas.Size = new Size(54, 25);
             lblCitas.TabIndex = 6;
             lblCitas.Text = "Citas";
-
+            // 
+            // lblHome
+            // 
             lblHome.AutoSize = true;
             lblHome.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblHome.ForeColor = Color.White;
@@ -355,7 +431,10 @@ namespace PeluqueriAPP
             lblHome.Size = new Size(64, 25);
             lblHome.TabIndex = 5;
             lblHome.Text = "Home";
-
+            lblHome.Click += lblHome_Click_1;
+            // 
+            // lblGestion
+            // 
             lblGestion.AutoSize = true;
             lblGestion.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblGestion.ForeColor = SystemColors.ControlDark;
@@ -364,7 +443,9 @@ namespace PeluqueriAPP
             lblGestion.Size = new Size(59, 20);
             lblGestion.TabIndex = 4;
             lblGestion.Text = "Gestión";
-
+            // 
+            // iconoFP
+            // 
             iconoFP.Image = (Image)resources.GetObject("iconoFP.Image");
             iconoFP.Location = new Point(25, 12);
             iconoFP.Name = "iconoFP";
@@ -372,13 +453,17 @@ namespace PeluqueriAPP
             iconoFP.SizeMode = PictureBoxSizeMode.Zoom;
             iconoFP.TabIndex = 3;
             iconoFP.TabStop = false;
-
+            // 
+            // label3
+            // 
             label3.BackColor = Color.White;
             label3.Location = new Point(0, 163);
             label3.Name = "label3";
             label3.Size = new Size(228, 1);
             label3.TabIndex = 2;
-
+            // 
+            // lblPanel
+            // 
             lblPanel.AutoSize = true;
             lblPanel.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblPanel.ForeColor = SystemColors.ControlDark;
@@ -387,7 +472,9 @@ namespace PeluqueriAPP
             lblPanel.Size = new Size(169, 20);
             lblPanel.TabIndex = 1;
             lblPanel.Text = "Panel de Administración";
-
+            // 
+            // lblBernat
+            // 
             lblBernat.AutoSize = true;
             lblBernat.Font = new Font("Times New Roman", 20.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             lblBernat.ForeColor = SystemColors.ControlLightLight;
@@ -396,8 +483,9 @@ namespace PeluqueriAPP
             lblBernat.Size = new Size(172, 31);
             lblBernat.TabIndex = 0;
             lblBernat.Text = "Bernat Sarriá";
-
-            // Form
+            // 
+            // Usuarios
+            // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1095, 641);
@@ -462,5 +550,6 @@ namespace PeluqueriAPP
         private TextBox textBox1;
         private Label lblBuscar;
         private Button btnAnyadir;
+        private ComboBox comboBox1;
     }
 }

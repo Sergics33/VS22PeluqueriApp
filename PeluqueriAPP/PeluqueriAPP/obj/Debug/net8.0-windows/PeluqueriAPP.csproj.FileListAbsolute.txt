@@ -85,3 +85,4 @@ C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\VS22PeluqueriApp\PeluqueriA
 C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.pdb
 C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.genruntimeconfig.cache
 C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\ref\PeluqueriAPP.dll
+C:\Users\sergi\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.SeleccionarTipoUsuario.resources
