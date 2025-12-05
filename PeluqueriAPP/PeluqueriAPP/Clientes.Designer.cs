@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace PeluqueriAPP
 {
-    partial class Usuarios
+    partial class Clientes
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -21,7 +21,7 @@ namespace PeluqueriAPP
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Usuarios));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Clientes));
             panel2 = new Panel();
             panel3 = new Panel();
             comboBox1 = new ComboBox();
@@ -43,10 +43,8 @@ namespace PeluqueriAPP
             lblUbi = new Label();
             lblBernatS = new Label();
             panel1 = new Panel();
-            IconoPersonal = new PictureBox();
-            IconoServicios = new PictureBox();
-            IconoCitas = new PictureBox();
-            IconoHome = new PictureBox();
+            label7 = new Label();
+            label6 = new Label();
             IconoPerfil = new PictureBox();
             lblCerrarSesion = new Label();
             lblAdmin = new Label();
@@ -66,10 +64,6 @@ namespace PeluqueriAPP
             panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)IconoPersonal).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)IconoServicios).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)IconoCitas).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)IconoHome).BeginInit();
             ((System.ComponentModel.ISupportInitialize)IconoPerfil).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconoFP).BeginInit();
             SuspendLayout();
@@ -276,10 +270,8 @@ namespace PeluqueriAPP
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(40, 40, 40);
-            panel1.Controls.Add(IconoPersonal);
-            panel1.Controls.Add(IconoServicios);
-            panel1.Controls.Add(IconoCitas);
-            panel1.Controls.Add(IconoHome);
+            panel1.Controls.Add(label7);
+            panel1.Controls.Add(label6);
             panel1.Controls.Add(IconoPerfil);
             panel1.Controls.Add(lblCerrarSesion);
             panel1.Controls.Add(lblAdmin);
@@ -298,46 +290,31 @@ namespace PeluqueriAPP
             panel1.Name = "panel1";
             panel1.Size = new Size(228, 633);
             panel1.TabIndex = 2;
+            panel1.Paint += panel1_Paint;
             // 
-            // IconoPersonal
+            // label7
             // 
-            IconoPersonal.Image = (Image)resources.GetObject("IconoPersonal.Image");
-            IconoPersonal.Location = new Point(4, 311);
-            IconoPersonal.Name = "IconoPersonal";
-            IconoPersonal.Size = new Size(40, 29);
-            IconoPersonal.SizeMode = PictureBoxSizeMode.Zoom;
-            IconoPersonal.TabIndex = 17;
-            IconoPersonal.TabStop = false;
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.ForeColor = Color.White;
+            label7.Location = new Point(39, 387);
+            label7.Name = "label7";
+            label7.Size = new Size(77, 25);
+            label7.TabIndex = 21;
+            label7.Text = "Admins";
+            label7.Click += label7_Click;
             // 
-            // IconoServicios
+            // label6
             // 
-            IconoServicios.Image = (Image)resources.GetObject("IconoServicios.Image");
-            IconoServicios.Location = new Point(3, 274);
-            IconoServicios.Name = "IconoServicios";
-            IconoServicios.Size = new Size(40, 29);
-            IconoServicios.SizeMode = PictureBoxSizeMode.Zoom;
-            IconoServicios.TabIndex = 16;
-            IconoServicios.TabStop = false;
-            // 
-            // IconoCitas
-            // 
-            IconoCitas.Image = (Image)resources.GetObject("IconoCitas.Image");
-            IconoCitas.Location = new Point(2, 241);
-            IconoCitas.Name = "IconoCitas";
-            IconoCitas.Size = new Size(40, 29);
-            IconoCitas.SizeMode = PictureBoxSizeMode.Zoom;
-            IconoCitas.TabIndex = 15;
-            IconoCitas.TabStop = false;
-            // 
-            // IconoHome
-            // 
-            IconoHome.Image = (Image)resources.GetObject("IconoHome.Image");
-            IconoHome.Location = new Point(4, 206);
-            IconoHome.Name = "IconoHome";
-            IconoHome.Size = new Size(40, 29);
-            IconoHome.SizeMode = PictureBoxSizeMode.Zoom;
-            IconoHome.TabIndex = 14;
-            IconoHome.TabStop = false;
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.ForeColor = Color.White;
+            label6.Location = new Point(39, 347);
+            label6.Name = "label6";
+            label6.Size = new Size(73, 25);
+            label6.TabIndex = 20;
+            label6.Text = "Grupos";
+            label6.Click += label6_Click;
             // 
             // IconoPerfil
             // 
@@ -409,6 +386,7 @@ namespace PeluqueriAPP
             lblServicios.Size = new Size(88, 25);
             lblServicios.TabIndex = 7;
             lblServicios.Text = "Servicios";
+            lblServicios.Click += lblServicios_Click;
             // 
             // lblCitas
             // 
@@ -484,14 +462,14 @@ namespace PeluqueriAPP
             lblBernat.TabIndex = 0;
             lblBernat.Text = "Bernat Sarriá";
             // 
-            // Usuarios
+            // Clientes
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1095, 641);
             Controls.Add(panel2);
             Controls.Add(panel1);
-            Name = "Usuarios";
+            Name = "Clientes";
             Text = "Usuarios";
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
@@ -501,10 +479,6 @@ namespace PeluqueriAPP
             ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)IconoPersonal).EndInit();
-            ((System.ComponentModel.ISupportInitialize)IconoServicios).EndInit();
-            ((System.ComponentModel.ISupportInitialize)IconoCitas).EndInit();
-            ((System.ComponentModel.ISupportInitialize)IconoHome).EndInit();
             ((System.ComponentModel.ISupportInitialize)IconoPerfil).EndInit();
             ((System.ComponentModel.ISupportInitialize)iconoFP).EndInit();
             ResumeLayout(false);
@@ -519,10 +493,6 @@ namespace PeluqueriAPP
         private Label lblUbi;
         private Label lblBernatS;
         private Panel panel1;
-        private PictureBox IconoPersonal;
-        private PictureBox IconoServicios;
-        private PictureBox IconoCitas;
-        private PictureBox IconoHome;
         private PictureBox IconoPerfil;
         private Label lblCerrarSesion;
         private Label lblAdmin;
@@ -551,5 +521,7 @@ namespace PeluqueriAPP
         private Label lblBuscar;
         private Button btnAnyadir;
         private ComboBox comboBox1;
+        private Label label7;
+        private Label label6;
     }
 }

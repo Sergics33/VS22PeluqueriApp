@@ -7,6 +7,12 @@
     <Compile Update="AnyadirUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Admins.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Grupos.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="SeleccionarTipoUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -19,7 +25,7 @@
     <Compile Update="Servicios.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Usuarios.cs">
+    <Compile Update="Clientes.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

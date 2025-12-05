@@ -46,7 +46,6 @@ C:\Users\sergi\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\D
 C:\Users\sergi\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.iniciar.resources
 C:\Users\sergi\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.Properties.Resources.resources
 C:\Users\sergi\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.Servicios.resources
-C:\Users\sergi\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.Usuarios.resources
 C:\Users\sergi\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.csproj.GenerateResource.cache
 C:\Users\sergi\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\sergi\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.AssemblyInfoInputs.cache
@@ -86,3 +85,7 @@ C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\VS22PeluqueriApp\PeluqueriA
 C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.genruntimeconfig.cache
 C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\ref\PeluqueriAPP.dll
 C:\Users\sergi\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.SeleccionarTipoUsuario.resources
+C:\Users\sergi\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.Grupos.resources
+C:\Users\sergi\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.AnyadirGrupo.resources
+C:\Users\sergi\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.Admins.resources
+C:\Users\sergi\Documents\GitHub\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.Clientes.resources

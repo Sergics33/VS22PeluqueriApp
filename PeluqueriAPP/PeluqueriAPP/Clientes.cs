@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace PeluqueriAPP
 {
-    public partial class Usuarios : Form
+    public partial class Clientes : Form
     {
         private readonly HttpClient httpClient = new HttpClient();
         private const string API_BASE_URL = "http://localhost:8080/api/usuarios/";
@@ -17,7 +17,7 @@ namespace PeluqueriAPP
         // 🔥 Lista general de usuarios
         private List<Usuario> listaUsuariosOriginal = new List<Usuario>();
 
-        public Usuarios()
+        public Clientes()
         {
             InitializeComponent();
             Load += Usuarios_Load;
@@ -199,19 +199,6 @@ namespace PeluqueriAPP
         // ============================
         //   NAVEGACIÓN
         // ============================
-        private void lblHome_Click_1(object sender, EventArgs e)
-        {
-            Home home = new Home();
-            home.Show();
-            Close();
-        }
-
-        private void lblServicios_Click_1(object sender, EventArgs e)
-        {
-            Servicios servicios = new Servicios();
-            servicios.Show();
-            Close();
-        }
 
         private void btnAnyadir_Click(object sender, EventArgs e)
         {
@@ -257,9 +244,50 @@ namespace PeluqueriAPP
             }
         }
 
+
+        private void lblHome_Click_1(object sender, EventArgs e)
+        {
+            Home home = new Home();
+            home.Show();
+            Close();
+        }
+
+        private void lblServicios_Click_1(object sender, EventArgs e)
+        {
+            Servicios servicios = new Servicios();
+            servicios.Show();
+            Close();
+        }
+
         private void btnEditar_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+            Grupos servicios = new Grupos();
+            servicios.Show();
+            Close();
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+            Admins servicios = new Admins();
+            servicios.Show();
+            Close();
+        }
+
+        private void lblServicios_Click(object sender, EventArgs e)
+        {
+            Servicios servicios = new Servicios();
+            servicios.Show();
+            Close();
         }
     }
 

@@ -144,19 +144,6 @@ namespace PeluqueriAPP
             ActualizarGrid(filtrados);
         }
 
-        private void lblHome_Click(object sender, EventArgs e)
-        {
-            Home anterior = new Home();
-            anterior.Show();
-            Close();
-        }
-
-        private void lblClientes_Click(object sender, EventArgs e)
-        {
-            Usuarios anterior = new Usuarios();
-            anterior.Show();
-            Close();
-        }
 
         private async void btnAnyadir_Click(object sender, EventArgs e)
         {
@@ -308,5 +295,31 @@ namespace PeluqueriAPP
             }
         }
 
+        private void lblHome_Click(object sender, EventArgs e)
+        {
+            Home anterior = new Home();
+            anterior.Show();
+            Close();
+        }
+
+        private void lblClientes_Click(object sender, EventArgs e)
+        {
+            Clientes anterior = new Clientes();
+            anterior.Show();
+            Close();
+        }
+        private void label6_Click(object sender, EventArgs e)
+        {
+            Grupos anterior = new Grupos();
+            anterior.Show();
+            Close();
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+            Admins anterior = new Admins();
+            anterior.Show();
+            Close();
+        }
     }
 }
