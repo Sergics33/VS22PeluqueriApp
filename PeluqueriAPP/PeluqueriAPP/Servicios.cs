@@ -17,12 +17,62 @@ namespace PeluqueriAPP
         {
             InitializeComponent();
             Load += Servicios_Load;
-            dgvServicios.AutoGenerateColumns = true;
+            dgvServicios.AutoGenerateColumns = false; // Cambiamos a falso para controlar columnas
             dgvServicios.ReadOnly = true;
             dgvServicios.AllowUserToAddRows = false;
             dgvServicios.AllowUserToDeleteRows = false;
             dgvServicios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvServicios.MultiSelect = false;
+
+            ConfigurarColumnas();
+        }
+
+        private void ConfigurarColumnas()
+        {
+            dgvServicios.Columns.Clear();
+
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "ID",
+                DataPropertyName = "id",
+                Name = "IdCol"
+            });
+
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Nombre",
+                DataPropertyName = "nombre",
+                Name = "NombreCol"
+            });
+
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Descripción",
+                DataPropertyName = "descripcion",
+                Name = "DescripcionCol"
+            });
+
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Duración (min)",
+                DataPropertyName = "duracion",
+                Name = "DuracionCol"
+            });
+
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Precio (€)",
+                DataPropertyName = "precio",
+                Name = "PrecioCol"
+            });
+
+            // Columna solo para mostrar el nombre del tipo de servicio
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Tipo de Servicio",
+                DataPropertyName = "tipoServicioNombre",
+                Name = "TipoServicioCol"
+            });
         }
 
         private async void Servicios_Load(object sender, EventArgs e)
@@ -53,13 +103,23 @@ namespace PeluqueriAPP
                 }
 
                 var servicios = await response.Content.ReadFromJsonAsync<List<Servicio>>();
-                dgvServicios.DataSource = servicios;
 
-                if (dgvServicios.Columns.Contains("Id")) dgvServicios.Columns["Id"].HeaderText = "ID";
-                if (dgvServicios.Columns.Contains("Nombre")) dgvServicios.Columns["Nombre"].HeaderText = "Nombre";
-                if (dgvServicios.Columns.Contains("Descripcion")) dgvServicios.Columns["Descripcion"].HeaderText = "Descripción";
-                if (dgvServicios.Columns.Contains("Duracion")) dgvServicios.Columns["Duracion"].HeaderText = "Duración (min)";
-                if (dgvServicios.Columns.Contains("Precio")) dgvServicios.Columns["Precio"].HeaderText = "Precio (€)";
+                // Creamos un listado temporal con solo los datos necesarios
+                var listaParaGrid = new List<object>();
+                foreach (var s in servicios)
+                {
+                    listaParaGrid.Add(new
+                    {
+                        s.id,
+                        s.nombre,
+                        s.descripcion,
+                        s.duracion,
+                        s.precio,
+                        tipoServicioNombre = s.tipoServicio?.nombre ?? ""
+                    });
+                }
+
+                dgvServicios.DataSource = listaParaGrid;
             }
             catch (Exception ex)
             {
