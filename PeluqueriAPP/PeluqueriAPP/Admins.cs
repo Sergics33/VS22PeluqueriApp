@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.Json.Serialization;
 
 namespace PeluqueriAPP
 {
@@ -19,7 +21,6 @@ namespace PeluqueriAPP
             InitializeComponent();
             Load += Admins_Load;
 
-            // Configuración del DataGridView
             dgvAdmins.AutoGenerateColumns = false;
             dgvAdmins.ReadOnly = true;
             dgvAdmins.AllowUserToAddRows = false;
@@ -29,7 +30,6 @@ namespace PeluqueriAPP
 
             ConfigurarColumnas();
 
-            // Eventos de botones y búsqueda
             tbBusqueda.TextChanged += TbBusqueda_TextChanged;
             btnAnyadir.Click += BtnAnyadir_Click;
             btnEditar.Click += BtnEditar_Click;
@@ -42,17 +42,24 @@ namespace PeluqueriAPP
 
             dgvAdmins.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "ID",
+                HeaderText = "Id",
                 DataPropertyName = "Id",
-                Name = "IdCol",
+                Name = "Id",
                 Visible = false
             });
 
             dgvAdmins.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Nombre",
-                DataPropertyName = "NombreCliente",
+                DataPropertyName = "Nombre",
                 Name = "NombreCol"
+            });
+
+            dgvAdmins.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Apellidos",
+                DataPropertyName = "Apellidos",
+                Name = "ApellidosCol"
             });
 
             dgvAdmins.Columns.Add(new DataGridViewTextBoxColumn
@@ -113,7 +120,38 @@ namespace PeluqueriAPP
         private void ActualizarGrid(List<Usuario> lista)
         {
             dgvAdmins.DataSource = null;
-            dgvAdmins.DataSource = lista;
+
+            var listaParaGrid = lista.ConvertAll(u =>
+            {
+                string nombreCompleto = u.NombreCompleto ?? "";
+
+                string nombre = "";
+                string apellidos = "";
+
+                if (!string.IsNullOrEmpty(nombreCompleto))
+                {
+                    var partes = nombreCompleto.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    if (partes.Length > 0) nombre = partes[0];
+                    if (partes.Length > 1)
+                        apellidos = string.Join(' ', partes, 1, partes.Length - 1);
+                }
+
+                string rol = u.Rol?.Replace("ROLE_", "").ToUpper() ?? "DESCONOCIDO";
+
+                return new
+                {
+                    u.Id,
+                    Nombre = nombre,
+                    Apellidos = apellidos,
+                    u.Email,
+                    Rol = rol
+                };
+            }).ToList();
+
+            dgvAdmins.DataSource = listaParaGrid;
+
+            if (dgvAdmins.Columns["Id"] != null)
+                dgvAdmins.Columns["Id"].Visible = false;
         }
 
         private void TbBusqueda_TextChanged(object sender, EventArgs e)
@@ -121,7 +159,7 @@ namespace PeluqueriAPP
             string filtro = tbBusqueda.Text.Trim().ToLower();
 
             var filtrados = listaUsuariosOriginal.FindAll(u =>
-                (u.NombreCliente?.ToLower().Contains(filtro) ?? false) ||
+                (u.NombreCompleto?.ToLower().Contains(filtro) ?? false) ||
                 (u.Email?.ToLower().Contains(filtro) ?? false) ||
                 (u.Rol?.ToLower().Contains(filtro) ?? false)
             );
@@ -170,7 +208,7 @@ namespace PeluqueriAPP
             if (dgvAdmins.SelectedRows.Count == 0) return;
 
             var row = dgvAdmins.SelectedRows[0];
-            long id = Convert.ToInt64(row.Cells["IdCol"].Value);
+            long id = Convert.ToInt64(row.Cells["Id"].Value);
 
             var usuario = listaUsuariosOriginal.Find(u => u.Id == id);
             if (usuario == null) return;
@@ -185,7 +223,7 @@ namespace PeluqueriAPP
                 httpClient.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
-                var response = await httpClient.PutAsJsonAsync($"{API_BASE_URL}/{id}", form.NuevoUsuario);
+                var response = await httpClient.PutAsJsonAsync($"{API_BASE_URL}{id}", form.NuevoUsuario);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -213,7 +251,7 @@ namespace PeluqueriAPP
             if (dgvAdmins.SelectedRows.Count == 0) return;
 
             var row = dgvAdmins.SelectedRows[0];
-            long id = Convert.ToInt64(row.Cells["IdCol"].Value);
+            long id = Convert.ToInt64(row.Cells["Id"].Value);
 
             var confirm = MessageBox.Show("¿Eliminar este usuario?", "Confirmar", MessageBoxButtons.YesNo);
             if (confirm != DialogResult.Yes) return;
@@ -224,7 +262,7 @@ namespace PeluqueriAPP
                 httpClient.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
-                var response = await httpClient.DeleteAsync($"{API_BASE_URL}/{id}");
+                var response = await httpClient.DeleteAsync($"{API_BASE_URL}{id}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -245,6 +283,13 @@ namespace PeluqueriAPP
             {
                 MessageBox.Show("Error inesperado: " + ex.Message);
             }
+        }
+
+        private void lblHomeAdmin_Click(object sender, EventArgs e)
+        {
+            Home nuevaVentana = new Home();
+            nuevaVentana.Show();
+            this.Close();
         }
     }
 }

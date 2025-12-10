@@ -41,7 +41,7 @@ namespace PeluqueriAPP
             ConfigurarCampos(tipoUsuario);
 
             // Rellenar campos con datos existentes
-            tbNombre.Text = usuario.NombreCliente;
+            tbNombre.Text = usuario.NombreCompleto;
             tbEmail.Text = usuario.Email;
             if (tbContrasena.Visible) tbContrasena.Text = usuario.Contrasena;
             if (tbTelefono.Visible) tbTelefono.Text = usuario.Telefono;
@@ -97,7 +97,7 @@ namespace PeluqueriAPP
             // Actualizar o crear Usuario
             if (NuevoUsuario == null) NuevoUsuario = new Usuario();
 
-            NuevoUsuario.NombreCliente = tbNombre.Text.Trim();
+            NuevoUsuario.NombreCompleto = tbNombre.Text.Trim();
             NuevoUsuario.Email = tbEmail.Text.Trim();
             NuevoUsuario.Rol = tipoUsuario == "Cliente" ? "ROLE_CLIENTE" :
                                tipoUsuario == "Admin" ? "ROLE_ADMIN" : "ROLE_GRUPO";

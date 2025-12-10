@@ -206,6 +206,7 @@
             lblHomeAdmin.Size = new Size(64, 25);
             lblHomeAdmin.TabIndex = 5;
             lblHomeAdmin.Text = "Home";
+            lblHomeAdmin.Click += lblHomeAdmin_Click;
             // 
             // lblCitas
             // 
