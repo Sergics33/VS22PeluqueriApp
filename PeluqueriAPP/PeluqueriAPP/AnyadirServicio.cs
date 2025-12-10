@@ -26,7 +26,6 @@ namespace PeluqueriAPP
             Load += AnyadirServicio_Load;
         }
 
-        // Constructor para edición
         public AnyadirServicio(Servicio servicio) : this()
         {
             if (servicio == null) return;
@@ -56,10 +55,8 @@ namespace PeluqueriAPP
         {
             try
             {
-                // Limpiar ComboBox antes de llenar
                 comboBoxTipos.Items.Clear();
 
-                // Añadir token si existe
                 if (Session.IsLoggedIn)
                 {
                     httpClient.DefaultRequestHeaders.Clear();
@@ -74,7 +71,6 @@ namespace PeluqueriAPP
                         comboBoxTipos.DisplayMember = "nombre";
                         comboBoxTipos.ValueMember = "id";
 
-                        // Si es edición, seleccionar el tipo correspondiente
                         if (esEdicion && NuevoServicio?.tipoServicio != null)
                         {
                             comboBoxTipos.SelectedValue = NuevoServicio.tipoServicio.id;
@@ -88,7 +84,6 @@ namespace PeluqueriAPP
                     }
                 }
 
-                // Fallback: datos dummy
                 var dummyTipos = new List<TipoServicio>
                 {
                     new TipoServicio { id = 1, nombre = "Corte" },

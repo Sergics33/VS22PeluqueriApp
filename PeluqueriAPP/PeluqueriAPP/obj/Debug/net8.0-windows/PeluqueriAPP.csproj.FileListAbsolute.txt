@@ -72,7 +72,6 @@ C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\VS22PeluqueriApp\PeluqueriA
 C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.iniciar.resources
 C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.Properties.Resources.resources
 C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.Servicios.resources
-C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.Usuarios.resources
 C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.csproj.GenerateResource.cache
 C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.AssemblyInfoInputs.cache
@@ -113,3 +112,5 @@ C:\Users\sergi\Documents\GitHub\BackendPeluqueriApp31-10-2025\VS22PeluqueriApp\P
 C:\Users\sergi\Documents\GitHub\BackendPeluqueriApp31-10-2025\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.pdb
 C:\Users\sergi\Documents\GitHub\BackendPeluqueriApp31-10-2025\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.genruntimeconfig.cache
 C:\Users\sergi\Documents\GitHub\BackendPeluqueriApp31-10-2025\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\ref\PeluqueriAPP.dll
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.Admins.resources
+C:\Users\sercarsen\Documents\GitHub\VS22PeluqueriApp\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.AnyadirGrupo.resources
