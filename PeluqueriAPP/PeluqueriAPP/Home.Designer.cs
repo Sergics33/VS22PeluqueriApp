@@ -123,7 +123,6 @@ namespace PeluqueriAPP
             label6.Size = new Size(73, 25);
             label6.TabIndex = 18;
             label6.Text = "Grupos";
-            label6.Click += label6_Click;
             // 
             // IconoPerfil
             // 
@@ -188,7 +187,6 @@ namespace PeluqueriAPP
             lblClientes.Size = new Size(80, 25);
             lblClientes.TabIndex = 8;
             lblClientes.Text = "Clientes";
-            lblClientes.Click += lblUsuarios_Click;
             // 
             // lblServicios
             // 

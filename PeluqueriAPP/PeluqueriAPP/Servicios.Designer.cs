@@ -115,7 +115,6 @@
             label6.Size = new Size(73, 25);
             label6.TabIndex = 44;
             label6.Text = "Grupos";
-            label6.Click += label6_Click;
             // 
             // lblCerrarSesion
             // 
@@ -166,7 +165,6 @@
             lblClientes.Size = new Size(80, 25);
             lblClientes.TabIndex = 8;
             lblClientes.Text = "Clientes";
-            lblClientes.Click += lblClientes_Click;
             // 
             // lblServicios
             // 

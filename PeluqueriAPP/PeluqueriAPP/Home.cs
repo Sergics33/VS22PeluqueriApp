@@ -16,24 +16,12 @@ namespace PeluqueriAPP
             this.Close();
         }
 
-        private void lblUsuarios_Click(object sender, EventArgs e)
-        {
-            Clientes nuevaVentana = new Clientes();
-            nuevaVentana.Show();
-            this.Close();
-        }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
-        private void label6_Click(object sender, EventArgs e)
-        {
-            Grupos nuevaVentana = new Grupos();
-            nuevaVentana.Show();
-            this.Close();
-        }
 
         private void label7_Click(object sender, EventArgs e)
         {

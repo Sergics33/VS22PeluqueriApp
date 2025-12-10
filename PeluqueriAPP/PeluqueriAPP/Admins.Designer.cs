@@ -206,7 +206,6 @@
             lblHomeAdmin.Size = new Size(64, 25);
             lblHomeAdmin.TabIndex = 5;
             lblHomeAdmin.Text = "Home";
-            lblHomeAdmin.Click += lblHomeAdmin_Click;
             // 
             // lblCitas
             // 
@@ -229,7 +228,6 @@
             lblServicios.Size = new Size(88, 25);
             lblServicios.TabIndex = 7;
             lblServicios.Text = "Servicios";
-            lblServicios.Click += lblServicios_Click;
             // 
             // lblClientes
             // 
@@ -241,7 +239,6 @@
             lblClientes.Size = new Size(80, 25);
             lblClientes.TabIndex = 8;
             lblClientes.Text = "Clientes";
-            lblClientes.Click += lblClientes_Click;
             // 
             // label9
             // 
@@ -302,7 +299,6 @@
             label6.Size = new Size(73, 25);
             label6.TabIndex = 18;
             label6.Text = "Grupos";
-            label6.Click += label6_Click;
             // 
             // label7
             // 
@@ -314,7 +310,6 @@
             label7.Size = new Size(77, 25);
             label7.TabIndex = 19;
             label7.Text = "Admins";
-            label7.Click += label7_Click;
             // 
             // panel1
             // 

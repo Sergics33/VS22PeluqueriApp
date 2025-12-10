@@ -302,18 +302,7 @@ namespace PeluqueriAPP
             Close();
         }
 
-        private void lblClientes_Click(object sender, EventArgs e)
-        {
-            Clientes anterior = new Clientes();
-            anterior.Show();
-            Close();
-        }
-        private void label6_Click(object sender, EventArgs e)
-        {
-            Grupos anterior = new Grupos();
-            anterior.Show();
-            Close();
-        }
+
 
         private void label7_Click(object sender, EventArgs e)
         {
