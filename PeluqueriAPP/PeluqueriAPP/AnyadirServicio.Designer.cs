@@ -25,7 +25,7 @@
             lblPrecio = new Label();
             tbPrecio = new TextBox();
             btnAnyadir = new Button();
-            tbTipoServicioId = new TextBox();
+            comboBoxTipos = new ComboBox(); // <-- aquí
             lblTipo = new Label();
             SuspendLayout();
 
@@ -97,10 +97,12 @@
             btnAnyadir.Text = "AÑADIR SERVICIO";
             btnAnyadir.UseVisualStyleBackColor = true;
 
-            tbTipoServicioId.Location = new Point(138, 163);
-            tbTipoServicioId.Name = "tbTipoServicioId";
-            tbTipoServicioId.Size = new Size(140, 23);
-            tbTipoServicioId.TabIndex = 10;
+            // ComboBox de tipos de servicio
+            comboBoxTipos.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxTipos.Location = new Point(138, 163);
+            comboBoxTipos.Name = "comboBoxTipos";
+            comboBoxTipos.Size = new Size(140, 23);
+            comboBoxTipos.TabIndex = 10;
 
             lblTipo.AutoSize = true;
             lblTipo.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold);
@@ -114,7 +116,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(336, 436);
             Controls.Add(lblTipo);
-            Controls.Add(tbTipoServicioId);
+            Controls.Add(comboBoxTipos);
             Controls.Add(btnAnyadir);
             Controls.Add(tbPrecio);
             Controls.Add(lblPrecio);
@@ -141,7 +143,7 @@
         private Label lblPrecio;
         private TextBox tbPrecio;
         private Button btnAnyadir;
-        private TextBox tbTipoServicioId;
+        private ComboBox comboBoxTipos; // <-- reemplaza tbTipoServicioId
         private Label lblTipo;
     }
 }

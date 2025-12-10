@@ -32,13 +32,11 @@ namespace PeluqueriAPP
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Home));
             panel1 = new Panel();
             label7 = new Label();
-            label6 = new Label();
             IconoPerfil = new PictureBox();
             lblCerrarSesion = new Label();
             lblAdmin = new Label();
             label1 = new Label();
             label9 = new Label();
-            lblClientes = new Label();
             lblServicios = new Label();
             lblCitas = new Label();
             lblHome = new Label();
@@ -49,44 +47,42 @@ namespace PeluqueriAPP
             lblBernat = new Label();
             panel2 = new Panel();
             panel4 = new Panel();
+            pictureBox3 = new PictureBox();
             panel3 = new Panel();
+            pictureBox4 = new PictureBox();
             label5 = new Label();
             panelPorServi = new Panel();
+            pictureBox2 = new PictureBox();
             panelCitas = new Panel();
+            pictureBox1 = new PictureBox();
             label4 = new Label();
             lblTitulo = new Label();
             label2 = new Label();
             lblUbi = new Label();
             lblBernatS = new Label();
-            pictureBox1 = new PictureBox();
-            pictureBox2 = new PictureBox();
-            pictureBox3 = new PictureBox();
-            pictureBox4 = new PictureBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)IconoPerfil).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconoFP).BeginInit();
             panel2.SuspendLayout();
             panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             panelPorServi.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             panelCitas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(40, 40, 40);
             panel1.Controls.Add(label7);
-            panel1.Controls.Add(label6);
             panel1.Controls.Add(IconoPerfil);
             panel1.Controls.Add(lblCerrarSesion);
             panel1.Controls.Add(lblAdmin);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(label9);
-            panel1.Controls.Add(lblClientes);
             panel1.Controls.Add(lblServicios);
             panel1.Controls.Add(lblCitas);
             panel1.Controls.Add(lblHome);
@@ -106,23 +102,12 @@ namespace PeluqueriAPP
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(39, 389);
+            label7.Location = new Point(39, 311);
             label7.Name = "label7";
-            label7.Size = new Size(77, 25);
+            label7.Size = new Size(85, 25);
             label7.TabIndex = 19;
-            label7.Text = "Admins";
+            label7.Text = "Usuarios";
             label7.Click += label7_Click;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.White;
-            label6.Location = new Point(39, 351);
-            label6.Name = "label6";
-            label6.Size = new Size(73, 25);
-            label6.TabIndex = 18;
-            label6.Text = "Grupos";
             // 
             // IconoPerfil
             // 
@@ -176,17 +161,6 @@ namespace PeluqueriAPP
             label9.Name = "label9";
             label9.Size = new Size(228, 1);
             label9.TabIndex = 9;
-            // 
-            // lblClientes
-            // 
-            lblClientes.AutoSize = true;
-            lblClientes.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblClientes.ForeColor = Color.White;
-            lblClientes.Location = new Point(39, 311);
-            lblClientes.Name = "lblClientes";
-            lblClientes.Size = new Size(80, 25);
-            lblClientes.TabIndex = 8;
-            lblClientes.Text = "Clientes";
             // 
             // lblServicios
             // 
@@ -308,6 +282,15 @@ namespace PeluqueriAPP
             panel4.TabIndex = 24;
             panel4.Paint += panel4_Paint;
             // 
+            // pictureBox3
+            // 
+            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
+            pictureBox3.Location = new Point(-39, -10);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(1013, 330);
+            pictureBox3.TabIndex = 2;
+            pictureBox3.TabStop = false;
+            // 
             // panel3
             // 
             panel3.BackColor = SystemColors.ControlDark;
@@ -318,6 +301,15 @@ namespace PeluqueriAPP
             panel3.Size = new Size(290, 135);
             panel3.TabIndex = 23;
             panel3.Paint += panel3_Paint;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
+            pictureBox4.Location = new Point(-304, -225);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(1112, 717);
+            pictureBox4.TabIndex = 2;
+            pictureBox4.TabStop = false;
             // 
             // label5
             // 
@@ -336,6 +328,16 @@ namespace PeluqueriAPP
             panelPorServi.TabIndex = 23;
             panelPorServi.Paint += panelPorServi_Paint;
             // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
+            pictureBox2.Location = new Point(-19, -18);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(530, 330);
+            pictureBox2.TabIndex = 1;
+            pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click;
+            // 
             // panelCitas
             // 
             panelCitas.BackColor = SystemColors.ControlDark;
@@ -345,6 +347,16 @@ namespace PeluqueriAPP
             panelCitas.Size = new Size(290, 135);
             panelCitas.TabIndex = 22;
             panelCitas.Paint += panelCitas_Paint;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(-134, -89);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(530, 330);
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click_1;
             // 
             // label4
             // 
@@ -401,44 +413,6 @@ namespace PeluqueriAPP
             lblBernatS.Text = "Bernat Sarriá >";
             lblBernatS.Click += lblBernatS_Click;
             // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(-134, -89);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(530, 330);
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click_1;
-            // 
-            // pictureBox2
-            // 
-            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(-19, -18);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(530, 330);
-            pictureBox2.TabIndex = 1;
-            pictureBox2.TabStop = false;
-            pictureBox2.Click += pictureBox2_Click;
-            // 
-            // pictureBox3
-            // 
-            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(-39, -10);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(1013, 330);
-            pictureBox3.TabIndex = 2;
-            pictureBox3.TabStop = false;
-            // 
-            // pictureBox4
-            // 
-            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(-304, -225);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(1112, 717);
-            pictureBox4.TabIndex = 2;
-            pictureBox4.TabStop = false;
-            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -455,13 +429,13 @@ namespace PeluqueriAPP
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             panel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             panelPorServi.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             panelCitas.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ResumeLayout(false);
         }
 
@@ -612,8 +586,6 @@ namespace PeluqueriAPP
         private Label label5;
         private Panel panel4;
         private Label lblUsuarios;
-        private Label lblClientes;
-        private Label label6;
         private Label label7;
         private PictureBox pictureBox1;
         private PictureBox pictureBox2;

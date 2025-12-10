@@ -19,12 +19,10 @@
             panel1 = new Panel();
             label7 = new Label();
             IconoPerfil = new PictureBox();
-            label6 = new Label();
             lblCerrarSesion = new Label();
             lblAdmin = new Label();
             label1 = new Label();
             label9 = new Label();
-            lblClientes = new Label();
             lblServicios = new Label();
             lblCitas = new Label();
             lblHome = new Label();
@@ -64,12 +62,10 @@
             panel1.BackColor = Color.FromArgb(40, 40, 40);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(IconoPerfil);
-            panel1.Controls.Add(label6);
             panel1.Controls.Add(lblCerrarSesion);
             panel1.Controls.Add(lblAdmin);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(label9);
-            panel1.Controls.Add(lblClientes);
             panel1.Controls.Add(lblServicios);
             panel1.Controls.Add(lblCitas);
             panel1.Controls.Add(lblHome);
@@ -88,11 +84,11 @@
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(39, 388);
+            label7.Location = new Point(39, 315);
             label7.Name = "label7";
-            label7.Size = new Size(77, 25);
+            label7.Size = new Size(85, 25);
             label7.TabIndex = 45;
-            label7.Text = "Admins";
+            label7.Text = "Usuarios";
             label7.Click += label7_Click;
             // 
             // IconoPerfil
@@ -104,17 +100,6 @@
             IconoPerfil.SizeMode = PictureBoxSizeMode.Zoom;
             IconoPerfil.TabIndex = 13;
             IconoPerfil.TabStop = false;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.White;
-            label6.Location = new Point(39, 347);
-            label6.Name = "label6";
-            label6.Size = new Size(73, 25);
-            label6.TabIndex = 44;
-            label6.Text = "Grupos";
             // 
             // lblCerrarSesion
             // 
@@ -154,17 +139,6 @@
             label9.Name = "label9";
             label9.Size = new Size(228, 1);
             label9.TabIndex = 9;
-            // 
-            // lblClientes
-            // 
-            lblClientes.AutoSize = true;
-            lblClientes.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblClientes.ForeColor = Color.White;
-            lblClientes.Location = new Point(39, 312);
-            lblClientes.Name = "lblClientes";
-            lblClientes.Size = new Size(80, 25);
-            lblClientes.TabIndex = 8;
-            lblClientes.Text = "Clientes";
             // 
             // lblServicios
             // 
@@ -459,7 +433,6 @@
         private Label lblAdmin;
         private Label label1;
         private Label label9;
-        private Label lblClientes;
         private Label lblServicios;
         private Label lblCitas;
         private Label lblHome;
@@ -488,6 +461,5 @@
         private TextBox textBox1;
         private TextBox tbBusqueda;
         private Label label7;
-        private Label label6;
     }
 }

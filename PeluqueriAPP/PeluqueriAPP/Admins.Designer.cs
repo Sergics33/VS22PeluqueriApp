@@ -34,13 +34,11 @@
             lblHomeAdmin = new Label();
             lblCitas = new Label();
             lblServicios = new Label();
-            lblClientes = new Label();
             label9 = new Label();
             label1 = new Label();
             lblAdmin = new Label();
             lblCerrarSesion = new Label();
             IconoPerfil = new PictureBox();
-            label6 = new Label();
             label7 = new Label();
             panel1 = new Panel();
             label4 = new Label();
@@ -78,7 +76,7 @@
             btnBorrar.Name = "btnBorrar";
             btnBorrar.Size = new Size(97, 23);
             btnBorrar.TabIndex = 45;
-            btnBorrar.Text = "Borrar admin";
+            btnBorrar.Text = "Borrar Usuario";
             btnBorrar.UseVisualStyleBackColor = false;
             // 
             // btnEditar
@@ -90,7 +88,7 @@
             btnEditar.Name = "btnEditar";
             btnEditar.Size = new Size(97, 23);
             btnEditar.TabIndex = 44;
-            btnEditar.Text = "Editar admin";
+            btnEditar.Text = "Editar Usuario";
             btnEditar.UseVisualStyleBackColor = false;
             // 
             // tbBusqueda
@@ -119,7 +117,7 @@
             btnAnyadir.Name = "btnAnyadir";
             btnAnyadir.Size = new Size(105, 23);
             btnAnyadir.TabIndex = 41;
-            btnAnyadir.Text = "Añadir admin";
+            btnAnyadir.Text = "Añadir Usuario";
             btnAnyadir.UseVisualStyleBackColor = false;
             // 
             // panel2
@@ -229,17 +227,7 @@
             lblServicios.Size = new Size(88, 25);
             lblServicios.TabIndex = 7;
             lblServicios.Text = "Servicios";
-            // 
-            // lblClientes
-            // 
-            lblClientes.AutoSize = true;
-            lblClientes.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblClientes.ForeColor = Color.White;
-            lblClientes.Location = new Point(39, 313);
-            lblClientes.Name = "lblClientes";
-            lblClientes.Size = new Size(80, 25);
-            lblClientes.TabIndex = 8;
-            lblClientes.Text = "Clientes";
+            lblServicios.Click += lblServicios_Click;
             // 
             // label9
             // 
@@ -290,39 +278,27 @@
             IconoPerfil.TabIndex = 13;
             IconoPerfil.TabStop = false;
             // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.White;
-            label6.Location = new Point(46, 351);
-            label6.Name = "label6";
-            label6.Size = new Size(73, 25);
-            label6.TabIndex = 18;
-            label6.Text = "Grupos";
-            // 
             // label7
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(46, 391);
+            label7.Location = new Point(39, 311);
             label7.Name = "label7";
-            label7.Size = new Size(77, 25);
+            label7.Size = new Size(85, 25);
             label7.TabIndex = 19;
-            label7.Text = "Admins";
+            label7.Text = "Usuarios";
+            label7.Click += label7_Click;
             // 
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(40, 40, 40);
             panel1.Controls.Add(label7);
-            panel1.Controls.Add(label6);
             panel1.Controls.Add(IconoPerfil);
             panel1.Controls.Add(lblCerrarSesion);
             panel1.Controls.Add(lblAdmin);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(label9);
-            panel1.Controls.Add(lblClientes);
             panel1.Controls.Add(lblServicios);
             panel1.Controls.Add(lblCitas);
             panel1.Controls.Add(lblHomeAdmin);
@@ -343,9 +319,10 @@
             label4.ForeColor = SystemColors.ControlDark;
             label4.Location = new Point(285, 103);
             label4.Name = "label4";
-            label4.Size = new Size(154, 17);
+            label4.Size = new Size(168, 17);
             label4.TabIndex = 56;
-            label4.Text = "Administración de Admin";
+            label4.Text = "Administración de Usuarios";
+            label4.Click += label4_Click;
             // 
             // lblTitulo
             // 
@@ -353,9 +330,10 @@
             lblTitulo.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTitulo.Location = new Point(280, 66);
             lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(102, 37);
+            lblTitulo.Size = new Size(128, 37);
             lblTitulo.TabIndex = 55;
-            lblTitulo.Text = "Admin";
+            lblTitulo.Text = "Usuarios";
+            lblTitulo.Click += lblTitulo_Click;
             // 
             // label2
             // 
@@ -372,9 +350,9 @@
             lblUbi.ForeColor = SystemColors.ActiveCaptionText;
             lblUbi.Location = new Point(384, 23);
             lblUbi.Name = "lblUbi";
-            lblUbi.Size = new Size(56, 20);
+            lblUbi.Size = new Size(70, 20);
             lblUbi.TabIndex = 54;
-            lblUbi.Text = "Admin";
+            lblUbi.Text = "Usuarios";
             // 
             // lblBernatS
             // 
@@ -426,7 +404,6 @@
         private TextBox tbBusqueda;
         private Label lblBuscar;
         private Label label7;
-        private Label label6;
         private PictureBox IconoPersonal;
         private PictureBox IconoServicios;
         private PictureBox IconoCitas;
@@ -436,7 +413,6 @@
         private Label lblAdmin;
         private Label label1;
         private Label label9;
-        private Label lblClientes;
         private Label lblServicios;
         private Label lblCitas;
         private Label lblHomeAdmin;

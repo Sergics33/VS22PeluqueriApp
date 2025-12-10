@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PeluqueriAPP
@@ -7,37 +12,34 @@ namespace PeluqueriAPP
     {
         public Servicio NuevoServicio { get; private set; }
         private bool esEdicion = false;
+        private readonly HttpClient httpClient = new HttpClient();
+        private const string API_TIPOS_URL = "http://localhost:8080/api/tiposservicio";
 
-        // Constructor para añadir servicio
         public AnyadirServicio()
         {
             InitializeComponent();
             btnAnyadir.Click += BtnAnyadir_Click;
 
-            // Texto por defecto para añadir
             lbltitulo.Text = "AÑADIR SERVICIO";
             btnAnyadir.Text = "AÑADIR SERVICIO";
+
+            Load += AnyadirServicio_Load;
         }
 
-        // Constructor para editar servicio
+        // Constructor para edición
         public AnyadirServicio(Servicio servicio) : this()
         {
             if (servicio == null) return;
 
             esEdicion = true;
-
-            // Cambiar texto de título y botón
             lbltitulo.Text = "EDITAR SERVICIO";
             btnAnyadir.Text = "GUARDAR CAMBIOS";
 
-            // Rellenar campos con los datos del servicio
             tbNombre.Text = servicio.nombre;
             tbDescripcion.Text = servicio.descripcion;
             tbDuracion.Text = servicio.duracion.ToString();
             tbPrecio.Text = servicio.precio.ToString();
-            tbTipoServicioId.Text = servicio.tipoServicio?.id.ToString() ?? "";
 
-            // Guardar ID y tipo para enviar al backend
             NuevoServicio = new Servicio
             {
                 id = servicio.id,
@@ -45,14 +47,73 @@ namespace PeluqueriAPP
             };
         }
 
+        private async void AnyadirServicio_Load(object sender, EventArgs e)
+        {
+            await CargarTiposServicio();
+        }
+
+        private async Task CargarTiposServicio()
+        {
+            try
+            {
+                // Limpiar ComboBox antes de llenar
+                comboBoxTipos.Items.Clear();
+
+                // Añadir token si existe
+                if (Session.IsLoggedIn)
+                {
+                    httpClient.DefaultRequestHeaders.Clear();
+                    httpClient.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
+
+                    var response = await httpClient.GetAsync(API_TIPOS_URL);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var tipos = await response.Content.ReadFromJsonAsync<List<TipoServicio>>();
+                        comboBoxTipos.DataSource = tipos;
+                        comboBoxTipos.DisplayMember = "nombre";
+                        comboBoxTipos.ValueMember = "id";
+
+                        // Si es edición, seleccionar el tipo correspondiente
+                        if (esEdicion && NuevoServicio?.tipoServicio != null)
+                        {
+                            comboBoxTipos.SelectedValue = NuevoServicio.tipoServicio.id;
+                        }
+
+                        return;
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Error al cargar tipos de servicio: {response.StatusCode}");
+                    }
+                }
+
+                // Fallback: datos dummy
+                var dummyTipos = new List<TipoServicio>
+                {
+                    new TipoServicio { id = 1, nombre = "Corte" },
+                    new TipoServicio { id = 2, nombre = "Color" },
+                    new TipoServicio { id = 3, nombre = "Peinado" }
+                };
+
+                comboBoxTipos.DataSource = dummyTipos;
+                comboBoxTipos.DisplayMember = "nombre";
+                comboBoxTipos.ValueMember = "id";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar tipos de servicio: " + ex.Message);
+            }
+        }
+
         private void BtnAnyadir_Click(object sender, EventArgs e)
         {
-            // Validar campos
+            // Validación
             if (string.IsNullOrWhiteSpace(tbNombre.Text) ||
                 string.IsNullOrWhiteSpace(tbDescripcion.Text) ||
                 string.IsNullOrWhiteSpace(tbDuracion.Text) ||
                 string.IsNullOrWhiteSpace(tbPrecio.Text) ||
-                string.IsNullOrWhiteSpace(tbTipoServicioId.Text))
+                comboBoxTipos.SelectedItem == null)
             {
                 MessageBox.Show("Todos los campos son obligatorios.");
                 return;
@@ -70,13 +131,8 @@ namespace PeluqueriAPP
                 return;
             }
 
-            if (!int.TryParse(tbTipoServicioId.Text, out int tipoServicioId))
-            {
-                MessageBox.Show("ID del tipo de servicio debe ser un número entero.");
-                return;
-            }
+            var tipoSeleccionado = (TipoServicio)comboBoxTipos.SelectedItem;
 
-            // Crear o actualizar servicio
             if (!esEdicion)
             {
                 NuevoServicio = new Servicio
@@ -85,7 +141,7 @@ namespace PeluqueriAPP
                     descripcion = tbDescripcion.Text.Trim(),
                     duracion = duracion,
                     precio = precio,
-                    tipoServicio = new TipoServicio { id = tipoServicioId }
+                    tipoServicio = tipoSeleccionado
                 };
             }
             else
@@ -94,7 +150,7 @@ namespace PeluqueriAPP
                 NuevoServicio.descripcion = tbDescripcion.Text.Trim();
                 NuevoServicio.duracion = duracion;
                 NuevoServicio.precio = precio;
-                NuevoServicio.tipoServicio.id = tipoServicioId;
+                NuevoServicio.tipoServicio = tipoSeleccionado;
             }
 
             DialogResult = DialogResult.OK;
