@@ -1,7 +1,11 @@
-﻿public class Grupo
+﻿namespace PeluqueriAPP
 {
-    public int id { get; set; }
-    public string aula { get; set; }
-    public string clase { get; set; }
-    public string modulo { get; set; }
+    public class Grupo
+    {
+        public int id { get; set; }
+        public string nombreCompleto { get; set; }
+        public string email { get; set; }
+        public string password { get; set; }
+        public string clase { get; set; }
+    }
 }

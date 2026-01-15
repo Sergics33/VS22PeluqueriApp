@@ -119,6 +119,7 @@
             btnAnyadir.TabIndex = 41;
             btnAnyadir.Text = "Añadir Usuario";
             btnAnyadir.UseVisualStyleBackColor = false;
+            btnAnyadir.Click += BtnAnyadir_Click;
             // 
             // panel2
             // 
@@ -204,7 +205,6 @@
             lblHomeAdmin.Size = new Size(64, 25);
             lblHomeAdmin.TabIndex = 5;
             lblHomeAdmin.Text = "Home";
-            lblHomeAdmin.Click += lblHomeAdmin_Click;
             // 
             // lblCitas
             // 
@@ -227,7 +227,6 @@
             lblServicios.Size = new Size(88, 25);
             lblServicios.TabIndex = 7;
             lblServicios.Text = "Servicios";
-            lblServicios.Click += lblServicios_Click;
             // 
             // label9
             // 
@@ -288,7 +287,6 @@
             label7.Size = new Size(85, 25);
             label7.TabIndex = 19;
             label7.Text = "Usuarios";
-            label7.Click += label7_Click;
             // 
             // panel1
             // 
@@ -322,7 +320,6 @@
             label4.Size = new Size(168, 17);
             label4.TabIndex = 56;
             label4.Text = "Administración de Usuarios";
-            label4.Click += label4_Click;
             // 
             // lblTitulo
             // 
@@ -333,7 +330,6 @@
             lblTitulo.Size = new Size(128, 37);
             lblTitulo.TabIndex = 55;
             lblTitulo.Text = "Usuarios";
-            lblTitulo.Click += lblTitulo_Click;
             // 
             // label2
             // 
@@ -380,6 +376,7 @@
             Controls.Add(panel2);
             Name = "Admins";
             Text = "Administradores";
+            Load += Admins_Load;
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
             panel2.ResumeLayout(false);

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "PeluqueriAPP": {
+      "commandName": "Project"
+    },
+    "Perfil 1": {
+      "commandName": "Executable"
+    }
+  }
+}

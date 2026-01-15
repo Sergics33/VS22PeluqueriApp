@@ -5,10 +5,12 @@ namespace PeluqueriAPP
 {
     public partial class AnyadirUsuario : Form
     {
-        public Usuario NuevoUsuario { get; private set; }
         private string tipoUsuario;
 
-        // Constructor para CREAR usuario
+        // Constructor para CREAR usuario genérico (Admin por defecto)
+        public AnyadirUsuario() : this("Usuario") { }
+
+        // Constructor para CREAR usuario de tipo específico
         public AnyadirUsuario(string tipo)
         {
             InitializeComponent();
@@ -22,10 +24,7 @@ namespace PeluqueriAPP
             btnAnyadir.Click += BtnAnyadir_Click;
         }
 
-        // Nuevo constructor para CREAR usuario genérico sin tipo (por defecto Admin)
-        public AnyadirUsuario() : this("Admin") { }
-
-        // Nuevo constructor para EDITAR usuario
+        // Constructor para EDITAR usuario existente
         public AnyadirUsuario(Usuario usuario)
         {
             if (usuario == null) throw new ArgumentNullException(nameof(usuario));
@@ -40,7 +39,7 @@ namespace PeluqueriAPP
 
             ConfigurarCampos(tipoUsuario);
 
-            // Rellenar campos con datos existentes
+            // Rellenar campos existentes
             tbNombre.Text = usuario.NombreCompleto;
             tbEmail.Text = usuario.Email;
             if (tbContrasena.Visible) tbContrasena.Text = usuario.Contrasena;
@@ -48,15 +47,12 @@ namespace PeluqueriAPP
             if (tbAlergenos.Visible) tbAlergenos.Text = usuario.Alergenos;
             if (tbObservaciones.Visible) tbObservaciones.Text = usuario.Observaciones;
 
-            // Mantener referencia para enviar a API
-            NuevoUsuario = usuario;
-
             btnAnyadir.Click += BtnAnyadir_Click;
         }
 
         private void ConfigurarCampos(string tipo)
         {
-            // Mostrar todos los campos por defecto
+            // Todos visibles por defecto
             tbNombre.Visible = lblNombre.Visible = true;
             tbEmail.Visible = lblEmail.Visible = true;
             tbContrasena.Visible = lblContrasena.Visible = true;
@@ -67,15 +63,12 @@ namespace PeluqueriAPP
             switch (tipo)
             {
                 case "Cliente":
-                    // Cliente necesita todo
-                    break;
-
+                    break; // todo visible
                 case "Admin":
                     tbTelefono.Visible = lblTelefono.Visible = false;
                     tbAlergenos.Visible = lblAlergenos.Visible = false;
                     tbObservaciones.Visible = lblObservaciones.Visible = false;
                     break;
-
                 case "Grupo":
                     tbContrasena.Visible = lblContrasena.Visible = false;
                     tbTelefono.Visible = lblTelefono.Visible = false;
@@ -87,27 +80,44 @@ namespace PeluqueriAPP
 
         private void BtnAnyadir_Click(object sender, EventArgs e)
         {
-            // Validar campos según tipo
             if (string.IsNullOrWhiteSpace(tbNombre.Text) || string.IsNullOrWhiteSpace(tbEmail.Text))
             {
                 MessageBox.Show("Nombre y Email son obligatorios.");
                 return;
             }
 
-            // Actualizar o crear Usuario
-            if (NuevoUsuario == null) NuevoUsuario = new Usuario();
-
-            NuevoUsuario.NombreCompleto = tbNombre.Text.Trim();
-            NuevoUsuario.Email = tbEmail.Text.Trim();
-            NuevoUsuario.Rol = tipoUsuario == "Cliente" ? "ROLE_CLIENTE" :
-                               tipoUsuario == "Admin" ? "ROLE_ADMIN" : "ROLE_GRUPO";
-            NuevoUsuario.Contrasena = tbContrasena.Visible ? tbContrasena.Text.Trim() : null;
-            NuevoUsuario.Telefono = tbTelefono.Visible ? tbTelefono.Text.Trim() : null;
-            NuevoUsuario.Alergenos = tbAlergenos.Visible ? tbAlergenos.Text.Trim() : null;
-            NuevoUsuario.Observaciones = tbObservaciones.Visible ? tbObservaciones.Text.Trim() : null;
-
             DialogResult = DialogResult.OK;
             Close();
         }
+
+        // ===========================
+        // PROPIEDADES PÚBLICAS PARA Admins.cs
+        // ===========================
+
+        public string Nombre => tbNombre.Text.Trim();
+
+        public string Apellidos
+        {
+            get
+            {
+                var partes = tbNombre.Text.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                return partes.Length > 1 ? string.Join(' ', partes, 1, partes.Length - 1) : "";
+            }
+        }
+
+        public string Email => tbEmail.Text.Trim();
+
+        public string Username => tbNombre.Text.Trim(); // puedes cambiar si tienes un TextBox específico
+
+        public string Rol => tipoUsuario == "Cliente" ? "ROLE_CLIENTE" :
+                             tipoUsuario == "Admin" ? "ROLE_ADMIN" : "ROLE_GRUPO";
+
+        public string Contrasena => tbContrasena.Visible ? tbContrasena.Text.Trim() : null;
+
+        public string Telefono => tbTelefono.Visible ? tbTelefono.Text.Trim() : null;
+
+        public string Alergenos => tbAlergenos.Visible ? tbAlergenos.Text.Trim() : null;
+
+        public string Observaciones => tbObservaciones.Visible ? tbObservaciones.Text.Trim() : null;
     }
 }

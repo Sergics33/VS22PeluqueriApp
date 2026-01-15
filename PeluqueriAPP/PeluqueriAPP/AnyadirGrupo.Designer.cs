@@ -1,137 +1,133 @@
-﻿namespace PeluqueriAPP
+﻿using System.Windows.Forms;
+
+namespace PeluqueriAPP
 {
     partial class AnyadirGrupo
     {
-        private System.ComponentModel.IContainer components = null;
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        private Label lbltitulo;
+        private Label lblNombre;
+        private TextBox tbNombre;
+        private Label lblEmail;
+        private TextBox tbEmail;
+        private Label lblPassword;
+        private TextBox tbPassword;
+        private Label lblClase;
+        private TextBox tbClase;
+        private Button btnAnyadir;
 
         private void InitializeComponent()
         {
             lbltitulo = new Label();
-            lblAula = new Label();
-            tbAula = new TextBox();
+            lblNombre = new Label();
+            tbNombre = new TextBox();
+            lblEmail = new Label();
+            tbEmail = new TextBox();
+            lblPassword = new Label();
+            tbPassword = new TextBox();
             lblClase = new Label();
             tbClase = new TextBox();
-            lblModulo = new Label();
-            tbModulo = new TextBox();
             btnAnyadir = new Button();
-
             SuspendLayout();
-
             // 
             // lbltitulo
             // 
             lbltitulo.AutoSize = true;
-            lbltitulo.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold);
-            lbltitulo.Location = new Point(45, 23);
+            lbltitulo.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            lbltitulo.Location = new Point(45, 20);
             lbltitulo.Name = "lbltitulo";
-            lbltitulo.Size = new Size(200, 37);
+            lbltitulo.Size = new Size(0, 37);
             lbltitulo.TabIndex = 0;
-            lbltitulo.Text = "AÑADIR GRUPO";
-
             // 
-            // lblAula
+            // lblNombre
             // 
-            lblAula.AutoSize = true;
-            lblAula.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold);
-            lblAula.Location = new Point(45, 100);
-            lblAula.Name = "lblAula";
-            lblAula.Size = new Size(40, 20);
-            lblAula.TabIndex = 1;
-            lblAula.Text = "Aula:";
-
+            lblNombre.AutoSize = true;
+            lblNombre.Location = new Point(45, 80);
+            lblNombre.Name = "lblNombre";
+            lblNombre.Size = new Size(54, 15);
+            lblNombre.TabIndex = 1;
+            lblNombre.Text = "Nombre:";
             // 
-            // tbAula
+            // tbNombre
             // 
-            tbAula.Location = new Point(138, 100);
-            tbAula.Name = "tbAula";
-            tbAula.Size = new Size(140, 23);
-            tbAula.TabIndex = 2;
-
+            tbNombre.Location = new Point(150, 80);
+            tbNombre.Name = "tbNombre";
+            tbNombre.Size = new Size(100, 23);
+            tbNombre.TabIndex = 2;
+            // 
+            // lblEmail
+            // 
+            lblEmail.AutoSize = true;
+            lblEmail.Location = new Point(45, 120);
+            lblEmail.Name = "lblEmail";
+            lblEmail.Size = new Size(39, 15);
+            lblEmail.TabIndex = 3;
+            lblEmail.Text = "Email:";
+            // 
+            // tbEmail
+            // 
+            tbEmail.Location = new Point(150, 120);
+            tbEmail.Name = "tbEmail";
+            tbEmail.Size = new Size(100, 23);
+            tbEmail.TabIndex = 4;
+            // 
+            // lblPassword
+            // 
+            lblPassword.AutoSize = true;
+            lblPassword.Location = new Point(45, 160);
+            lblPassword.Name = "lblPassword";
+            lblPassword.Size = new Size(60, 15);
+            lblPassword.TabIndex = 5;
+            lblPassword.Text = "Password:";
+            // 
+            // tbPassword
+            // 
+            tbPassword.Location = new Point(150, 160);
+            tbPassword.Name = "tbPassword";
+            tbPassword.Size = new Size(100, 23);
+            tbPassword.TabIndex = 6;
             // 
             // lblClase
             // 
             lblClase.AutoSize = true;
-            lblClase.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold);
-            lblClase.Location = new Point(45, 150);
+            lblClase.Location = new Point(45, 200);
             lblClase.Name = "lblClase";
-            lblClase.Size = new Size(48, 20);
-            lblClase.TabIndex = 3;
+            lblClase.Size = new Size(38, 15);
+            lblClase.TabIndex = 7;
             lblClase.Text = "Clase:";
-
             // 
             // tbClase
             // 
-            tbClase.Location = new Point(138, 150);
+            tbClase.Location = new Point(150, 200);
             tbClase.Name = "tbClase";
-            tbClase.Size = new Size(140, 23);
-            tbClase.TabIndex = 4;
-
-            // 
-            // lblModulo
-            // 
-            lblModulo.AutoSize = true;
-            lblModulo.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold);
-            lblModulo.Location = new Point(45, 200);
-            lblModulo.Name = "lblModulo";
-            lblModulo.Size = new Size(61, 20);
-            lblModulo.TabIndex = 5;
-            lblModulo.Text = "Módulo:";
-
-            // 
-            // tbModulo
-            // 
-            tbModulo.Location = new Point(138, 200);
-            tbModulo.Name = "tbModulo";
-            tbModulo.Size = new Size(140, 23);
-            tbModulo.TabIndex = 6;
-
+            tbClase.Size = new Size(100, 23);
+            tbClase.TabIndex = 8;
+            tbClase.TextChanged += tbClase_TextChanged;
             // 
             // btnAnyadir
             // 
-            btnAnyadir.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold | FontStyle.Italic);
-            btnAnyadir.Location = new Point(138, 250);
+            btnAnyadir.Location = new Point(150, 240);
             btnAnyadir.Name = "btnAnyadir";
-            btnAnyadir.Size = new Size(144, 23);
-            btnAnyadir.TabIndex = 7;
+            btnAnyadir.Size = new Size(150, 30);
+            btnAnyadir.TabIndex = 9;
             btnAnyadir.Text = "AÑADIR GRUPO";
-            btnAnyadir.UseVisualStyleBackColor = true;
-
             // 
             // AnyadirGrupo
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(336, 336);
-            Controls.Add(btnAnyadir);
-            Controls.Add(tbModulo);
-            Controls.Add(lblModulo);
-            Controls.Add(tbClase);
-            Controls.Add(lblClase);
-            Controls.Add(tbAula);
-            Controls.Add(lblAula);
+            ClientSize = new Size(360, 300);
             Controls.Add(lbltitulo);
+            Controls.Add(lblNombre);
+            Controls.Add(tbNombre);
+            Controls.Add(lblEmail);
+            Controls.Add(tbEmail);
+            Controls.Add(lblPassword);
+            Controls.Add(tbPassword);
+            Controls.Add(lblClase);
+            Controls.Add(tbClase);
+            Controls.Add(btnAnyadir);
             Name = "AnyadirGrupo";
             Text = "Añadir Grupo";
             ResumeLayout(false);
             PerformLayout();
         }
-
-        private Label lbltitulo;
-        private Label lblAula;
-        private TextBox tbAula;
-        private Label lblClase;
-        private TextBox tbClase;
-        private Label lblModulo;
-        private TextBox tbModulo;
-        private Button btnAnyadir;
     }
 }

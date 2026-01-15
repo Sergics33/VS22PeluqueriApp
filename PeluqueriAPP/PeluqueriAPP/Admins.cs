@@ -6,21 +6,21 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Text.Json.Serialization;
 
 namespace PeluqueriAPP
 {
     public partial class Admins : Form
     {
         private readonly HttpClient httpClient = new HttpClient();
-        private const string API_BASE_URL = "http://localhost:8080/api/usuarios/";
         private List<Usuario> listaUsuariosOriginal = new List<Usuario>();
+        private System.Windows.Forms.Timer timerRefrescar;
 
         public Admins()
         {
             InitializeComponent();
             Load += Admins_Load;
 
+            // Configuración del DataGridView
             dgvAdmins.AutoGenerateColumns = false;
             dgvAdmins.ReadOnly = true;
             dgvAdmins.AllowUserToAddRows = false;
@@ -30,11 +30,19 @@ namespace PeluqueriAPP
 
             ConfigurarColumnas();
 
+            // Eventos
             tbBusqueda.TextChanged += TbBusqueda_TextChanged;
             btnAnyadir.Click += BtnAnyadir_Click;
             btnEditar.Click += BtnEditar_Click;
             btnBorrar.Click += BtnBorrar_Click;
+
+            // Timer para refrescar tabla cada 5 segundos
+            timerRefrescar = new System.Windows.Forms.Timer();
+            timerRefrescar.Interval = 5000; // 5 segundos
+            timerRefrescar.Tick += async (s, e) => await RefrescarUsuarios();
+            timerRefrescar.Start();
         }
+
 
         private void ConfigurarColumnas()
         {
@@ -47,28 +55,24 @@ namespace PeluqueriAPP
                 Name = "Id",
                 Visible = false
             });
-
             dgvAdmins.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Nombre",
                 DataPropertyName = "Nombre",
                 Name = "NombreCol"
             });
-
             dgvAdmins.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Apellidos",
                 DataPropertyName = "Apellidos",
                 Name = "ApellidosCol"
             });
-
             dgvAdmins.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Email",
                 DataPropertyName = "Email",
                 Name = "EmailCol"
             });
-
             dgvAdmins.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Rol",
@@ -79,16 +83,13 @@ namespace PeluqueriAPP
 
         private async void Admins_Load(object sender, EventArgs e)
         {
-            await CargarUsuarios();
+            await RefrescarUsuarios();
         }
 
-        private async Task CargarUsuarios()
+        private async Task RefrescarUsuarios()
         {
             if (string.IsNullOrEmpty(Session.AccessToken))
-            {
-                MessageBox.Show("No hay sesión iniciada.");
                 return;
-            }
 
             try
             {
@@ -96,25 +97,63 @@ namespace PeluqueriAPP
                 httpClient.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
-                var response = await httpClient.GetAsync(API_BASE_URL);
+                var admins = await httpClient.GetFromJsonAsync<List<Usuario>>("http://localhost:8080/api/admin/");
+                var clientes = await httpClient.GetFromJsonAsync<List<Usuario>>("http://localhost:8080/api/clientes/");
+                var grupos = await httpClient.GetFromJsonAsync<List<Usuario>>("http://localhost:8080/api/grupos/");
 
-                if (!response.IsSuccessStatusCode)
+                var nuevaLista = new List<Usuario>();
+                if (admins != null) nuevaLista.AddRange(admins);
+                if (clientes != null) nuevaLista.AddRange(clientes);
+                if (grupos != null) nuevaLista.AddRange(grupos);
+
+                // Solo actualizar si hay cambios
+                bool listaIgual = nuevaLista.Count == listaUsuariosOriginal.Count &&
+                                  !nuevaLista.Except(listaUsuariosOriginal).Any();
+
+                if (!listaIgual)
                 {
-                    MessageBox.Show($"Error al cargar usuarios: {response.StatusCode}");
-                    return;
-                }
+                    // Guardar Id de fila seleccionada para mantener la selección
+                    long? idSeleccionado = null;
+                    if (dgvAdmins.SelectedRows.Count > 0)
+                        idSeleccionado = Convert.ToInt64(dgvAdmins.SelectedRows[0].Cells["Id"].Value);
 
-                listaUsuariosOriginal = await response.Content.ReadFromJsonAsync<List<Usuario>>();
-                ActualizarGrid(listaUsuariosOriginal);
+                    listaUsuariosOriginal = nuevaLista;
+                    AplicarFiltroYActualizarGrid();
+
+                    // Restaurar selección si el usuario sigue existiendo
+                    if (idSeleccionado.HasValue)
+                    {
+                        foreach (DataGridViewRow row in dgvAdmins.Rows)
+                        {
+                            if (Convert.ToInt64(row.Cells["Id"].Value) == idSeleccionado.Value)
+                            {
+                                row.Selected = true;
+                                dgvAdmins.CurrentCell = row.Cells[1]; // primera columna visible
+                                break;
+                            }
+                        }
+                    }
+                }
             }
-            catch (HttpRequestException ex)
+            catch
             {
-                MessageBox.Show("Error de conexión con el servidor: " + ex.Message);
+                // Ignorar errores temporales de conexión
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error inesperado: " + ex.Message);
-            }
+        }
+
+        private void AplicarFiltroYActualizarGrid()
+        {
+            string filtro = tbBusqueda.Text.Trim().ToLower();
+
+            var listaFiltrada = string.IsNullOrEmpty(filtro)
+                ? listaUsuariosOriginal
+                : listaUsuariosOriginal.FindAll(u =>
+                    (u.NombreCompleto?.ToLower().Contains(filtro) ?? false) ||
+                    (u.Email?.ToLower().Contains(filtro) ?? false) ||
+                    (u.Rol?.ToLower().Contains(filtro) ?? false)
+                );
+
+            ActualizarGrid(listaFiltrada);
         }
 
         private void ActualizarGrid(List<Usuario> lista)
@@ -123,17 +162,12 @@ namespace PeluqueriAPP
 
             var listaParaGrid = lista.ConvertAll(u =>
             {
-                string nombreCompleto = u.NombreCompleto ?? "";
-
-                string nombre = "";
-                string apellidos = "";
-
-                if (!string.IsNullOrEmpty(nombreCompleto))
+                string nombre = "", apellidos = "";
+                if (!string.IsNullOrEmpty(u.NombreCompleto))
                 {
-                    var partes = nombreCompleto.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    var partes = u.NombreCompleto.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                     if (partes.Length > 0) nombre = partes[0];
-                    if (partes.Length > 1)
-                        apellidos = string.Join(' ', partes, 1, partes.Length - 1);
+                    if (partes.Length > 1) apellidos = string.Join(' ', partes, 1, partes.Length - 1);
                 }
 
                 string rol = u.Rol?.Replace("ROLE_", "").ToUpper() ?? "DESCONOCIDO";
@@ -146,76 +180,24 @@ namespace PeluqueriAPP
                     u.Email,
                     Rol = rol
                 };
-            }).ToList();
+            });
 
             dgvAdmins.DataSource = listaParaGrid;
-
-            if (dgvAdmins.Columns["Id"] != null)
-                dgvAdmins.Columns["Id"].Visible = false;
         }
 
         private void TbBusqueda_TextChanged(object sender, EventArgs e)
         {
-            string filtro = tbBusqueda.Text.Trim().ToLower();
-
-            var filtrados = listaUsuariosOriginal.FindAll(u =>
-                (u.NombreCompleto?.ToLower().Contains(filtro) ?? false) ||
-                (u.Email?.ToLower().Contains(filtro) ?? false) ||
-                (u.Rol?.ToLower().Contains(filtro) ?? false)
-            );
-
-            ActualizarGrid(filtrados);
+            AplicarFiltroYActualizarGrid();
         }
+
+        // ============================
+        // CRUD (añadir, editar, borrar)
+        // ============================
 
         private async void BtnAnyadir_Click(object sender, EventArgs e)
         {
-            AnyadirUsuario form = new AnyadirUsuario();
-
-            if (form.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    httpClient.DefaultRequestHeaders.Clear();
-                    httpClient.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", Session.AccessToken);
-
-                    var response = await httpClient.PostAsJsonAsync(API_BASE_URL, form.NuevoUsuario);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        MessageBox.Show("Usuario añadido correctamente.");
-                        await CargarUsuarios();
-                    }
-                    else
-                    {
-                        var contenido = await response.Content.ReadAsStringAsync();
-                        MessageBox.Show($"Error al añadir usuario: {response.StatusCode}\n{contenido}");
-                    }
-                }
-                catch (HttpRequestException ex)
-                {
-                    MessageBox.Show("Error de conexión: " + ex.Message);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error inesperado: " + ex.Message);
-                }
-            }
-        }
-
-        private async void BtnEditar_Click(object sender, EventArgs e)
-        {
-            if (dgvAdmins.SelectedRows.Count == 0) return;
-
-            var row = dgvAdmins.SelectedRows[0];
-            long id = Convert.ToInt64(row.Cells["Id"].Value);
-
-            var usuario = listaUsuariosOriginal.Find(u => u.Id == id);
-            if (usuario == null) return;
-
-            AnyadirUsuario form = new AnyadirUsuario(usuario);
-
-            if (form.ShowDialog() != DialogResult.OK) return;
+            using var selector = new SeleccionarTipoUsuario();
+            if (selector.ShowDialog() != DialogResult.OK) return;
 
             try
             {
@@ -223,22 +205,85 @@ namespace PeluqueriAPP
                 httpClient.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
-                var response = await httpClient.PutAsJsonAsync($"{API_BASE_URL}{id}", form.NuevoUsuario);
+                switch (selector.TipoSeleccionado)
+                {
+                    /*case "Admin":
+                        {
+                            using var form = new AnyadirAdmin();
+                            if (form.ShowDialog() != DialogResult.OK) return;
+                            break;*/
+
+
+                    case "Grupo":
+                        {
+                            using var form = new AnyadirGrupo();
+                            if (form.ShowDialog() != DialogResult.OK) return;
+                            break;
+                        }
+
+                    case "Cliente":
+                        {
+                            using var form = new AnyadirUsuario();
+                            if (form.ShowDialog() != DialogResult.OK) return;
+                            break; 
+                        } 
+                }
+                
+
+                await RefrescarUsuarios();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error inesperado: " + ex.Message);
+            }
+        }
+
+
+        private async void BtnEditar_Click(object sender, EventArgs e)
+        {
+            if (dgvAdmins.SelectedRows.Count == 0) return;
+
+            var row = dgvAdmins.SelectedRows[0];
+            long id = Convert.ToInt64(row.Cells["Id"].Value);
+            var usuario = listaUsuariosOriginal.Find(u => u.Id == id);
+            if (usuario == null) return;
+
+            AnyadirUsuario form = new AnyadirUsuario(usuario);
+            if (form.ShowDialog() != DialogResult.OK) return;
+
+            string url = usuario.Rol switch
+            {
+                "ROLE_ADMIN" => $"http://localhost:8080/api/admin/{id}",
+                "ROLE_CLIENTE" => $"http://localhost:8080/api/clientes/{id}",
+                "ROLE_GRUPO" => $"http://localhost:8080/api/grupos/{id}",
+                _ => throw new Exception("Rol no válido")
+            };
+
+            var usuarioEditado = new
+            {
+                nombreCompleto = form.Nombre + " " + form.Apellidos,
+                email = form.Email,
+                role = form.Rol
+            };
+
+            try
+            {
+                httpClient.DefaultRequestHeaders.Clear();
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", Session.AccessToken);
+
+                var response = await httpClient.PutAsJsonAsync(url, usuarioEditado);
 
                 if (response.IsSuccessStatusCode)
                 {
                     MessageBox.Show("Usuario editado correctamente.");
-                    await CargarUsuarios();
+                    await RefrescarUsuarios();
                 }
                 else
                 {
                     var contenido = await response.Content.ReadAsStringAsync();
                     MessageBox.Show($"Error al editar usuario: {response.StatusCode}\n{contenido}");
                 }
-            }
-            catch (HttpRequestException ex)
-            {
-                MessageBox.Show("Error de conexión: " + ex.Message);
             }
             catch (Exception ex)
             {
@@ -252,9 +297,18 @@ namespace PeluqueriAPP
 
             var row = dgvAdmins.SelectedRows[0];
             long id = Convert.ToInt64(row.Cells["Id"].Value);
+            var usuario = listaUsuariosOriginal.Find(u => u.Id == id);
 
             var confirm = MessageBox.Show("¿Eliminar este usuario?", "Confirmar", MessageBoxButtons.YesNo);
             if (confirm != DialogResult.Yes) return;
+
+            string url = usuario.Rol switch
+            {
+                "ROLE_ADMIN" => $"http://localhost:8080/api/admin/{id}",
+                "ROLE_CLIENTE" => $"http://localhost:8080/api/clientes/{id}",
+                "ROLE_GRUPO" => $"http://localhost:8080/api/grupos/{id}",
+                _ => throw new Exception("Rol no válido")
+            };
 
             try
             {
@@ -262,12 +316,12 @@ namespace PeluqueriAPP
                 httpClient.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
-                var response = await httpClient.DeleteAsync($"{API_BASE_URL}{id}");
+                var response = await httpClient.DeleteAsync(url);
 
                 if (response.IsSuccessStatusCode)
                 {
                     MessageBox.Show("Usuario eliminado correctamente.");
-                    await CargarUsuarios();
+                    await RefrescarUsuarios();
                 }
                 else
                 {
@@ -275,43 +329,10 @@ namespace PeluqueriAPP
                     MessageBox.Show($"Error al eliminar usuario: {response.StatusCode}\n{contenido}");
                 }
             }
-            catch (HttpRequestException ex)
-            {
-                MessageBox.Show("Error de conexión: " + ex.Message);
-            }
             catch (Exception ex)
             {
                 MessageBox.Show("Error inesperado: " + ex.Message);
             }
-        }
-
-        private void lblHomeAdmin_Click(object sender, EventArgs e)
-        {
-            Home nuevaVentana = new Home();
-            nuevaVentana.Show();
-            this.Close();
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblTitulo_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblServicios_Click(object sender, EventArgs e)
-        {
-            Servicios nuevaVentana = new Servicios();
-            nuevaVentana.Show();
-            this.Close();
         }
     }
 }
