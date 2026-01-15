@@ -1,16 +1,16 @@
 ﻿using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Windows.Forms;
 
 namespace PeluqueriAPP
 {
     public partial class AnyadirUsuario : Form
     {
-        private string tipoUsuario;
+        private readonly HttpClient httpClient = new HttpClient();
+        private string tipoUsuario; // Admin, Cliente, Grupo
 
-        // Constructor para CREAR usuario genérico (Admin por defecto)
-        public AnyadirUsuario() : this("Usuario") { }
-
-        // Constructor para CREAR usuario de tipo específico
         public AnyadirUsuario(string tipo)
         {
             InitializeComponent();
@@ -20,11 +20,10 @@ namespace PeluqueriAPP
             btnAnyadir.Text = $"AÑADIR {tipo.ToUpper()}";
 
             ConfigurarCampos(tipo);
-
             btnAnyadir.Click += BtnAnyadir_Click;
         }
 
-        // Constructor para EDITAR usuario existente
+        // Constructor para EDITAR usuario
         public AnyadirUsuario(Usuario usuario)
         {
             if (usuario == null) throw new ArgumentNullException(nameof(usuario));
@@ -39,7 +38,6 @@ namespace PeluqueriAPP
 
             ConfigurarCampos(tipoUsuario);
 
-            // Rellenar campos existentes
             tbNombre.Text = usuario.NombreCompleto;
             tbEmail.Text = usuario.Email;
             if (tbContrasena.Visible) tbContrasena.Text = usuario.Contrasena;
@@ -52,7 +50,6 @@ namespace PeluqueriAPP
 
         private void ConfigurarCampos(string tipo)
         {
-            // Todos visibles por defecto
             tbNombre.Visible = lblNombre.Visible = true;
             tbEmail.Visible = lblEmail.Visible = true;
             tbContrasena.Visible = lblContrasena.Visible = true;
@@ -78,46 +75,71 @@ namespace PeluqueriAPP
             }
         }
 
-        private void BtnAnyadir_Click(object sender, EventArgs e)
+        private async void BtnAnyadir_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(tbNombre.Text) || string.IsNullOrWhiteSpace(tbEmail.Text))
+            // Validación básica
+            if (string.IsNullOrWhiteSpace(tbNombre.Text) ||
+                string.IsNullOrWhiteSpace(tbEmail.Text))
             {
                 MessageBox.Show("Nombre y Email son obligatorios.");
                 return;
             }
 
-            DialogResult = DialogResult.OK;
-            Close();
+            // Crear request según tipo
+            var request = new
+            {
+                nombreCompleto = tbNombre.Text.Trim(),
+                email = tbEmail.Text.Trim(),
+                password = tbContrasena.Visible ? tbContrasena.Text.Trim() : null,
+                telefono = tbTelefono.Visible ? tbTelefono.Text.Trim() : null,
+                alergenos = tbAlergenos.Visible ? tbAlergenos.Text.Trim() : null,
+                observaciones = tbObservaciones.Visible ? tbObservaciones.Text.Trim() : null
+            };
+
+            string url = tipoUsuario switch
+            {
+                "Cliente" => "http://localhost:8080/api/auth/register/cliente",
+                "Admin" => "http://localhost:8080/api/auth/register/admin",
+                "Grupo" => "http://localhost:8080/api/auth/register/grupo",
+                _ => throw new Exception("Tipo de usuario no válido")
+            };
+
+            try
+            {
+                httpClient.DefaultRequestHeaders.Clear();
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", Session.AccessToken);
+
+                var response = await httpClient.PostAsJsonAsync(url, request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show($"{tipoUsuario} añadido correctamente");
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
+                else
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error {response.StatusCode}\n{error}");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error de conexión:\n" + ex.Message);
+            }
         }
 
         // ===========================
         // PROPIEDADES PÚBLICAS PARA Admins.cs
         // ===========================
-
         public string Nombre => tbNombre.Text.Trim();
-
-        public string Apellidos
-        {
-            get
-            {
-                var partes = tbNombre.Text.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                return partes.Length > 1 ? string.Join(' ', partes, 1, partes.Length - 1) : "";
-            }
-        }
-
         public string Email => tbEmail.Text.Trim();
-
-        public string Username => tbNombre.Text.Trim(); // puedes cambiar si tienes un TextBox específico
-
+        public string Contrasena => tbContrasena.Visible ? tbContrasena.Text.Trim() : null;
+        public string Telefono => tbTelefono.Visible ? tbTelefono.Text.Trim() : null;
+        public string Alergenos => tbAlergenos.Visible ? tbAlergenos.Text.Trim() : null;
+        public string Observaciones => tbObservaciones.Visible ? tbObservaciones.Text.Trim() : null;
         public string Rol => tipoUsuario == "Cliente" ? "ROLE_CLIENTE" :
                              tipoUsuario == "Admin" ? "ROLE_ADMIN" : "ROLE_GRUPO";
-
-        public string Contrasena => tbContrasena.Visible ? tbContrasena.Text.Trim() : null;
-
-        public string Telefono => tbTelefono.Visible ? tbTelefono.Text.Trim() : null;
-
-        public string Alergenos => tbAlergenos.Visible ? tbAlergenos.Text.Trim() : null;
-
-        public string Observaciones => tbObservaciones.Visible ? tbObservaciones.Text.Trim() : null;
     }
 }
