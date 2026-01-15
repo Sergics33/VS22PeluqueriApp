@@ -168,41 +168,36 @@ namespace PeluqueriAPP
 
                     case "Cliente":
                     case "Admin":
-                        using (var formUsuario = new AnyadirUsuario(selector.TipoSeleccionado))
                         {
-                            if (formUsuario.ShowDialog() != DialogResult.OK) return;
+                            using var form = new AnyadirAdmin();
+                            if (form.ShowDialog() != DialogResult.OK) return;
 
-                            // Crear request para API
-                            var request = new
+                            var nuevoAdmin = new
                             {
-                                nombreCompleto = formUsuario.Nombre,
-                                email = formUsuario.Email,
-                                password = formUsuario.Contrasena,
-                                telefono = formUsuario.Telefono,
-                                alergenos = formUsuario.Alergenos,
-                                observaciones = formUsuario.Observaciones
+                                nombreCompleto = form.Nombre,
+                                email = form.Email,
+                                password = form.Contrasena,
+                                especialidad = form.Especialidad
                             };
 
-                            string url = selector.TipoSeleccionado switch
+
+                            var response = await httpClient.PostAsJsonAsync(
+                                "http://localhost:8080/api/auth/register/admin",
+                                nuevoAdmin
+                            );
+
+                            if (response.IsSuccessStatusCode)
                             {
-                                "Cliente" => "http://localhost:8080/api/auth/register/cliente",
-                                "Admin" => "http://localhost:8080/api/auth/register/admin",
-                                _ => throw new Exception("Tipo no válido")
-                            };
-
-                            httpClient.DefaultRequestHeaders.Clear();
-                            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
-
-                            var response = await httpClient.PostAsJsonAsync(url, request);
-
-                            if (!response.IsSuccessStatusCode)
+                                MessageBox.Show("Admin añadido correctamente.");
+                                await RefrescarUsuarios();
+                            }
+                            else
                             {
-                                string error = await response.Content.ReadAsStringAsync();
-                                MessageBox.Show($"Error {response.StatusCode}\n{error}");
-                                return;
+                                string contenido = await response.Content.ReadAsStringAsync();
+                                MessageBox.Show($"Error al añadir Admin: {response.StatusCode}\n{contenido}");
                             }
 
-                            MessageBox.Show($"{selector.TipoSeleccionado} añadido correctamente.");
+                            break;
                         }
                         break;
                 }

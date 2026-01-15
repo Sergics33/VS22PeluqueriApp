@@ -77,16 +77,14 @@ namespace PeluqueriAPP
 
         private async void BtnAnyadir_Click(object sender, EventArgs e)
         {
-            // Validación básica
-            if (string.IsNullOrWhiteSpace(tbNombre.Text) ||
-                string.IsNullOrWhiteSpace(tbEmail.Text))
+            if (string.IsNullOrWhiteSpace(tbNombre.Text) || string.IsNullOrWhiteSpace(tbEmail.Text))
             {
                 MessageBox.Show("Nombre y Email son obligatorios.");
                 return;
             }
 
-            // Crear request según tipo
-            var request = new
+            // Preparar el objeto según tipo de usuario
+            var nuevoUsuario = new
             {
                 nombreCompleto = tbNombre.Text.Trim(),
                 email = tbEmail.Text.Trim(),
@@ -106,29 +104,39 @@ namespace PeluqueriAPP
 
             try
             {
+                using var httpClient = new HttpClient();
                 httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
-                var response = await httpClient.PostAsJsonAsync(url, request);
+                var response = await httpClient.PostAsJsonAsync(url, nuevoUsuario);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show($"{tipoUsuario} añadido correctamente");
+                    MessageBox.Show($"{tipoUsuario} añadido correctamente.");
                     DialogResult = DialogResult.OK;
                     Close();
                 }
                 else
                 {
-                    string error = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Error {response.StatusCode}\n{error}");
+                    // Capturamos error de email duplicado
+                    var contenido = await response.Content.ReadAsStringAsync();
+                    if (response.StatusCode == System.Net.HttpStatusCode.BadRequest &&
+                        contenido.Contains("email") && contenido.Contains("ya existe"))
+                    {
+                        MessageBox.Show("Error: ya existe un usuario con este email. Cambia el email e intenta de nuevo.");
+                        return; // no cerrar formulario
+                    }
+
+                    MessageBox.Show($"Error al añadir usuario: {response.StatusCode}\n{contenido}");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error de conexión:\n" + ex.Message);
+                MessageBox.Show("Error inesperado: " + ex.Message);
             }
         }
+
 
         // ===========================
         // PROPIEDADES PÚBLICAS PARA Admins.cs
