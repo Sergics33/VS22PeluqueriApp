@@ -310,5 +310,24 @@ namespace PeluqueriAPP
                 MessageBox.Show("Error inesperado: " + ex.Message);
             }
         }
+
+        private void lblServicios_Click(object sender, EventArgs e)
+        {
+            Servicios nuevaVentana = new Servicios();
+            nuevaVentana.Show();
+            this.Close();
+        }
+
+        private void lblHomeAdmin_Click(object sender, EventArgs e)
+        {
+            Home nuevaVentana = new Home();
+            nuevaVentana.Show();
+            this.Close();
+        }
+
+        private void dgvAdmins_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

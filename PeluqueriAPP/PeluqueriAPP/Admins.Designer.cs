@@ -227,6 +227,7 @@
             lblServicios.Size = new Size(88, 25);
             lblServicios.TabIndex = 7;
             lblServicios.Text = "Servicios";
+            lblServicios.Click += lblServicios_Click;
             // 
             // label9
             // 

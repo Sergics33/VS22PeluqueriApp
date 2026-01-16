@@ -1,0 +1,124 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace PeluqueriAPP
+{
+    public partial class Citas : Form
+    {
+        private const string API_CITAS_URL = "http://localhost:8080/api/citas/";
+        private HttpClient httpClient = new HttpClient();
+        private List<Cita> listaCitasOriginal = new();
+
+        public Citas()
+        {
+            InitializeComponent();
+
+            dgvCitas.AutoGenerateColumns = false;
+            ConfigurarColumnas();
+        }
+
+        private void ConfigurarColumnas()
+        {
+            dgvCitas.Columns.Clear();
+
+            dgvCitas.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "ID",
+                DataPropertyName = "Id",
+                Name = "IdCol",
+                Visible = false
+            });
+
+            dgvCitas.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Fecha",
+                DataPropertyName = "Fecha",
+                Name = "FechaCol"
+            });
+
+            dgvCitas.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Hora",
+                DataPropertyName = "Hora",
+                Name = "HoraCol"
+            });
+
+            dgvCitas.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Cliente",
+                DataPropertyName = "Cliente",
+                Name = "ClienteCol"
+            });
+
+            dgvCitas.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Servicio",
+                DataPropertyName = "Servicio",
+                Name = "ServicioCol"
+            });
+
+            dgvCitas.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Aula",
+                DataPropertyName = "Aula",
+                Name = "AulaCol"
+            });
+        }
+
+        private async void Citas_Load(object? sender, EventArgs e)
+        {
+            await CargarCitas();
+        }
+
+        private async Task CargarCitas()
+        {
+            if (string.IsNullOrEmpty(Session.AccessToken))
+            {
+                MessageBox.Show("Sesión no autenticada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                httpClient.DefaultRequestHeaders.Clear();
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", Session.AccessToken);
+
+                var citas = await httpClient.GetFromJsonAsync<List<Cita>>(API_CITAS_URL);
+
+                listaCitasOriginal = citas ?? new List<Cita>();
+                ActualizarGrid(listaCitasOriginal);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar citas: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ActualizarGrid(List<Cita> citas)
+        {
+            var listaParaGrid = new List<object>();
+
+            foreach (var c in citas)
+            {
+                listaParaGrid.Add(new
+                {
+                    Id = c.Id,
+                    Fecha = c.FechaHoraInicio.ToString("dd/MM/yyyy"),
+                    Hora = c.FechaHoraInicio.ToString("HH:mm"),
+                    Cliente = c.Cliente?.NombreCompleto ?? "",
+                    Servicio = c.Agenda?.Servicio?.Nombre ?? "",
+                    Aula = c.Agenda?.Aula ?? ""
+                });
+            }
+
+            dgvCitas.DataSource = null;
+            dgvCitas.DataSource = listaParaGrid;
+        }
+    }
+}

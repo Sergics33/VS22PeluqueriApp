@@ -509,6 +509,9 @@ namespace PeluqueriAPP
 
         private void lblCitas_Click(object sender, EventArgs e)
         {
+            Citas anterior = new Citas();
+            anterior.Show();
+            Close();
         }
 
         

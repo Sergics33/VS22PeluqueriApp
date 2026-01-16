@@ -240,9 +240,9 @@
             lblUbi.ForeColor = SystemColors.ActiveCaptionText;
             lblUbi.Location = new Point(388, 18);
             lblUbi.Name = "lblUbi";
-            lblUbi.Size = new Size(56, 20);
+            lblUbi.Size = new Size(71, 20);
             lblUbi.TabIndex = 22;
-            lblUbi.Text = "Admin";
+            lblUbi.Text = "Servicios";
             // 
             // lblBernatS
             // 
