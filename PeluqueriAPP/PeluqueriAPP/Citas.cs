@@ -120,7 +120,44 @@ namespace PeluqueriAPP
             dgvCitas.DataSource = null;
             dgvCitas.DataSource = listaParaGrid;
         }
+        private void lblHome_Click(object sender, EventArgs e)
+        {
+            Home anterior = new Home();
+            anterior.Show();
+            Close();
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+            Admins nuevaVentana = new Admins();
+            nuevaVentana.Show();
+            this.Close();
+        }
+
+        private void lblHome_Click_1(object sender, EventArgs e)
+        {
+            Home nuevaVentana = new Home();
+            nuevaVentana.Show();
+            this.Close();
+        }
+
+        private void lblServicios_Click(object sender, EventArgs e)
+        {
+            Servicios nuevaVentana = new Servicios();
+            nuevaVentana.Show();
+            this.Close();
+        }
+
+        private void lblAgenda_Click(object sender, EventArgs e)
+        {
+            Agendas nuevaVentana = new Agendas();
+            nuevaVentana.Show();
+            this.Close();
+        }
     }
+
+
+
 
     // Clase simplificada para consumir el DTO
     public class Cita

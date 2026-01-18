@@ -391,5 +391,12 @@ namespace PeluqueriAPP
         {
 
         }
+
+        private void lblAgenda_Click(object sender, EventArgs e)
+        {
+            Admins nuevaVentana = new Admins();
+            nuevaVentana.Show();
+            this.Close();
+        }
     }
 }

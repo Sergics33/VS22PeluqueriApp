@@ -60,6 +60,7 @@ namespace PeluqueriAPP
             label2 = new Label();
             lblUbi = new Label();
             lblBernatS = new Label();
+            lblAgenda = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)IconoPerfil).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconoFP).BeginInit();
@@ -77,6 +78,7 @@ namespace PeluqueriAPP
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(40, 40, 40);
+            panel1.Controls.Add(lblAgenda);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(IconoPerfil);
             panel1.Controls.Add(lblCerrarSesion);
@@ -413,6 +415,18 @@ namespace PeluqueriAPP
             lblBernatS.Text = "Bernat Sarriá >";
             lblBernatS.Click += lblBernatS_Click;
             // 
+            // lblAgenda
+            // 
+            lblAgenda.AutoSize = true;
+            lblAgenda.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAgenda.ForeColor = Color.White;
+            lblAgenda.Location = new Point(39, 351);
+            lblAgenda.Name = "lblAgenda";
+            lblAgenda.Size = new Size(77, 25);
+            lblAgenda.TabIndex = 20;
+            lblAgenda.Text = "Horario";
+            lblAgenda.Click += lblAgenda_Click;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -594,5 +608,6 @@ namespace PeluqueriAPP
         private PictureBox pictureBox2;
         private PictureBox pictureBox3;
         private PictureBox pictureBox4;
+        private Label lblAgenda;
     }
 }

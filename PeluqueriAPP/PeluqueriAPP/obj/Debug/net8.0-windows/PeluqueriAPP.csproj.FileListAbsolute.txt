@@ -195,3 +195,4 @@ C:\Users\sergi\Desktop\probar\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Deb
 C:\Users\sergi\Desktop\probar\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.pdb
 C:\Users\sergi\Desktop\probar\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.genruntimeconfig.cache
 C:\Users\sergi\Desktop\probar\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\ref\PeluqueriAPP.dll
+C:\Users\sergi\Desktop\probar\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.Agendas.resources

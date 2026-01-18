@@ -1,9 +1,16 @@
 ﻿namespace PeluqueriAPP
 {
-    partial class Servicios
+    partial class Agendas
     {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -13,9 +20,20 @@
             base.Dispose(disposing);
         }
 
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Servicios));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Agendas));
+            label4 = new Label();
+            lblTitulo = new Label();
+            label2 = new Label();
+            lblUbi = new Label();
+            lblBernatS = new Label();
             panel1 = new Panel();
             label7 = new Label();
             IconoPerfil = new PictureBox();
@@ -25,43 +43,82 @@
             label9 = new Label();
             lblServicios = new Label();
             lblCitas = new Label();
-            lblHome = new Label();
+            lblHomeAdmin = new Label();
             lblGestion = new Label();
             iconoFP = new PictureBox();
             label3 = new Label();
             lblPanel = new Label();
             lblBernat = new Label();
-            label2 = new Label();
-            lblUbi = new Label();
-            lblBernatS = new Label();
-            label4 = new Label();
-            lblTitulo = new Label();
-            btnAnyadir = new Button();
-            panel2 = new Panel();
-            dgvServicios = new DataGridView();
-            ID = new DataGridViewTextBoxColumn();
-            Nombre = new DataGridViewTextBoxColumn();
-            Descripcion = new DataGridViewTextBoxColumn();
-            Duración = new DataGridViewTextBoxColumn();
-            Precio = new DataGridViewTextBoxColumn();
             panel3 = new Panel();
             btnBorrar = new Button();
             btnEditar = new Button();
             tbBusqueda = new TextBox();
             lblBuscar = new Label();
-            lblAgenda = new Label();
+            btnAnyadir = new Button();
+            panel2 = new Panel();
+            dgvServicios = new DataGridView();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)IconoPerfil).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconoFP).BeginInit();
+            panel3.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvServicios).BeginInit();
-            panel3.SuspendLayout();
             SuspendLayout();
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.ForeColor = SystemColors.ControlDark;
+            label4.Location = new Point(281, 103);
+            label4.Name = "label4";
+            label4.Size = new Size(162, 17);
+            label4.TabIndex = 63;
+            label4.Text = "Administración de Horario";
+            // 
+            // lblTitulo
+            // 
+            lblTitulo.AutoSize = true;
+            lblTitulo.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitulo.Location = new Point(276, 66);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(117, 37);
+            lblTitulo.TabIndex = 62;
+            lblTitulo.Text = "Horario";
+            // 
+            // label2
+            // 
+            label2.BackColor = Color.FromArgb(177, 177, 177);
+            label2.Location = new Point(226, 43);
+            label2.Name = "label2";
+            label2.Size = new Size(1045, 1);
+            label2.TabIndex = 59;
+            // 
+            // lblUbi
+            // 
+            lblUbi.AutoSize = true;
+            lblUbi.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblUbi.ForeColor = SystemColors.ActiveCaptionText;
+            lblUbi.Location = new Point(380, 23);
+            lblUbi.Name = "lblUbi";
+            lblUbi.Size = new Size(62, 20);
+            lblUbi.TabIndex = 61;
+            lblUbi.Text = "Horario";
+            // 
+            // lblBernatS
+            // 
+            lblBernatS.AutoSize = true;
+            lblBernatS.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblBernatS.ForeColor = SystemColors.ControlDark;
+            lblBernatS.Location = new Point(276, 22);
+            lblBernatS.Name = "lblBernatS";
+            lblBernatS.Size = new Size(108, 20);
+            lblBernatS.TabIndex = 60;
+            lblBernatS.Text = "Bernat Sarriá >";
             // 
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(40, 40, 40);
-            panel1.Controls.Add(lblAgenda);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(IconoPerfil);
             panel1.Controls.Add(lblCerrarSesion);
@@ -70,26 +127,26 @@
             panel1.Controls.Add(label9);
             panel1.Controls.Add(lblServicios);
             panel1.Controls.Add(lblCitas);
-            panel1.Controls.Add(lblHome);
+            panel1.Controls.Add(lblHomeAdmin);
             panel1.Controls.Add(lblGestion);
             panel1.Controls.Add(iconoFP);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(lblPanel);
             panel1.Controls.Add(lblBernat);
-            panel1.Location = new Point(0, 0);
+            panel1.Location = new Point(-2, 1);
             panel1.Name = "panel1";
             panel1.Size = new Size(228, 633);
-            panel1.TabIndex = 2;
+            panel1.TabIndex = 58;
             // 
             // label7
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(39, 315);
+            label7.Location = new Point(39, 311);
             label7.Name = "label7";
             label7.Size = new Size(85, 25);
-            label7.TabIndex = 45;
+            label7.TabIndex = 19;
             label7.Text = "Usuarios";
             label7.Click += label7_Click;
             // 
@@ -147,11 +204,12 @@
             lblServicios.AutoSize = true;
             lblServicios.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblServicios.ForeColor = Color.White;
-            lblServicios.Location = new Point(39, 277);
+            lblServicios.Location = new Point(39, 276);
             lblServicios.Name = "lblServicios";
             lblServicios.Size = new Size(88, 25);
             lblServicios.TabIndex = 7;
             lblServicios.Text = "Servicios";
+            lblServicios.Click += lblServicios_Click;
             // 
             // lblCitas
             // 
@@ -163,18 +221,19 @@
             lblCitas.Size = new Size(54, 25);
             lblCitas.TabIndex = 6;
             lblCitas.Text = "Citas";
+            lblCitas.Click += lblCitas_Click;
             // 
-            // lblHome
+            // lblHomeAdmin
             // 
-            lblHome.AutoSize = true;
-            lblHome.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblHome.ForeColor = Color.White;
-            lblHome.Location = new Point(39, 207);
-            lblHome.Name = "lblHome";
-            lblHome.Size = new Size(64, 25);
-            lblHome.TabIndex = 5;
-            lblHome.Text = "Home";
-            lblHome.Click += lblHome_Click;
+            lblHomeAdmin.AutoSize = true;
+            lblHomeAdmin.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblHomeAdmin.ForeColor = Color.White;
+            lblHomeAdmin.Location = new Point(39, 207);
+            lblHomeAdmin.Name = "lblHomeAdmin";
+            lblHomeAdmin.Size = new Size(64, 25);
+            lblHomeAdmin.TabIndex = 5;
+            lblHomeAdmin.Text = "Home";
+            lblHomeAdmin.Click += lblHomeAdmin_Click;
             // 
             // lblGestion
             // 
@@ -227,77 +286,79 @@
             lblBernat.TabIndex = 0;
             lblBernat.Text = "Bernat Sarriá";
             // 
-            // label2
+            // panel3
             // 
-            label2.BackColor = Color.FromArgb(177, 177, 177);
-            label2.Location = new Point(234, 38);
-            label2.Name = "label2";
-            label2.Size = new Size(1045, 1);
-            label2.TabIndex = 20;
+            panel3.BackColor = SystemColors.AppWorkspace;
+            panel3.Controls.Add(btnBorrar);
+            panel3.Controls.Add(btnEditar);
+            panel3.Controls.Add(tbBusqueda);
+            panel3.Controls.Add(lblBuscar);
+            panel3.Controls.Add(btnAnyadir);
+            panel3.Location = new Point(242, 152);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(788, 83);
+            panel3.TabIndex = 57;
             // 
-            // lblUbi
+            // btnBorrar
             // 
-            lblUbi.AutoSize = true;
-            lblUbi.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblUbi.ForeColor = SystemColors.ActiveCaptionText;
-            lblUbi.Location = new Point(388, 18);
-            lblUbi.Name = "lblUbi";
-            lblUbi.Size = new Size(71, 20);
-            lblUbi.TabIndex = 22;
-            lblUbi.Text = "Servicios";
+            btnBorrar.BackColor = Color.White;
+            btnBorrar.FlatStyle = FlatStyle.Flat;
+            btnBorrar.ForeColor = SystemColors.ControlText;
+            btnBorrar.Location = new Point(654, 42);
+            btnBorrar.Name = "btnBorrar";
+            btnBorrar.Size = new Size(120, 23);
+            btnBorrar.TabIndex = 45;
+            btnBorrar.Text = "Borrar en el horario";
+            btnBorrar.UseVisualStyleBackColor = false;
             // 
-            // lblBernatS
+            // btnEditar
             // 
-            lblBernatS.AutoSize = true;
-            lblBernatS.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblBernatS.ForeColor = SystemColors.ControlDark;
-            lblBernatS.Location = new Point(284, 17);
-            lblBernatS.Name = "lblBernatS";
-            lblBernatS.Size = new Size(108, 20);
-            lblBernatS.TabIndex = 21;
-            lblBernatS.Text = "Bernat Sarriá >";
+            btnEditar.BackColor = Color.White;
+            btnEditar.FlatStyle = FlatStyle.Flat;
+            btnEditar.ForeColor = SystemColors.ControlText;
+            btnEditar.Location = new Point(535, 42);
+            btnEditar.Name = "btnEditar";
+            btnEditar.Size = new Size(108, 23);
+            btnEditar.TabIndex = 44;
+            btnEditar.Text = "Editar el horario";
+            btnEditar.UseVisualStyleBackColor = false;
             // 
-            // label4
+            // tbBusqueda
             // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.ForeColor = SystemColors.ControlDark;
-            label4.Location = new Point(289, 98);
-            label4.Name = "label4";
-            label4.Size = new Size(167, 17);
-            label4.TabIndex = 24;
-            label4.Text = "Administración de servicios";
+            tbBusqueda.Location = new Point(17, 42);
+            tbBusqueda.Name = "tbBusqueda";
+            tbBusqueda.Size = new Size(388, 23);
+            tbBusqueda.TabIndex = 43;
             // 
-            // lblTitulo
+            // lblBuscar
             // 
-            lblTitulo.AutoSize = true;
-            lblTitulo.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTitulo.Location = new Point(284, 61);
-            lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(132, 37);
-            lblTitulo.TabIndex = 23;
-            lblTitulo.Text = "Servicios";
+            lblBuscar.AutoSize = true;
+            lblBuscar.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold);
+            lblBuscar.Location = new Point(17, 14);
+            lblBuscar.Name = "lblBuscar";
+            lblBuscar.Size = new Size(189, 25);
+            lblBuscar.TabIndex = 42;
+            lblBuscar.Text = "Buscar en el horario";
             // 
             // btnAnyadir
             // 
             btnAnyadir.BackColor = Color.White;
             btnAnyadir.FlatStyle = FlatStyle.Flat;
             btnAnyadir.ForeColor = SystemColors.ControlText;
-            btnAnyadir.Location = new Point(431, 42);
+            btnAnyadir.Location = new Point(417, 42);
             btnAnyadir.Name = "btnAnyadir";
             btnAnyadir.Size = new Size(105, 23);
             btnAnyadir.TabIndex = 41;
-            btnAnyadir.Text = "Añadir servicio";
+            btnAnyadir.Text = "Añadir al horario";
             btnAnyadir.UseVisualStyleBackColor = false;
-            btnAnyadir.Click += btnAnyadir_Click;
             // 
             // panel2
             // 
             panel2.Controls.Add(dgvServicios);
-            panel2.Location = new Point(252, 242);
+            panel2.Location = new Point(242, 256);
             panel2.Name = "panel2";
-            panel2.Size = new Size(788, 379);
-            panel2.TabIndex = 42;
+            panel2.Size = new Size(788, 351);
+            panel2.TabIndex = 64;
             // 
             // dgvServicios
             // 
@@ -311,115 +372,14 @@
             dgvServicios.Name = "dgvServicios";
             dgvServicios.ReadOnly = true;
             dgvServicios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvServicios.Size = new Size(788, 379);
-            dgvServicios.TabIndex = 0;
-            dgvServicios.CellContentClick += dgvServicios_CellContentClick;
+            dgvServicios.Size = new Size(788, 351);
+            dgvServicios.TabIndex = 1;
             // 
-            // ID
-            // 
-            ID.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            ID.HeaderText = "ID";
-            ID.Name = "ID";
-            // 
-            // Nombre
-            // 
-            Nombre.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Nombre.HeaderText = "Nombre";
-            Nombre.Name = "Nombre";
-            // 
-            // Descripcion
-            // 
-            Descripcion.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Descripcion.HeaderText = "Descripcion";
-            Descripcion.Name = "Descripcion";
-            // 
-            // Duración
-            // 
-            Duración.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Duración.HeaderText = "Duración";
-            Duración.Name = "Duración";
-            // 
-            // Precio
-            // 
-            Precio.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Precio.HeaderText = "Precio";
-            Precio.Name = "Precio";
-            // 
-            // panel3
-            // 
-            panel3.BackColor = SystemColors.AppWorkspace;
-            panel3.Controls.Add(btnBorrar);
-            panel3.Controls.Add(btnEditar);
-            panel3.Controls.Add(tbBusqueda);
-            panel3.Controls.Add(lblBuscar);
-            panel3.Controls.Add(btnAnyadir);
-            panel3.Location = new Point(252, 149);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(788, 83);
-            panel3.TabIndex = 43;
-            // 
-            // btnBorrar
-            // 
-            btnBorrar.BackColor = Color.White;
-            btnBorrar.FlatStyle = FlatStyle.Flat;
-            btnBorrar.ForeColor = SystemColors.ControlText;
-            btnBorrar.Location = new Point(668, 42);
-            btnBorrar.Name = "btnBorrar";
-            btnBorrar.Size = new Size(97, 23);
-            btnBorrar.TabIndex = 45;
-            btnBorrar.Text = "Borrar servicio";
-            btnBorrar.UseVisualStyleBackColor = false;
-            btnBorrar.Click += btnBorrar_Click;
-            // 
-            // btnEditar
-            // 
-            btnEditar.BackColor = Color.White;
-            btnEditar.FlatStyle = FlatStyle.Flat;
-            btnEditar.ForeColor = SystemColors.ControlText;
-            btnEditar.Location = new Point(554, 42);
-            btnEditar.Name = "btnEditar";
-            btnEditar.Size = new Size(97, 23);
-            btnEditar.TabIndex = 44;
-            btnEditar.Text = "Editar servicio";
-            btnEditar.UseVisualStyleBackColor = false;
-            btnEditar.Click += btnEditar_Click;
-            // 
-            // tbBusqueda
-            // 
-            tbBusqueda.Location = new Point(17, 42);
-            tbBusqueda.Name = "tbBusqueda";
-            tbBusqueda.Size = new Size(388, 23);
-            tbBusqueda.TabIndex = 43;
-            tbBusqueda.TextChanged += tbBusqueda_TextChanged;
-            // 
-            // lblBuscar
-            // 
-            lblBuscar.AutoSize = true;
-            lblBuscar.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblBuscar.Location = new Point(17, 14);
-            lblBuscar.Name = "lblBuscar";
-            lblBuscar.Size = new Size(147, 25);
-            lblBuscar.TabIndex = 42;
-            lblBuscar.Text = "Buscar Servicio";
-            // 
-            // lblAgenda
-            // 
-            lblAgenda.AutoSize = true;
-            lblAgenda.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblAgenda.ForeColor = Color.White;
-            lblAgenda.Location = new Point(39, 352);
-            lblAgenda.Name = "lblAgenda";
-            lblAgenda.Size = new Size(77, 25);
-            lblAgenda.TabIndex = 44;
-            lblAgenda.Text = "Horario";
-            lblAgenda.Click += lblAgenda_Click;
-            // 
-            // Servicios
+            // Agendas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1093, 633);
-            Controls.Add(panel3);
+            ClientSize = new Size(1051, 633);
             Controls.Add(panel2);
             Controls.Add(label4);
             Controls.Add(lblTitulo);
@@ -427,21 +387,30 @@
             Controls.Add(lblUbi);
             Controls.Add(lblBernatS);
             Controls.Add(panel1);
-            Name = "Servicios";
-            Text = "Form2";
+            Controls.Add(panel3);
+            Name = "Agendas";
+            Text = "Agendas";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)IconoPerfil).EndInit();
             ((System.ComponentModel.ISupportInitialize)iconoFP).EndInit();
-            panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dgvServicios).EndInit();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
+            panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvServicios).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
+        #endregion
+
+        private Label label4;
+        private Label lblTitulo;
+        private Label label2;
+        private Label lblUbi;
+        private Label lblBernatS;
         private Panel panel1;
+        private Label label7;
         private PictureBox IconoPerfil;
         private Label lblCerrarSesion;
         private Label lblAdmin;
@@ -449,32 +418,19 @@
         private Label label9;
         private Label lblServicios;
         private Label lblCitas;
-        private Label lblHome;
+        private Label lblHomeAdmin;
         private Label lblGestion;
         private PictureBox iconoFP;
         private Label label3;
         private Label lblPanel;
         private Label lblBernat;
-        private Label label2;
-        private Label lblUbi;
-        private Label lblBernatS;
-        private Label label4;
-        private Label lblTitulo;
+        private Panel panel3;
+        private Button btnBorrar;
+        private Button btnEditar;
+        private TextBox tbBusqueda;
+        private Label lblBuscar;
         private Button btnAnyadir;
         private Panel panel2;
         private DataGridView dgvServicios;
-        private DataGridViewTextBoxColumn ID;
-        private DataGridViewTextBoxColumn Nombre;
-        private DataGridViewTextBoxColumn Descripcion;
-        private DataGridViewTextBoxColumn Duración;
-        private DataGridViewTextBoxColumn Precio;
-        private Panel panel3;
-        private Label lblBuscar;
-        private Button btnBorrar;
-        private Button btnEditar;
-        private TextBox textBox1;
-        private TextBox tbBusqueda;
-        private Label label7;
-        private Label lblAgenda;
     }
 }

@@ -310,5 +310,12 @@ namespace PeluqueriAPP
             anterior.Show();
             Close();
         }
+
+        private void lblAgenda_Click(object sender, EventArgs e)
+        {
+            Admins anterior = new Admins();
+            anterior.Show();
+            Close();
+        }
     }
 }

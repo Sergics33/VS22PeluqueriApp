@@ -46,6 +46,7 @@
             label2 = new Label();
             lblUbi = new Label();
             lblBernatS = new Label();
+            lblAgenda = new Label();
             panel3.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvAdmins).BeginInit();
@@ -292,6 +293,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(40, 40, 40);
+            panel1.Controls.Add(lblAgenda);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(IconoPerfil);
             panel1.Controls.Add(lblCerrarSesion);
@@ -362,6 +364,18 @@
             lblBernatS.TabIndex = 53;
             lblBernatS.Text = "Bernat Sarriá >";
             // 
+            // lblAgenda
+            // 
+            lblAgenda.AutoSize = true;
+            lblAgenda.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAgenda.ForeColor = Color.White;
+            lblAgenda.Location = new Point(39, 346);
+            lblAgenda.Name = "lblAgenda";
+            lblAgenda.Size = new Size(77, 25);
+            lblAgenda.TabIndex = 21;
+            lblAgenda.Text = "Horario";
+            lblAgenda.Click += lblAgenda_Click;
+            // 
             // Admins
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -424,5 +438,6 @@
         private Label label2;
         private Label lblUbi;
         private Label lblBernatS;
+        private Label lblAgenda;
     }
 }
