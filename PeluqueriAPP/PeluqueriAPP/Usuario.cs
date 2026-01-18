@@ -16,4 +16,7 @@ public class Usuario
     public string Telefono { get; set; }
     public string Observaciones { get; set; }
     public string Alergenos { get; set; }
+
+    public string Clase { get; set; }
+
 }

@@ -63,18 +63,79 @@ namespace PeluqueriAPP
             try
             {
                 httpClient.DefaultRequestHeaders.Clear();
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
-
-                var admins = await httpClient.GetFromJsonAsync<List<Usuario>>("http://localhost:8080/api/admin/");
-                var clientes = await httpClient.GetFromJsonAsync<List<Usuario>>("http://localhost:8080/api/clientes/");
-                var grupos = await httpClient.GetFromJsonAsync<List<Usuario>>("http://localhost:8080/api/grupos/");
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
                 var nuevaLista = new List<Usuario>();
-                if (admins != null) nuevaLista.AddRange(admins);
-                if (clientes != null) nuevaLista.AddRange(clientes);
-                if (grupos != null) nuevaLista.AddRange(grupos);
 
-                // Solo actualizar si hay cambios
+                // ==========================
+                // Traer Admins
+                // ==========================
+                try
+                {
+                    var responseAdmins = await httpClient.GetAsync("http://localhost:8080/api/admin/");
+                    if (responseAdmins.IsSuccessStatusCode)
+                    {
+                        var admins = await responseAdmins.Content.ReadFromJsonAsync<List<Usuario>>();
+                        if (admins != null) nuevaLista.AddRange(admins);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Error cargando admins: {responseAdmins.StatusCode}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al obtener admins: {ex.Message}");
+                }
+
+                // ==========================
+                // Traer Clientes
+                // ==========================
+                try
+                {
+                    var responseClientes = await httpClient.GetAsync("http://localhost:8080/api/clientes/");
+                    if (responseClientes.IsSuccessStatusCode)
+                    {
+                        var clientes = await responseClientes.Content.ReadFromJsonAsync<List<Usuario>>();
+                        if (clientes != null) nuevaLista.AddRange(clientes);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Error cargando clientes: {responseClientes.StatusCode}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al obtener clientes: {ex.Message}");
+                }
+
+                // ==========================
+                // Traer Grupos
+                // ==========================
+                // ==========================
+                // Traer Grupos
+                // ==========================
+                try
+                {
+                    var responseGrupos = await httpClient.GetAsync("http://localhost:8080/api/grupos/");
+                    if (responseGrupos.IsSuccessStatusCode)
+                    {
+                        // Deserializamos como Usuario, Clase viene incluida en la clase Usuario
+                        var grupos = await responseGrupos.Content.ReadFromJsonAsync<List<Usuario>>();
+                        if (grupos != null) nuevaLista.AddRange(grupos);
+                    }
+                    // No mostrar MessageBox en caso de error
+                }
+                catch
+                {
+                    // Ignorar errores temporales de grupos
+                }
+
+
+                // ==========================
+                // Actualizar DataGridView
+                // ==========================
                 bool listaIgual = nuevaLista.Count == listaUsuariosOriginal.Count &&
                                   !nuevaLista.Except(listaUsuariosOriginal).Any();
 
@@ -101,11 +162,12 @@ namespace PeluqueriAPP
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // Ignorar errores temporales
+                MessageBox.Show($"Error inesperado al refrescar usuarios: {ex.Message}");
             }
         }
+
 
         private void AplicarFiltroYActualizarGrid()
         {
