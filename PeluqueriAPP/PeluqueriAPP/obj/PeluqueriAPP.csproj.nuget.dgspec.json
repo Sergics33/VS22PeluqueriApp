@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\Trabajos\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\PeluqueriAPP.csproj": {}
+    "F:\\VS22Peluqueriapp\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\PeluqueriAPP.csproj": {}
   },
   "projects": {
-    "F:\\Trabajos\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\PeluqueriAPP.csproj": {
+    "F:\\VS22Peluqueriapp\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\PeluqueriAPP.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\Trabajos\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\PeluqueriAPP.csproj",
+        "projectUniqueName": "F:\\VS22Peluqueriapp\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\PeluqueriAPP.csproj",
         "projectName": "PeluqueriAPP",
-        "projectPath": "F:\\Trabajos\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\PeluqueriAPP.csproj",
+        "projectPath": "F:\\VS22Peluqueriapp\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\PeluqueriAPP.csproj",
         "packagesPath": "C:\\Users\\sergi\\.nuget\\packages\\",
-        "outputPath": "F:\\Trabajos\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\obj\\",
+        "outputPath": "F:\\VS22Peluqueriapp\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\sergi\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -34,7 +34,7 @@ namespace PeluqueriAPP
             lbltitulo.Text = "EDITAR SERVICIO";
             btnAnyadir.Text = "GUARDAR CAMBIOS";
 
-            tbNombre.Text = servicio.nombre;
+            tbNombre.Text = servicio.Nombre;
             tbDescripcion.Text = servicio.descripcion;
             tbDuracion.Text = servicio.duracion.ToString();
             tbPrecio.Text = servicio.precio.ToString();
@@ -132,7 +132,7 @@ namespace PeluqueriAPP
             {
                 NuevoServicio = new Servicio
                 {
-                    nombre = tbNombre.Text.Trim(),
+                    Nombre = tbNombre.Text.Trim(),
                     descripcion = tbDescripcion.Text.Trim(),
                     duracion = duracion,
                     precio = precio,
@@ -141,7 +141,7 @@ namespace PeluqueriAPP
             }
             else
             {
-                NuevoServicio.nombre = tbNombre.Text.Trim();
+                NuevoServicio.Nombre = tbNombre.Text.Trim();
                 NuevoServicio.descripcion = tbDescripcion.Text.Trim();
                 NuevoServicio.duracion = duracion;
                 NuevoServicio.precio = precio;

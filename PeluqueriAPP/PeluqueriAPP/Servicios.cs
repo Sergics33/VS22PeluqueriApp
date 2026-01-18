@@ -123,7 +123,7 @@ namespace PeluqueriAPP
                 listaParaGrid.Add(new
                 {
                     s.id,
-                    s.nombre,
+                    s.Nombre,
                     s.descripcion,
                     s.duracion,
                     s.precio,
@@ -139,7 +139,7 @@ namespace PeluqueriAPP
             string filtro = tbBusqueda.Text.Trim().ToLower();
 
             var filtrados = listaServiciosOriginal
-                .FindAll(s => s.nombre.ToLower().StartsWith(filtro));
+                .FindAll(s => s.Nombre.ToLower().StartsWith(filtro));
 
             ActualizarGrid(filtrados);
         }
@@ -155,7 +155,7 @@ namespace PeluqueriAPP
                 // Preparamos objeto sin el ID para el backend
                 var nuevoServicioParaEnviar = new
                 {
-                    nombre = nuevoServicio.nombre,
+                    nombre = nuevoServicio.Nombre,
                     descripcion = nuevoServicio.descripcion,
                     duracion = nuevoServicio.duracion,
                     precio = nuevoServicio.precio,
@@ -260,7 +260,7 @@ namespace PeluqueriAPP
                 // Preparar objeto para enviar al backend
                 var servicioParaEnviar = new
                 {
-                    nombre = servicioEditado.nombre,
+                    nombre = servicioEditado.Nombre,
                     descripcion = servicioEditado.descripcion,
                     duracion = servicioEditado.duracion,
                     precio = servicioEditado.precio,

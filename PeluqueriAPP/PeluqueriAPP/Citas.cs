@@ -17,7 +17,6 @@ namespace PeluqueriAPP
         public Citas()
         {
             InitializeComponent();
-
             dgvCitas.AutoGenerateColumns = false;
             ConfigurarColumnas();
         }
@@ -89,9 +88,10 @@ namespace PeluqueriAPP
                 httpClient.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
+                // Ahora consumimos la API que devuelve DTOs
                 var citas = await httpClient.GetFromJsonAsync<List<Cita>>(API_CITAS_URL);
-
                 listaCitasOriginal = citas ?? new List<Cita>();
+
                 ActualizarGrid(listaCitasOriginal);
             }
             catch (Exception ex)
@@ -111,14 +111,24 @@ namespace PeluqueriAPP
                     Id = c.Id,
                     Fecha = c.FechaHoraInicio.ToString("dd/MM/yyyy"),
                     Hora = c.FechaHoraInicio.ToString("HH:mm"),
-                    Cliente = c.Cliente?.NombreCompleto ?? "",
-                    Servicio = c.Agenda?.Servicio?.Nombre ?? "",
-                    Aula = c.Agenda?.Aula ?? ""
+                    Cliente = c.Cliente ?? "",
+                    Servicio = c.Servicio ?? "",
+                    Aula = c.Aula ?? ""
                 });
             }
 
             dgvCitas.DataSource = null;
             dgvCitas.DataSource = listaParaGrid;
         }
+    }
+
+    // Clase simplificada para consumir el DTO
+    public class Cita
+    {
+        public long Id { get; set; }
+        public DateTime FechaHoraInicio { get; set; }
+        public string Cliente { get; set; }
+        public string Servicio { get; set; }
+        public string Aula { get; set; }
     }
 }
