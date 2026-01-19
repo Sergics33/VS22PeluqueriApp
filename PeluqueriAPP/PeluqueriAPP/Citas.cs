@@ -19,25 +19,20 @@ namespace PeluqueriAPP
         {
             InitializeComponent();
             dgvCitas.AutoGenerateColumns = false;
-            dgvCitas.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Importante para borrar
+            dgvCitas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             ConfigurarColumnas();
-            this.Load += new System.EventHandler(this.Citas_Load);
+            // El evento Load se gestiona a través del método Citas_Load abajo
         }
 
         private void ConfigurarColumnas()
         {
             dgvCitas.Columns.Clear();
             dgvCitas.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "ID", DataPropertyName = "Id", Name = "IdCol", Visible = false });
-            dgvCitas.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Fecha", DataPropertyName = "Fecha", Name = "FechaCol" });
-            dgvCitas.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Hora", DataPropertyName = "Hora", Name = "HoraCol" });
+            dgvCitas.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Fecha", DataPropertyName = "Fecha", Name = "FechaCol", Width = 100 });
+            dgvCitas.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Hora", DataPropertyName = "Hora", Name = "HoraCol", Width = 80 });
             dgvCitas.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Cliente", DataPropertyName = "Cliente", Name = "ClienteCol", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
-            dgvCitas.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Servicio", DataPropertyName = "Servicio", Name = "ServicioCol" });
-            dgvCitas.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Aula", DataPropertyName = "Aula", Name = "AulaCol" });
-        }
-
-        private async void Citas_Load(object? sender, EventArgs e)
-        {
-            await CargarCitas();
+            dgvCitas.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Servicio", DataPropertyName = "Servicio", Name = "ServicioCol", Width = 150 });
+            dgvCitas.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Aula", DataPropertyName = "Aula", Name = "AulaCol", Width = 100 });
         }
 
         private async Task CargarCitas()
@@ -47,13 +42,14 @@ namespace PeluqueriAPP
             {
                 httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
+
                 var citas = await httpClient.GetFromJsonAsync<List<Cita>>(API_CITAS_URL);
                 listaCitasOriginal = citas ?? new List<Cita>();
                 ActualizarGrid(listaCitasOriginal);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar citas: " + ex.Message);
+                MessageBox.Show("Error al cargar citas: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -73,63 +69,140 @@ namespace PeluqueriAPP
             dgvCitas.DataSource = listaParaGrid;
         }
 
-        // --- BOTÓN BORRAR ---
+        // --- ACCIONES PRINCIPALES ---
+
+        private async void btnAnyadir_Click(object sender, EventArgs e)
+        {
+            using (AnyadirCitas form = new AnyadirCitas())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    var n = form.NuevaCita;
+
+                    // Usamos el formato ISO que espera LocalDateTime.parse()
+                    var payload = new
+                    {
+                        fechaHoraInicio = n.fechaHoraInicio.ToString("yyyy-MM-ddTHH:mm:ss"),
+                        clienteId = n.cliente.id,
+                        agendaId = n.agenda.id
+                    };
+
+                    await EnviarApiCita(HttpMethod.Post, API_CITAS_URL, payload);
+                }
+            }
+        }
+
+        private async void btnEditar_Click(object sender, EventArgs e)
+        {
+            if (dgvCitas.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Por favor, selecciona una cita de la tabla para editar.");
+                return;
+            }
+
+            long id = (long)dgvCitas.SelectedRows[0].Cells["IdCol"].Value;
+            var seleccionada = listaCitasOriginal.FirstOrDefault(c => c.id == id);
+
+            if (seleccionada == null) return;
+
+            using (AnyadirCitas form = new AnyadirCitas(seleccionada))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    var n = form.NuevaCita;
+                    var payload = new
+                    {
+                        id = id,
+                        fechaHoraInicio = n.fechaHoraInicio.ToString("yyyy-MM-ddTHH:mm:ss"),
+                        cliente = new { id = n.cliente.id },
+                        agenda = new { id = n.agenda.id }
+                    };
+
+                    string url = API_CITAS_URL.TrimEnd('/') + "/" + id;
+                    await EnviarApiCita(HttpMethod.Put, url, payload);
+                }
+            }
+        }
+
         private async void btnBorrar_Click(object sender, EventArgs e)
         {
             if (dgvCitas.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Por favor, selecciona una cita para borrar.");
+                MessageBox.Show("Selecciona una cita para borrar.");
                 return;
             }
 
-            // Obtenemos el ID de la fila seleccionada (usando el nombre de la columna IdCol)
             long id = (long)dgvCitas.SelectedRows[0].Cells["IdCol"].Value;
 
-            var confirmacion = MessageBox.Show("¿Estás seguro de que deseas borrar esta cita?",
-                "Confirmar borrado", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (confirmacion == DialogResult.Yes)
+            if (MessageBox.Show("¿Estás seguro de borrar esta cita?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                await BorrarCita(id);
+                try
+                {
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
+                    var response = await httpClient.DeleteAsync($"{API_CITAS_URL}{id}");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("Cita eliminada.");
+                        await CargarCitas();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error al borrar: " + response.StatusCode);
+                    }
+                }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
             }
         }
 
-        private async Task BorrarCita(long id)
+        private async Task EnviarApiCita(HttpMethod metodo, string url, object data)
         {
             try
             {
                 httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
-                // Construimos la URL: http://localhost:8080/api/citas/ID
-                string urlLimpia = API_CITAS_URL.TrimEnd('/') + "/" + id;
-                var response = await httpClient.DeleteAsync(urlLimpia);
+                HttpRequestMessage request = new HttpRequestMessage(metodo, url)
+                {
+                    Content = JsonContent.Create(data)
+                };
+
+                var response = await httpClient.SendAsync(request);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Cita eliminada correctamente.");
-                    await CargarCitas(); // Refrescamos la tabla
+                    MessageBox.Show("Operación exitosa.");
+                    await CargarCitas();
                 }
                 else
                 {
-                    MessageBox.Show("No se pudo eliminar la cita. Código: " + response.StatusCode);
+                    string error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error {response.StatusCode}: {error}");
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al conectar con el servidor: " + ex.Message);
-            }
+            catch (Exception ex) { MessageBox.Show("Error de conexión: " + ex.Message); }
         }
 
-        // --- MÉTODOS DE NAVEGACIÓN ---
-        private void lblHome_Click(object sender, EventArgs e) { new Home().Show(); Close(); }
-        private void label7_Click(object sender, EventArgs e) { new Admins().Show(); this.Close(); }
-        private void lblHome_Click_1(object sender, EventArgs e) { new Home().Show(); this.Close(); }
+        // --- MÉTODOS REQUERIDOS POR EL DISEÑADOR (NO BORRAR) ---
+
+        private async void Citas_Load(object sender, EventArgs e)
+        {
+            await CargarCitas();
+        }
+
+        private void lblHome_Click_1(object sender, EventArgs e)
+        {
+            new Home().Show();
+            this.Close();
+        }
+
+        private void lblHome_Click(object sender, EventArgs e) { new Home().Show(); this.Close(); }
         private void lblServicios_Click(object sender, EventArgs e) { new Servicios().Show(); this.Close(); }
         private void lblAgenda_Click(object sender, EventArgs e) { new Agendas().Show(); this.Close(); }
+        private void label7_Click(object sender, EventArgs e) { new Admins().Show(); this.Close(); }
     }
 
-    // --- CLASES DTO ---
+    // --- DTOs ---
     public class Cita
     {
         public long id { get; set; }
@@ -137,11 +210,23 @@ namespace PeluqueriAPP
         public ClienteDTO cliente { get; set; }
         public AgendaDTO agenda { get; set; }
     }
-    public class ClienteDTO { public string nombreCompleto { get; set; } }
+
+    public class ClienteDTO
+    {
+        public long id { get; set; }
+        public string nombreCompleto { get; set; }
+    }
+
     public class AgendaDTO
     {
+        public long id { get; set; }
         public string aula { get; set; }
         public ServicioSimpleDTO servicio { get; set; }
     }
-    public class ServicioSimpleDTO { public string nombre { get; set; } }
+
+    public class ServicioSimpleDTO
+    {
+        public long id { get; set; }
+        public string nombre { get; set; }
+    }
 }

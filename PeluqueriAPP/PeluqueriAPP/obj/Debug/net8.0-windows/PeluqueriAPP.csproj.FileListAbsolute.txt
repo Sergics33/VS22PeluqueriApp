@@ -232,3 +232,4 @@ C:\Users\sercarsen\Documents\GitHub\Flutter\VS22PeluqueriApp\PeluqueriAPP\Peluqu
 C:\Users\sercarsen\Documents\GitHub\Flutter\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.pdb
 C:\Users\sercarsen\Documents\GitHub\Flutter\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.genruntimeconfig.cache
 C:\Users\sercarsen\Documents\GitHub\Flutter\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\ref\PeluqueriAPP.dll
+C:\Users\sercarsen\Documents\GitHub\Flutter\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.AnyadirCitas.resources

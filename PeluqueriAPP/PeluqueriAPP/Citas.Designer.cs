@@ -39,6 +39,7 @@ namespace PeluqueriAPP
             btnAnyadir = new Button();
             dgvCitas = new DataGridView();
             panel2 = new Panel();
+            lblAgenda = new Label();
             label7 = new Label();
             IconoPerfil = new PictureBox();
             lblCerrarSesion = new Label();
@@ -57,7 +58,6 @@ namespace PeluqueriAPP
             lblUbi = new Label();
             lblBernatS = new Label();
             label4 = new Label();
-            lblAgenda = new Label();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCitas).BeginInit();
             panel2.SuspendLayout();
@@ -102,6 +102,7 @@ namespace PeluqueriAPP
             btnBorrar.Size = new Size(97, 23);
             btnBorrar.TabIndex = 0;
             btnBorrar.Text = "Borrar Cita";
+            btnBorrar.Click += btnBorrar_Click;
             // 
             // btnEditar
             // 
@@ -110,6 +111,7 @@ namespace PeluqueriAPP
             btnEditar.Size = new Size(97, 23);
             btnEditar.TabIndex = 1;
             btnEditar.Text = "Editar Cita";
+            btnEditar.Click += btnEditar_Click;
             // 
             // tbBusqueda
             // 
@@ -135,6 +137,7 @@ namespace PeluqueriAPP
             btnAnyadir.Size = new Size(105, 23);
             btnAnyadir.TabIndex = 4;
             btnAnyadir.Text = "Añadir Cita";
+            btnAnyadir.Click += btnAnyadir_Click;
             // 
             // dgvCitas
             // 
@@ -172,6 +175,18 @@ namespace PeluqueriAPP
             panel2.Name = "panel2";
             panel2.Size = new Size(228, 633);
             panel2.TabIndex = 3;
+            // 
+            // lblAgenda
+            // 
+            lblAgenda.AutoSize = true;
+            lblAgenda.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAgenda.ForeColor = Color.White;
+            lblAgenda.Location = new Point(39, 351);
+            lblAgenda.Name = "lblAgenda";
+            lblAgenda.Size = new Size(77, 25);
+            lblAgenda.TabIndex = 46;
+            lblAgenda.Text = "Horario";
+            lblAgenda.Click += lblAgenda_Click;
             // 
             // label7
             // 
@@ -360,18 +375,6 @@ namespace PeluqueriAPP
             label4.Size = new Size(143, 17);
             label4.TabIndex = 26;
             label4.Text = "Administración de citas";
-            // 
-            // lblAgenda
-            // 
-            lblAgenda.AutoSize = true;
-            lblAgenda.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblAgenda.ForeColor = Color.White;
-            lblAgenda.Location = new Point(39, 351);
-            lblAgenda.Name = "lblAgenda";
-            lblAgenda.Size = new Size(77, 25);
-            lblAgenda.TabIndex = 46;
-            lblAgenda.Text = "Horario";
-            lblAgenda.Click += lblAgenda_Click;
             // 
             // Citas
             // 
