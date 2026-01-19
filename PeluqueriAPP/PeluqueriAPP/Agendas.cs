@@ -196,7 +196,9 @@ namespace PeluqueriAPP
 
         private void lblAgenda_Click(object sender, EventArgs e)
         {
-
+            Agendas nuevaVentana = new Agendas();
+            nuevaVentana.Show();
+            this.Close();
         }
     }
 }
