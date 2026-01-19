@@ -21,6 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="AnyadirGrupo.cs">
       <SubType>Form</SubType>
     </Compile>

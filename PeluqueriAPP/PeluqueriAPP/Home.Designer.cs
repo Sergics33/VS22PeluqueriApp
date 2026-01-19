@@ -31,6 +31,7 @@ namespace PeluqueriAPP
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Home));
             panel1 = new Panel();
+            lblAgenda = new Label();
             label7 = new Label();
             IconoPerfil = new PictureBox();
             lblCerrarSesion = new Label();
@@ -60,7 +61,6 @@ namespace PeluqueriAPP
             label2 = new Label();
             lblUbi = new Label();
             lblBernatS = new Label();
-            lblAgenda = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)IconoPerfil).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconoFP).BeginInit();
@@ -98,6 +98,18 @@ namespace PeluqueriAPP
             panel1.Size = new Size(228, 633);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
+            // 
+            // lblAgenda
+            // 
+            lblAgenda.AutoSize = true;
+            lblAgenda.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAgenda.ForeColor = Color.White;
+            lblAgenda.Location = new Point(39, 345);
+            lblAgenda.Name = "lblAgenda";
+            lblAgenda.Size = new Size(77, 25);
+            lblAgenda.TabIndex = 20;
+            lblAgenda.Text = "Horario";
+            lblAgenda.Click += lblAgenda_Click;
             // 
             // label7
             // 
@@ -414,18 +426,6 @@ namespace PeluqueriAPP
             lblBernatS.TabIndex = 18;
             lblBernatS.Text = "Bernat Sarriá >";
             lblBernatS.Click += lblBernatS_Click;
-            // 
-            // lblAgenda
-            // 
-            lblAgenda.AutoSize = true;
-            lblAgenda.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblAgenda.ForeColor = Color.White;
-            lblAgenda.Location = new Point(39, 351);
-            lblAgenda.Name = "lblAgenda";
-            lblAgenda.Size = new Size(77, 25);
-            lblAgenda.TabIndex = 20;
-            lblAgenda.Text = "Horario";
-            lblAgenda.Click += lblAgenda_Click;
             // 
             // Home
             // 

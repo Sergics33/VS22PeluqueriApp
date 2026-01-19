@@ -1,11 +1,9 @@
-﻿namespace PeluqueriAPP
+﻿using Newtonsoft.Json;
+
+public class Grupo
 {
-    public class Grupo
-    {
-        public int id { get; set; }
-        public string nombreCompleto { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public string clase { get; set; }
-    }
+    [JsonProperty("id")]
+    public int Id { get; set; }
+    [JsonProperty("nombreCompleto")]
+    public string NombreCompleto { get; set; }
 }
