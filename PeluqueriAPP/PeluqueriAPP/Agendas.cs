@@ -19,18 +19,12 @@ namespace PeluqueriAPP
         {
             InitializeComponent();
 
-            // --- CONEXIÓN AUTOMÁTICA DE EVENTOS (El "Cableado") ---
             this.Load += Agendas_Load;
-
-            // Conectamos la barra de búsqueda
             this.tbBusqueda.TextChanged += new System.EventHandler(this.tbBusqueda_TextChanged);
-
-            // Conectamos los botones de acción
             this.btnAnyadir.Click += new System.EventHandler(this.btnAnyadir_Click);
             this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
             this.btnBorrar.Click += new System.EventHandler(this.btnBorrar_Click);
 
-            // Configuración del Grid
             dgvServicios.AutoGenerateColumns = false;
             dgvServicios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             ConfigurarColumnas();
@@ -83,11 +77,10 @@ namespace PeluqueriAPP
                     : "Sin datos"
             }).ToList();
 
-            dgvServicios.DataSource = null; // Limpiar para refrescar
+            dgvServicios.DataSource = null;
             dgvServicios.DataSource = listaParaGrid;
         }
 
-        // --- FUNCIONALIDAD DE BÚSQUEDA ---
         private void tbBusqueda_TextChanged(object sender, EventArgs e)
         {
             string filtro = tbBusqueda.Text.Trim().ToLower();
@@ -98,40 +91,27 @@ namespace PeluqueriAPP
             ActualizarGrid(filtrados);
         }
 
-        // --- FUNCIONALIDAD DE ACCIONES ---
-        private async void btnAbrirAnyadir_Click(object sender, EventArgs e)
+        // --- CORRECCIÓN CLAVE: Envío de IDs planos para AgendaRequest ---
+        private async void btnAnyadir_Click(object sender, EventArgs e)
         {
-            using (var form = new AnyadirAgenda())
+            using (AnyadirAgenda form = new AnyadirAgenda())
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    // CREAMOS EL OBJETO QUE LA API ESPERA (AgendaRequest)
-                    // Es vital que los nombres coincidan con los de tu Java (grupoId, servicioId)
-                    var datosParaEnviar = new
-                    {
-                        aula = form.NuevaAgenda.Aula,
-                        horaInicio = form.NuevaAgenda.HoraInicio.ToString("yyyy-MM-ddTHH:mm:ss"),
-                        horaFin = form.NuevaAgenda.HoraFin.ToString("yyyy-MM-ddTHH:mm:ss"),
-                        sillas = form.NuevaAgenda.Sillas,
+                    var n = form.NuevaAgenda;
 
-                        // AQUÍ ESTABA EL ERROR: Debes pasar el ID numérico explícitamente
-                        servicioId = form.NuevaAgenda.Servicio?.id,
-                        grupoId = form.NuevaAgenda.Grupo?.Id
+                    // El objeto anónimo debe coincidir EXACTAMENTE con los campos de tu AgendaRequest en Java
+                    var dto = new
+                    {
+                        aula = n.Aula,
+                        horaInicio = n.HoraInicio.ToString("yyyy-MM-ddTHH:mm:ss"), // Formato ISO para evitar errores
+                        horaFin = n.HoraFin.ToString("yyyy-MM-ddTHH:mm:ss"),
+                        sillas = n.Sillas,
+                        servicioId = n.Servicio?.id, // Campo plano: servicioId
+                        grupoId = n.Grupo?.Id        // Campo plano: grupoId
                     };
 
-                    // Enviar a la API
-                    var response = await httpClient.PostAsJsonAsync("api/agendas", datosParaEnviar);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        MessageBox.Show("Agenda creada correctamente");
-                        CargarAgendas(); // Refrescar lista
-                    }
-                    else
-                    {
-                        var error = await response.Content.ReadAsStringAsync();
-                        MessageBox.Show("Error del servidor: " + error);
-                    }
+                    await EnviarApi(HttpMethod.Post, API_BASE_URL, dto);
                 }
             }
         }
@@ -142,12 +122,23 @@ namespace PeluqueriAPP
             long id = (long)dgvServicios.SelectedRows[0].Cells["IdCol"].Value;
             var seleccionada = listaAgendasOriginal.FirstOrDefault(a => a.Id == id);
 
-            AnyadirAgenda form = new AnyadirAgenda(seleccionada);
-            if (form.ShowDialog() == DialogResult.OK)
+            using (AnyadirAgenda form = new AnyadirAgenda(seleccionada))
             {
-                var n = form.NuevaAgenda;
-                var dto = new { aula = n.Aula, horaInicio = n.HoraInicio, horaFin = n.HoraFin, sillas = n.Sillas, servicio = new { id = n.Servicio.id }, grupo = new { id = n.Grupo.Id } };
-                await EnviarApi(HttpMethod.Put, API_BASE_URL + id, dto);
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    var n = form.NuevaAgenda;
+                    var dto = new
+                    {
+                        aula = n.Aula,
+                        horaInicio = n.HoraInicio.ToString("yyyy-MM-ddTHH:mm:ss"),
+                        horaFin = n.HoraFin.ToString("yyyy-MM-ddTHH:mm:ss"),
+                        sillas = n.Sillas,
+                        servicioId = n.Servicio?.id,
+                        grupoId = n.Grupo?.Id
+                    };
+
+                    await EnviarApi(HttpMethod.Put, API_BASE_URL + id, dto);
+                }
             }
         }
 
@@ -162,12 +153,30 @@ namespace PeluqueriAPP
 
         private async Task EnviarApi(HttpMethod metodo, string url, object data)
         {
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
-            HttpResponseMessage res = (metodo == HttpMethod.Post) ? await httpClient.PostAsJsonAsync(url, data) :
-                                     (metodo == HttpMethod.Put) ? await httpClient.PutAsJsonAsync(url, data) :
-                                     await httpClient.DeleteAsync(url);
-            if (res.IsSuccessStatusCode) await CargarAgendas();
-            else MessageBox.Show("Error en la operación");
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
+                HttpResponseMessage res;
+
+                if (metodo == HttpMethod.Post) res = await httpClient.PostAsJsonAsync(url, data);
+                else if (metodo == HttpMethod.Put) res = await httpClient.PutAsJsonAsync(url, data);
+                else res = await httpClient.DeleteAsync(url);
+
+                if (res.IsSuccessStatusCode)
+                {
+                    await CargarAgendas();
+                }
+                else
+                {
+                    // Leer el error detallado del servidor para depurar
+                    string errorMsg = await res.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error en la operación: {res.StatusCode}\nDetalle: {errorMsg}");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error de comunicación: " + ex.Message);
+            }
         }
 
         #region Navegación
