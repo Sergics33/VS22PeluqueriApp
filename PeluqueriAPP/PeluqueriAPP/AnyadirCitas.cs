@@ -51,7 +51,8 @@ namespace PeluqueriAPP
                 cmbAgenda.ValueMember = "id"; // Aseguramos que tenga ValueMember
 
                 // Formato visual para el combo de agendas
-                cmbAgenda.Format += (s, e) => {
+                cmbAgenda.Format += (s, e) =>
+                {
                     var a = (AgendaDTO)e.ListItem;
                     string servicioNombre = a.servicio?.nombre ?? "Sin servicio";
                     e.Value = $"{a.aula} - {servicioNombre}";
@@ -129,6 +130,11 @@ namespace PeluqueriAPP
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void AnyadirCitas_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

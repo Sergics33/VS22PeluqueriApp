@@ -193,5 +193,10 @@ namespace PeluqueriAPP
         private void lblCitas_Click(object sender, EventArgs e) { new Citas().Show(); this.Close(); }
         private void label7_Click(object sender, EventArgs e) { new Admins().Show(); this.Close(); }
         #endregion
+
+        private void lblAgenda_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

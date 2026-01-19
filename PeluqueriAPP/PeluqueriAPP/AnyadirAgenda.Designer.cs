@@ -42,6 +42,7 @@
             numSillas = new NumericUpDown();
             btnGuardar = new Button();
             btnCancelar = new Button();
+            label7 = new Label();
             ((System.ComponentModel.ISupportInitialize)numSillas).BeginInit();
             SuspendLayout();
             // 
@@ -154,9 +155,10 @@
             // btnGuardar
             // 
             btnGuardar.BackColor = Color.FromArgb(255, 192, 128);
-            btnGuardar.Location = new Point(108, 408);
+            btnGuardar.Font = new Font("Segoe UI", 15F);
+            btnGuardar.Location = new Point(81, 346);
             btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(75, 23);
+            btnGuardar.Size = new Size(111, 37);
             btnGuardar.TabIndex = 13;
             btnGuardar.Text = "Guardar";
             btnGuardar.UseVisualStyleBackColor = false;
@@ -165,20 +167,32 @@
             // btnCancelar
             // 
             btnCancelar.BackColor = Color.White;
-            btnCancelar.Location = new Point(202, 408);
+            btnCancelar.Font = new Font("Segoe UI", 15F);
+            btnCancelar.Location = new Point(205, 346);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(75, 23);
+            btnCancelar.Size = new Size(111, 37);
             btnCancelar.TabIndex = 14;
             btnCancelar.Text = "Cancelar";
             btnCancelar.TextAlign = ContentAlignment.BottomCenter;
             btnCancelar.UseVisualStyleBackColor = false;
             btnCancelar.Click += btnCancelar_Click;
             // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 25F, FontStyle.Bold);
+            label7.Location = new Point(16, 24);
+            label7.Name = "label7";
+            label7.Size = new Size(369, 46);
+            label7.TabIndex = 15;
+            label7.Text = "AÑADIR AL HORARIO";
+            // 
             // AnyadirAgenda
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(397, 470);
+            ClientSize = new Size(397, 413);
+            Controls.Add(label7);
             Controls.Add(btnCancelar);
             Controls.Add(btnGuardar);
             Controls.Add(numSillas);
@@ -217,5 +231,6 @@
         private NumericUpDown numSillas;
         private Button btnGuardar;
         private Button btnCancelar;
+        private Label label7;
     }
 }

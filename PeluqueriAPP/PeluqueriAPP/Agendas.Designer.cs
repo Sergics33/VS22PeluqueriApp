@@ -57,6 +57,7 @@
             btnAnyadir = new Button();
             panel2 = new Panel();
             dgvServicios = new DataGridView();
+            lblAgenda = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)IconoPerfil).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconoFP).BeginInit();
@@ -119,6 +120,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(40, 40, 40);
+            panel1.Controls.Add(lblAgenda);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(IconoPerfil);
             panel1.Controls.Add(lblCerrarSesion);
@@ -375,6 +377,18 @@
             dgvServicios.Size = new Size(788, 351);
             dgvServicios.TabIndex = 1;
             // 
+            // lblAgenda
+            // 
+            lblAgenda.AutoSize = true;
+            lblAgenda.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAgenda.ForeColor = Color.White;
+            lblAgenda.Location = new Point(39, 347);
+            lblAgenda.Name = "lblAgenda";
+            lblAgenda.Size = new Size(77, 25);
+            lblAgenda.TabIndex = 65;
+            lblAgenda.Text = "Horario";
+            lblAgenda.Click += lblAgenda_Click;
+            // 
             // Agendas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -432,5 +446,6 @@
         private Button btnAnyadir;
         private Panel panel2;
         private DataGridView dgvServicios;
+        private Label lblAgenda;
     }
 }
