@@ -119,6 +119,8 @@ namespace PeluqueriAPP
         private async void btnEditar_Click(object sender, EventArgs e)
         {
             if (dgvServicios.SelectedRows.Count == 0) return;
+
+            // 1. Obtener ID de la fila seleccionada
             long id = (long)dgvServicios.SelectedRows[0].Cells["IdCol"].Value;
             var seleccionada = listaAgendasOriginal.FirstOrDefault(a => a.Id == id);
 
@@ -127,6 +129,8 @@ namespace PeluqueriAPP
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     var n = form.NuevaAgenda;
+
+                    // 2. Crear el DTO con campos planos (servicioId, grupoId)
                     var dto = new
                     {
                         aula = n.Aula,
@@ -137,7 +141,11 @@ namespace PeluqueriAPP
                         grupoId = n.Grupo?.Id
                     };
 
-                    await EnviarApi(HttpMethod.Put, API_BASE_URL + id, dto);
+                    // 3. Limpiar la URL para evitar la doble barra //
+                    // Si API_BASE_URL es ".../agendas/", esto la convierte en ".../agendas/5"
+                    string urlLimpia = API_BASE_URL.TrimEnd('/') + "/" + id;
+
+                    await EnviarApi(HttpMethod.Put, urlLimpia, dto);
                 }
             }
         }
