@@ -199,3 +199,4 @@ C:\Users\sergi\Desktop\probar\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Deb
 C:\Users\sergi\Desktop\probar\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.csproj.AssemblyReference.cache
 C:\Users\sergi\Desktop\probar\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
 C:\Users\sergi\Desktop\probar\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\Peluquer.5D9166D6.Up2Date
+C:\Users\sergi\Desktop\probar\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.AnyadirAgenda.resources

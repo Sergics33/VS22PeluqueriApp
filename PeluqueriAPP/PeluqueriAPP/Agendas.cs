@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Json; // Requiere el paquete System.Net.Http.Json
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net.Http.Headers;
@@ -11,7 +11,6 @@ namespace PeluqueriAPP
 {
     public partial class Agendas : Form
     {
-        // 1. ATRIBUTOS (Igual que en Servicios.cs)
         private readonly HttpClient httpClient = new HttpClient();
         private const string API_BASE_URL = "http://localhost:8080/api/agendas/";
         private List<AgendaResponseDTO> listaAgendasOriginal = new List<AgendaResponseDTO>();
@@ -19,91 +18,58 @@ namespace PeluqueriAPP
         public Agendas()
         {
             InitializeComponent();
-            
-            // Configuración inicial del Grid
-            dgvServicios.AutoGenerateColumns = false; 
-            dgvServicios.ReadOnly = true;
-            dgvServicios.AllowUserToAddRows = false;
-            dgvServicios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
-            ConfigurarColumnas();
-
-            // Suscribir el evento Load
+            // --- CONEXIÓN AUTOMÁTICA DE EVENTOS (El "Cableado") ---
             this.Load += Agendas_Load;
+
+            // Conectamos la barra de búsqueda
+            this.tbBusqueda.TextChanged += new System.EventHandler(this.tbBusqueda_TextChanged);
+
+            // Conectamos los botones de acción
+            this.btnAnyadir.Click += new System.EventHandler(this.btnAnyadir_Click);
+            this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
+            this.btnBorrar.Click += new System.EventHandler(this.btnBorrar_Click);
+
+            // Configuración del Grid
+            dgvServicios.AutoGenerateColumns = false;
+            dgvServicios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            ConfigurarColumnas();
         }
 
         private void ConfigurarColumnas()
         {
             dgvServicios.Columns.Clear();
-
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { 
-                HeaderText = "ID", DataPropertyName = "id", Name = "IdCol" 
-            });
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { 
-                HeaderText = "Aula", DataPropertyName = "aula", Name = "AulaCol" 
-            });
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { 
-                HeaderText = "Fecha e Inicio", DataPropertyName = "fechaInicioStr", Name = "InicioCol" 
-            });
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { 
-                HeaderText = "Hora Fin", DataPropertyName = "horaFinStr", Name = "FinCol" 
-            });
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { 
-                HeaderText = "Servicio", DataPropertyName = "servicioNombre", Name = "ServicioCol" 
-            });
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { 
-                HeaderText = "Grupo", DataPropertyName = "grupoNombre", Name = "GrupoCol" 
-            });
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { 
-                HeaderText = "Disponibilidad", DataPropertyName = "disponibilidadStr", Name = "EstadoCol" 
-            });
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "ID", DataPropertyName = "id", Name = "IdCol" });
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Aula", DataPropertyName = "aula", Name = "AulaCol" });
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Inicio", DataPropertyName = "fechaInicioStr", Name = "InicioCol" });
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Fin", DataPropertyName = "horaFinStr", Name = "FinCol" });
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Servicio", DataPropertyName = "servicioNombre", Name = "ServicioCol" });
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Grupo", DataPropertyName = "grupoNombre", Name = "GrupoCol" });
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Estado", DataPropertyName = "disponibilidadStr", Name = "EstadoCol" });
         }
 
-        private async void Agendas_Load(object sender, EventArgs e)
-        {
-            await CargarAgendas();
-        }
+        private async void Agendas_Load(object sender, EventArgs e) => await CargarAgendas();
 
         private async Task CargarAgendas()
         {
             try
             {
-                // 2. USO DEL TOKEN DINÁMICO (Session)
-                if (!Session.IsLoggedIn)
-                {
-                    MessageBox.Show("No hay sesión iniciada. Por favor, vuelva al Login.");
-                    return;
-                }
-
+                if (!Session.IsLoggedIn) return;
                 httpClient.DefaultRequestHeaders.Clear();
-                httpClient.DefaultRequestHeaders.Authorization = 
-                    new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
 
-                // 3. LLAMADA A LA API
                 var response = await httpClient.GetAsync(API_BASE_URL);
-
                 if (response.IsSuccessStatusCode)
                 {
-                    var agendas = await response.Content.ReadFromJsonAsync<List<AgendaResponseDTO>>();
-                    listaAgendasOriginal = agendas ?? new List<AgendaResponseDTO>();
-                    
+                    listaAgendasOriginal = await response.Content.ReadFromJsonAsync<List<AgendaResponseDTO>>() ?? new List<AgendaResponseDTO>();
                     ActualizarGrid(listaAgendasOriginal);
-                    PersonalizarDisenoTabla();
-                }
-                else
-                {
-                    MessageBox.Show($"Error al obtener agendas: {response.StatusCode}");
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar los datos: " + ex.Message);
-            }
+            catch (Exception ex) { MessageBox.Show("Error de carga: " + ex.Message); }
         }
 
         private void ActualizarGrid(List<AgendaResponseDTO> lista)
         {
-            // 4. MAPEADO A LISTA ANÓNIMA (Para que el DataPropertyName funcione)
             var listaParaGrid = lista.Select(a => new
             {
                 id = a.Id,
@@ -112,51 +78,77 @@ namespace PeluqueriAPP
                 horaFinStr = a.HoraFin.ToString("HH:mm"),
                 servicioNombre = a.Servicio?.Nombre ?? "N/A",
                 grupoNombre = a.Grupo?.NombreCompleto ?? "N/A",
-                disponibilidadStr = a.HorasDisponiblesEstado != null 
-                    ? string.Join(" | ", a.HorasDisponiblesEstado
-                        .OrderBy(h => h.Key)
-                        .Select(h => $"{h.Key.Substring(Math.Max(0, h.Key.Length - 5))}: {(h.Value ? "Libre" : "Ocupado")}"))
+                disponibilidadStr = a.HorasDisponiblesEstado != null
+                    ? string.Join(" | ", a.HorasDisponiblesEstado.OrderBy(h => h.Key).Select(h => $"{h.Key.Substring(Math.Max(0, h.Key.Length - 5))}: {(h.Value ? "Libre" : "Ocupado")}"))
                     : "Sin datos"
             }).ToList();
 
+            dgvServicios.DataSource = null; // Limpiar para refrescar
             dgvServicios.DataSource = listaParaGrid;
         }
 
-        private void PersonalizarDisenoTabla()
+        // --- FUNCIONALIDAD DE BÚSQUEDA ---
+        private void tbBusqueda_TextChanged(object sender, EventArgs e)
         {
-            dgvServicios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvServicios.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            dgvServicios.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            
-            // Estética de cabeceras
-            dgvServicios.EnableHeadersVisualStyles = false;
-            dgvServicios.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 10, System.Drawing.FontStyle.Bold);
+            string filtro = tbBusqueda.Text.Trim().ToLower();
+            var filtrados = listaAgendasOriginal.Where(a =>
+                (a.Aula != null && a.Aula.ToLower().Contains(filtro)) ||
+                (a.Servicio != null && a.Servicio.Nombre != null && a.Servicio.Nombre.ToLower().Contains(filtro))
+            ).ToList();
+            ActualizarGrid(filtrados);
+        }
+
+        // --- FUNCIONALIDAD DE ACCIONES ---
+        private async void btnAnyadir_Click(object sender, EventArgs e)
+        {
+            AnyadirAgenda form = new AnyadirAgenda();
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                var n = form.NuevaAgenda;
+                var dto = new { aula = n.Aula, horaInicio = n.HoraInicio, horaFin = n.HoraFin, sillas = n.Sillas, servicio = new { id = n.Servicio.id }, grupo = new { id = n.Grupo.Id } };
+                await EnviarApi(HttpMethod.Post, API_BASE_URL, dto);
+            }
+        }
+
+        private async void btnEditar_Click(object sender, EventArgs e)
+        {
+            if (dgvServicios.SelectedRows.Count == 0) return;
+            long id = (long)dgvServicios.SelectedRows[0].Cells["IdCol"].Value;
+            var seleccionada = listaAgendasOriginal.FirstOrDefault(a => a.Id == id);
+
+            AnyadirAgenda form = new AnyadirAgenda(seleccionada);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                var n = form.NuevaAgenda;
+                var dto = new { aula = n.Aula, horaInicio = n.HoraInicio, horaFin = n.HoraFin, sillas = n.Sillas, servicio = new { id = n.Servicio.id }, grupo = new { id = n.Grupo.Id } };
+                await EnviarApi(HttpMethod.Put, API_BASE_URL + id, dto);
+            }
+        }
+
+        private async void btnBorrar_Click(object sender, EventArgs e)
+        {
+            if (dgvServicios.SelectedRows.Count == 0) return;
+            if (MessageBox.Show("¿Eliminar agenda?", "Confirmar", MessageBoxButtons.YesNo) != DialogResult.Yes) return;
+
+            long id = (long)dgvServicios.SelectedRows[0].Cells["IdCol"].Value;
+            await EnviarApi(HttpMethod.Delete, API_BASE_URL + id, null);
+        }
+
+        private async Task EnviarApi(HttpMethod metodo, string url, object data)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
+            HttpResponseMessage res = (metodo == HttpMethod.Post) ? await httpClient.PostAsJsonAsync(url, data) :
+                                     (metodo == HttpMethod.Put) ? await httpClient.PutAsJsonAsync(url, data) :
+                                     await httpClient.DeleteAsync(url);
+            if (res.IsSuccessStatusCode) await CargarAgendas();
+            else MessageBox.Show("Error en la operación");
         }
 
         #region Navegación
-        private void lblHomeAdmin_Click(object sender, EventArgs e)
-        {
-            new Home().Show();
-            this.Close();
-        }
-
-        private void lblCitas_Click(object sender, EventArgs e)
-        {
-            new Citas().Show();
-            this.Close();
-        }
-
-        private void lblServicios_Click(object sender, EventArgs e)
-        {
-            new Servicios().Show();
-            this.Close();
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-            new Admins().Show();
-            this.Close();
-        }
+        private void lblHomeAdmin_Click(object sender, EventArgs e) { new Home().Show(); this.Close(); }
+        private void lblServicios_Click(object sender, EventArgs e) { new Servicios().Show(); this.Close(); }
+        private void lblCitas_Click(object sender, EventArgs e) { new Citas().Show(); this.Close(); }
+        private void label7_Click(object sender, EventArgs e) { new Admins().Show(); this.Close(); }
         #endregion
     }
 }

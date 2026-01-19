@@ -21,26 +21,14 @@ namespace PeluqueriAPP
         [JsonProperty("sillas")]
         public int Sillas { get; set; }
 
+        // 1. Usamos tus clases REALES en lugar de DTOs genéricos
         [JsonProperty("servicio")]
-        public ServicioDTO Servicio { get; set; }
+        public Servicio Servicio { get; set; }
 
         [JsonProperty("grupo")]
-        public GrupoDTO Grupo { get; set; }
+        public Grupo Grupo { get; set; }
 
         [JsonProperty("horasDisponiblesEstado")]
         public Dictionary<string, bool> HorasDisponiblesEstado { get; set; }
-    }
-
-    // Clases auxiliares para evitar errores de referencia
-    public class ServicioDTO
-    {
-        [JsonProperty("nombre")]
-        public string Nombre { get; set; }
-    }
-
-    public class GrupoDTO
-    {
-        [JsonProperty("nombreCompleto")]
-        public string NombreCompleto { get; set; }
     }
 }

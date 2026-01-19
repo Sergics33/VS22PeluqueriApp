@@ -16,6 +16,9 @@
     <Compile Update="AnyadirAdmin.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="AnyadirAgenda.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="AnyadirServicio.cs">
       <SubType>Form</SubType>
     </Compile>
