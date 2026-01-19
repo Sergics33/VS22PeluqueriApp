@@ -78,16 +78,33 @@ namespace PeluqueriAPP
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     var n = form.NuevaCita;
-
-                    // Usamos el formato ISO que espera LocalDateTime.parse()
                     var payload = new
                     {
-                        fechaHoraInicio = n.fechaHoraInicio.ToString("yyyy-MM-ddTHH:mm:ss"),
+                        fechaHoraInicio = n.fechaHoraInicio.ToString("s"),
                         clienteId = n.cliente.id,
                         agendaId = n.agenda.id
                     };
 
-                    await EnviarApiCita(HttpMethod.Post, API_CITAS_URL, payload);
+                    try
+                    {
+                        // Intentamos enviar la cita
+                        await EnviarApiCita(HttpMethod.Post, API_CITAS_URL, payload);
+                        MessageBox.Show("Cita añadida correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        // Aquí podrías llamar a tu método de refrescar la lista
+                    }
+                    catch (HttpRequestException ex)
+                    {
+                        // Si el servidor responde con 400 (Bad Request)
+                        if (ex.Message.Contains("400"))
+                        {
+                            MessageBox.Show("La hora seleccionada no es válida para esta agenda o no hay sillas disponibles. Por favor, elige otra hora.",
+                                "Hora no válida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error de conexión: " + ex.Message);
+                        }
+                    }
                 }
             }
         }
