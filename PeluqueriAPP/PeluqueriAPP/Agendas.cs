@@ -99,14 +99,40 @@ namespace PeluqueriAPP
         }
 
         // --- FUNCIONALIDAD DE ACCIONES ---
-        private async void btnAnyadir_Click(object sender, EventArgs e)
+        private async void btnAbrirAnyadir_Click(object sender, EventArgs e)
         {
-            AnyadirAgenda form = new AnyadirAgenda();
-            if (form.ShowDialog() == DialogResult.OK)
+            using (var form = new AnyadirAgenda())
             {
-                var n = form.NuevaAgenda;
-                var dto = new { aula = n.Aula, horaInicio = n.HoraInicio, horaFin = n.HoraFin, sillas = n.Sillas, servicio = new { id = n.Servicio.id }, grupo = new { id = n.Grupo.Id } };
-                await EnviarApi(HttpMethod.Post, API_BASE_URL, dto);
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    // CREAMOS EL OBJETO QUE LA API ESPERA (AgendaRequest)
+                    // Es vital que los nombres coincidan con los de tu Java (grupoId, servicioId)
+                    var datosParaEnviar = new
+                    {
+                        aula = form.NuevaAgenda.Aula,
+                        horaInicio = form.NuevaAgenda.HoraInicio.ToString("yyyy-MM-ddTHH:mm:ss"),
+                        horaFin = form.NuevaAgenda.HoraFin.ToString("yyyy-MM-ddTHH:mm:ss"),
+                        sillas = form.NuevaAgenda.Sillas,
+
+                        // AQUÍ ESTABA EL ERROR: Debes pasar el ID numérico explícitamente
+                        servicioId = form.NuevaAgenda.Servicio?.id,
+                        grupoId = form.NuevaAgenda.Grupo?.Id
+                    };
+
+                    // Enviar a la API
+                    var response = await httpClient.PostAsJsonAsync("api/agendas", datosParaEnviar);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("Agenda creada correctamente");
+                        CargarAgendas(); // Refrescar lista
+                    }
+                    else
+                    {
+                        var error = await response.Content.ReadAsStringAsync();
+                        MessageBox.Show("Error del servidor: " + error);
+                    }
+                }
             }
         }
 

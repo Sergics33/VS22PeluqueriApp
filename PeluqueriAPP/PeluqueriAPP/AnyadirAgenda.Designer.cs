@@ -160,6 +160,7 @@
             btnGuardar.TabIndex = 13;
             btnGuardar.Text = "Guardar";
             btnGuardar.UseVisualStyleBackColor = false;
+            btnGuardar.Click += btnGuardar_Click;
             // 
             // btnCancelar
             // 
@@ -171,6 +172,7 @@
             btnCancelar.Text = "Cancelar";
             btnCancelar.TextAlign = ContentAlignment.BottomCenter;
             btnCancelar.UseVisualStyleBackColor = false;
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // AnyadirAgenda
             // 

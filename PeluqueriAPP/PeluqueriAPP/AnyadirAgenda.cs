@@ -17,7 +17,6 @@ namespace PeluqueriAPP
         public AnyadirAgenda()
         {
             InitializeComponent();
-            this.Load += AnyadirAgenda_Load;
         }
 
         public AnyadirAgenda(AgendaResponseDTO agendaExistente) : this()
@@ -28,13 +27,14 @@ namespace PeluqueriAPP
 
         private async void AnyadirAgenda_Load(object sender, EventArgs e)
         {
-            // Configuración de los formatos de fecha
+            // Formatos de fecha y límites del numérico
             dtpInicio.Format = DateTimePickerFormat.Custom;
             dtpInicio.CustomFormat = "dd/MM/yyyy HH:mm";
             dtpFin.Format = DateTimePickerFormat.Custom;
             dtpFin.CustomFormat = "dd/MM/yyyy HH:mm";
+            numSillas.Minimum = 0;
+            numSillas.Maximum = 100;
 
-            // CARGA DE CATÁLOGOS
             await CargarCatalogos();
 
             if (esEdicion && NuevaAgenda != null)
@@ -43,15 +43,9 @@ namespace PeluqueriAPP
                 tbAula.Text = NuevaAgenda.Aula;
                 dtpInicio.Value = NuevaAgenda.HoraInicio;
                 dtpFin.Value = NuevaAgenda.HoraFin;
+                numSillas.Value = (decimal)NuevaAgenda.Sillas;
 
-                // --- SOLUCIÓN AL ERROR DE SILLAS ---
-                numSillas.Minimum = 0; // Permitimos que el mínimo sea 0
-                numSillas.Maximum = 100; // Un valor máximo razonable
-
-                // Asignamos el valor asegurándonos de que esté en el rango
-                numSillas.Value = Math.Max(numSillas.Minimum, Math.Min(numSillas.Maximum, (decimal)NuevaAgenda.Sillas));
-                // ------------------------------------
-
+                // Seleccionamos los valores en los combos basándonos en el ID
                 cbServicios.SelectedValue = NuevaAgenda.Servicio?.id;
                 cbGrupos.SelectedValue = NuevaAgenda.Grupo?.Id;
             }
@@ -64,49 +58,83 @@ namespace PeluqueriAPP
                 httpClient.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
 
-                // 1. Cargar SERVICIOS (Usando tu clase Servicio)
                 var servicios = await httpClient.GetFromJsonAsync<List<Servicio>>("http://localhost:8080/api/servicios/");
                 cbServicios.DataSource = servicios;
-                cbServicios.DisplayMember = "Nombre"; // Tu clase tiene 'Nombre'
-                cbServicios.ValueMember = "id";       // Tu clase tiene 'id' minúscula
+                cbServicios.DisplayMember = "Nombre";
+                cbServicios.ValueMember = "id";
 
-                // 2. Cargar GRUPOS (Usando tu clase Grupo)
                 var grupos = await httpClient.GetFromJsonAsync<List<Grupo>>("http://localhost:8080/api/grupos/");
                 cbGrupos.DataSource = grupos;
-                cbGrupos.DisplayMember = "NombreCompleto"; // Tu clase tiene 'NombreCompleto'
-                cbGrupos.ValueMember = "Id";               // Tu clase tiene 'Id' mayúscula
+                cbGrupos.DisplayMember = "NombreCompleto";
+                cbGrupos.ValueMember = "Id";
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar datos: " + ex.Message);
+                MessageBox.Show("Error al cargar catálogos: " + ex.Message);
             }
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(tbAula.Text) || cbServicios.SelectedValue == null)
+            // 1. Validación de campos obligatorios
+            if (string.IsNullOrWhiteSpace(tbAula.Text))
             {
-                MessageBox.Show("Rellena los campos obligatorios.");
+                MessageBox.Show("El campo 'Aula' es obligatorio.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (NuevaAgenda == null) NuevaAgenda = new AgendaResponseDTO();
+            if (cbServicios.SelectedValue == null || cbGrupos.SelectedValue == null)
+            {
+                MessageBox.Show("Debe seleccionar un Servicio y un Grupo válidos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-            NuevaAgenda.Aula = tbAula.Text;
-            NuevaAgenda.HoraInicio = dtpInicio.Value;
-            NuevaAgenda.HoraFin = dtpFin.Value;
-            NuevaAgenda.Sillas = (int)numSillas.Value;
+            // 2. Validación de coherencia de fechas (Evita el NullPointerException en Java)
+            if (dtpFin.Value <= dtpInicio.Value)
+            {
+                MessageBox.Show("La hora de fin debe ser posterior a la hora de inicio.", "Error de fechas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            // Casteo a tus clases originales
-            NuevaAgenda.Servicio = (Servicio)cbServicios.SelectedItem;
-            NuevaAgenda.Grupo = (Grupo)cbGrupos.SelectedItem;
+            try
+            {
+                // 3. Inicializar el DTO si es una creación nueva
+                if (NuevaAgenda == null)
+                {
+                    NuevaAgenda = new AgendaResponseDTO();
+                }
 
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+                // 4. MAPEO DE DATOS (La parte crucial)
+                NuevaAgenda.Aula = tbAula.Text;
+                NuevaAgenda.HoraInicio = dtpInicio.Value;
+                NuevaAgenda.HoraFin = dtpFin.Value;
+                NuevaAgenda.Sillas = (int)numSillas.Value;
+
+                // Asignamos los objetos completos (para uso interno en C#)
+                var servicioSeleccionado = (Servicio)cbServicios.SelectedItem;
+                var grupoSeleccionado = (Grupo)cbGrupos.SelectedItem;
+
+                NuevaAgenda.Servicio = servicioSeleccionado;
+                NuevaAgenda.Grupo = grupoSeleccionado;
+
+                // IMPORTANTE: Asegúrate de que los IDs no viajen nulos a la API.
+                // Si tu objeto NuevaAgenda tiene campos 'ServicioId' y 'GrupoId', asígnalos aquí:
+                // NuevaAgenda.ServicioId = (int)cbServicios.SelectedValue;
+                // NuevaAgenda.GrupoId = (int)cbGrupos.SelectedValue;
+
+                // 5. Finalizar con éxito
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al procesar los datos del formulario: " + ex.Message, "Error Interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
+            // Cerramos indicando CANCELACIÓN
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
