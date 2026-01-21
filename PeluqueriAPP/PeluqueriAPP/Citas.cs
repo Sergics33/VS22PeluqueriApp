@@ -21,7 +21,6 @@ namespace PeluqueriAPP
             dgvCitas.AutoGenerateColumns = false;
             dgvCitas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             ConfigurarColumnas();
-            // El evento Load se gestiona a través del método Citas_Load abajo
         }
 
         private void ConfigurarColumnas()
@@ -80,31 +79,13 @@ namespace PeluqueriAPP
                     var n = form.NuevaCita;
                     var payload = new
                     {
-                        fechaHoraInicio = n.fechaHoraInicio.ToString("s"),
+                        // Para añadir, NO enviamos ID o enviamos 0
+                        fechaHoraInicio = n.fechaHoraInicio.ToString("yyyy-MM-ddTHH:mm:ss"),
                         clienteId = n.cliente.id,
                         agendaId = n.agenda.id
                     };
 
-                    try
-                    {
-                        // Intentamos enviar la cita
-                        await EnviarApiCita(HttpMethod.Post, API_CITAS_URL, payload);
-                        MessageBox.Show("Cita añadida correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        // Aquí podrías llamar a tu método de refrescar la lista
-                    }
-                    catch (HttpRequestException ex)
-                    {
-                        // Si el servidor responde con 400 (Bad Request)
-                        if (ex.Message.Contains("400"))
-                        {
-                            MessageBox.Show("La hora seleccionada no es válida para esta agenda o no hay sillas disponibles. Por favor, elige otra hora.",
-                                "Hora no válida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Error de conexión: " + ex.Message);
-                        }
-                    }
+                    await EnviarApiCita(HttpMethod.Post, API_CITAS_URL, payload);
                 }
             }
         }
@@ -113,7 +94,7 @@ namespace PeluqueriAPP
         {
             if (dgvCitas.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Por favor, selecciona una cita de la tabla para editar.");
+                MessageBox.Show("Selecciona una cita para editar.");
                 return;
             }
 
@@ -127,48 +108,34 @@ namespace PeluqueriAPP
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     var n = form.NuevaCita;
+
+                    // Enviamos el objeto con la estructura que Spring suele preferir para PUT
                     var payload = new
                     {
                         id = id,
                         fechaHoraInicio = n.fechaHoraInicio.ToString("yyyy-MM-ddTHH:mm:ss"),
-                        cliente = new { id = n.cliente.id },
-                        agenda = new { id = n.agenda.id }
+                        clienteId = n.cliente.id,
+                        agendaId = n.agenda.id
                     };
 
-                    string url = API_CITAS_URL.TrimEnd('/') + "/" + id;
-                    await EnviarApiCita(HttpMethod.Put, url, payload);
+                    // IMPORTANTE: La URL debe terminar en el ID sin barras extra
+                    string urlEditar = API_CITAS_URL.TrimEnd('/') + "/" + id;
+
+                    // Volvemos a intentar PUT. Si falla con 405, el problema está en el Backend (CORS)
+                    await EnviarApiCita(HttpMethod.Put, urlEditar, payload);
                 }
             }
         }
 
         private async void btnBorrar_Click(object sender, EventArgs e)
         {
-            if (dgvCitas.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Selecciona una cita para borrar.");
-                return;
-            }
-
+            if (dgvCitas.SelectedRows.Count == 0) return;
             long id = (long)dgvCitas.SelectedRows[0].Cells["IdCol"].Value;
 
-            if (MessageBox.Show("¿Estás seguro de borrar esta cita?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("¿Estás seguro de borrar esta cita?", "Confirmar", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                try
-                {
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
-                    var response = await httpClient.DeleteAsync($"{API_CITAS_URL}{id}");
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        MessageBox.Show("Cita eliminada.");
-                        await CargarCitas();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Error al borrar: " + response.StatusCode);
-                    }
-                }
-                catch (Exception ex) { MessageBox.Show(ex.Message); }
+                string urlDelete = API_CITAS_URL.TrimEnd('/') + "/" + id;
+                await EnviarApiCita(HttpMethod.Delete, urlDelete, null);
             }
         }
 
@@ -179,28 +146,31 @@ namespace PeluqueriAPP
                 httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
-                HttpRequestMessage request = new HttpRequestMessage(metodo, url)
-                {
-                    Content = JsonContent.Create(data)
-                };
+                HttpResponseMessage response;
 
-                var response = await httpClient.SendAsync(request);
+                if (metodo == HttpMethod.Post)
+                    response = await httpClient.PostAsJsonAsync(url, data);
+                else if (metodo == HttpMethod.Put)
+                    response = await httpClient.PutAsJsonAsync(url, data); // Enviamos PUT real
+                else if (metodo == HttpMethod.Delete)
+                    response = await httpClient.DeleteAsync(url);
+                else return;
 
                 if (response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Operación exitosa.");
+                    MessageBox.Show("Operación realizada con éxito.");
                     await CargarCitas();
                 }
                 else
                 {
-                    string error = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Error {response.StatusCode}: {error}");
+                    string errorDetail = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error {response.StatusCode}: {errorDetail}");
                 }
             }
-            catch (Exception ex) { MessageBox.Show("Error de conexión: " + ex.Message); }
+            catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
         }
 
-        // --- MÉTODOS REQUERIDOS POR EL DISEÑADOR (NO BORRAR) ---
+        // --- MÉTODOS DE NAVEGACIÓN (CONSERVADOS) ---
 
         private async void Citas_Load(object sender, EventArgs e)
         {

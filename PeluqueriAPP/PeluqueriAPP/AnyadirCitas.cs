@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace PeluqueriAPP
 {
@@ -13,128 +14,157 @@ namespace PeluqueriAPP
         private HttpClient httpClient = new HttpClient();
         public Cita NuevaCita { get; private set; }
         private long? citaId = null;
+        private List<AgendaResponseDTO> agendasActuales = new List<AgendaResponseDTO>();
 
         public AnyadirCitas(Cita cita = null)
         {
             InitializeComponent();
 
-            // CONFIGURACIÓN DEL SELECTOR DE FECHA Y HORA
-            dtpFechaHora.Format = DateTimePickerFormat.Custom;
-            dtpFechaHora.CustomFormat = "dd/MM/yyyy HH:mm";
-            dtpFechaHora.ShowUpDown = true; // Usa flechas para evitar errores de selección
+            // Eventos: Cuando cambie Grupo o Servicio, buscamos DÍAS disponibles
+            cmbGrupo.SelectedIndexChanged += async (s, e) => await CargarDiasDisponibles();
+            cmbServicio.SelectedIndexChanged += async (s, e) => await CargarDiasDisponibles();
+
+            // Evento: Cuando el usuario elija un DÍA, buscamos las HORAS de ese día
+            cmbDias.SelectedIndexChanged += (s, e) => ActualizarComboHoras();
 
             if (cita != null)
             {
                 citaId = cita.id;
                 this.Text = "Editar Cita";
-                dtpFechaHora.Value = cita.fechaHoraInicio;
             }
 
-            this.Load += async (s, e) => await CargarDatosCombos(cita);
+            this.Load += async (s, e) => await CargarDatosIniciales(cita);
         }
 
-        private async Task CargarDatosCombos(Cita citaExistente)
+        private async Task CargarDatosIniciales(Cita citaExistente)
         {
             try
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
-                // 1. CARGAR CLIENTES
                 var clientes = await httpClient.GetFromJsonAsync<List<ClienteDTO>>("http://localhost:8080/api/clientes/");
                 cmbCliente.DataSource = clientes;
                 cmbCliente.DisplayMember = "nombreCompleto";
                 cmbCliente.ValueMember = "id";
 
-                // 2. CARGAR AGENDAS
-                var agendas = await httpClient.GetFromJsonAsync<List<AgendaDTO>>("http://localhost:8080/api/agendas/");
-                cmbAgenda.DataSource = agendas;
-                cmbAgenda.ValueMember = "id"; // Aseguramos que tenga ValueMember
+                var grupos = await httpClient.GetFromJsonAsync<List<Grupo>>("http://localhost:8080/api/grupos/");
+                cmbGrupo.DataSource = grupos;
+                cmbGrupo.DisplayMember = "nombreCompleto";
+                cmbGrupo.ValueMember = "id";
 
-                // Formato visual para el combo de agendas
-                cmbAgenda.Format += (s, e) =>
-                {
-                    var a = (AgendaDTO)e.ListItem;
-                    string servicioNombre = a.servicio?.nombre ?? "Sin servicio";
-                    e.Value = $"{a.aula} - {servicioNombre}";
-                };
+                var servicios = await httpClient.GetFromJsonAsync<List<Servicio>>("http://localhost:8080/api/servicios/");
+                cmbServicio.DataSource = servicios;
+                cmbServicio.DisplayMember = "nombre";
+                cmbServicio.ValueMember = "id";
 
-                // Si estamos editando, seleccionamos los valores actuales
                 if (citaExistente != null)
                 {
-                    if (citaExistente.cliente != null)
-                        cmbCliente.SelectedValue = citaExistente.cliente.id;
+                    cmbCliente.SelectedValue = citaExistente.cliente?.id;
+                    // Aquí podrías pre-seleccionar el resto si es edición
+                }
 
-                    if (citaExistente.agenda != null)
-                        cmbAgenda.SelectedValue = citaExistente.agenda.id;
+                await CargarDiasDisponibles();
+            }
+            catch (Exception ex) { MessageBox.Show("Error al conectar con el servidor: " + ex.Message); }
+        }
+
+        private async Task CargarDiasDisponibles()
+        {
+            if (cmbGrupo.SelectedValue == null || cmbServicio.SelectedValue == null) return;
+
+            try
+            {
+                long grupoId = Convert.ToInt64(cmbGrupo.SelectedValue);
+                long servicioId = Convert.ToInt64(cmbServicio.SelectedValue);
+
+                string url = $"http://localhost:8080/api/agendas/?servicio={servicioId}&grupo={grupoId}";
+                agendasActuales = await httpClient.GetFromJsonAsync<List<AgendaResponseDTO>>(url);
+
+                cmbDias.Items.Clear();
+                cmbHoras.Items.Clear();
+
+                if (agendasActuales != null)
+                {
+                    // Extraemos fechas únicas que tengan al menos un hueco en 'true'
+                    var fechasUnicas = agendasActuales
+                        .SelectMany(a => a.HorasDisponiblesEstado)
+                        .Where(h => h.Value == true)
+                        .Select(h => DateTime.Parse(h.Key).ToString("dd/MM/yyyy"))
+                        .Distinct()
+                        .ToList();
+
+                    foreach (var fecha in fechasUnicas)
+                    {
+                        cmbDias.Items.Add(fecha);
+                    }
+                }
+
+                if (cmbDias.Items.Count > 0) cmbDias.SelectedIndex = 0;
+            }
+            catch { /* Manejo de error silencioso */ }
+        }
+
+        private void ActualizarComboHoras()
+        {
+            if (cmbDias.SelectedItem == null) return;
+
+            cmbHoras.Items.Clear();
+            string fechaSeleccionadaStr = cmbDias.SelectedItem.ToString();
+            DateTime fechaSeleccionada = DateTime.Parse(fechaSeleccionadaStr).Date;
+
+            foreach (var agenda in agendasActuales)
+            {
+                if (agenda.HorasDisponiblesEstado != null)
+                {
+                    var horas = agenda.HorasDisponiblesEstado
+                        .Where(h => DateTime.Parse(h.Key).Date == fechaSeleccionada && h.Value == true)
+                        .Select(h => DateTime.Parse(h.Key).ToString("HH:mm"))
+                        .OrderBy(h => h);
+
+                    foreach (var h in horas)
+                    {
+                        if (!cmbHoras.Items.Contains(h)) cmbHoras.Items.Add(h);
+                    }
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar datos del servidor: " + ex.Message, "Error API", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+
+            if (cmbHoras.Items.Count > 0) cmbHoras.SelectedIndex = 0;
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            // 1. Validaciones de selección
-            if (cmbCliente.SelectedItem == null || cmbAgenda.SelectedItem == null)
+            if (cmbDias.SelectedItem == null || cmbHoras.SelectedItem == null)
             {
-                MessageBox.Show("Por favor, selecciona un cliente y una agenda.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor, selecciona un día y una hora.", "Aviso");
                 return;
             }
 
-            // 2. Capturar la fecha del DateTimePicker
-            DateTime seleccionada = dtpFechaHora.Value;
+            DateTime fechaBase = DateTime.Parse(cmbDias.SelectedItem.ToString()).Date;
+            TimeSpan horaBase = TimeSpan.Parse(cmbHoras.SelectedItem.ToString());
+            DateTime fechaFinal = fechaBase.Add(horaBase);
 
-            // 3. VALIDACIÓN DE BLOQUES DE 30 MINUTOS
-            // Esto evita que el servidor Java de error 400 por "huecos no encontrados"
-            if (seleccionada.Minute != 0 && seleccionada.Minute != 30)
+            // Buscamos la agenda: 
+            // Si es una cita nueva (citaId == null), buscamos que sea TRUE.
+            // Si estamos editando, permitimos que sea la misma que ya tenemos aunque esté en FALSE (porque nosotros la ocupamos).
+            var agendaSeleccionada = agendasActuales.FirstOrDefault(a =>
+                a.HorasDisponiblesEstado != null &&
+                a.HorasDisponiblesEstado.Any(h => DateTime.Parse(h.Key) == fechaFinal));
+
+            if (agendaSeleccionada != null)
             {
-                MessageBox.Show("Las citas solo se pueden reservar en bloques de 30 minutos (ejemplo: 10:00, 10:30, 11:00...).",
-                    "Minutos no válidos", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+                NuevaCita = new Cita
+                {
+                    // Si citaId es null, enviamos 0 para que el servidor cree una nueva
+                    id = citaId ?? 0,
+                    fechaHoraInicio = fechaFinal,
+                    cliente = (ClienteDTO)cmbCliente.SelectedItem,
+                    agenda = new AgendaDTO { id = agendaSeleccionada.Id }
+                };
+                this.DialogResult = DialogResult.OK;
+                this.Close();
             }
-
-            // 4. LIMPIEZA DE DATOS (Segundos y Milisegundos a 0)
-            DateTime fechaLimpia = new DateTime(
-                seleccionada.Year,
-                seleccionada.Month,
-                seleccionada.Day,
-                seleccionada.Hour,
-                seleccionada.Minute,
-                0, 0
-            );
-
-            // 5. Validación de horario comercial
-            if (fechaLimpia.Hour < 8 || fechaLimpia.Hour > 21)
-            {
-                MessageBox.Show("El centro está cerrado. Selecciona una hora entre las 08:00 y las 21:00.",
-                    "Horario no permitido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // 6. Crear el objeto NuevaCita
-            NuevaCita = new Cita
-            {
-                id = citaId ?? 0,
-                fechaHoraInicio = fechaLimpia,
-                cliente = (ClienteDTO)cmbCliente.SelectedItem,
-                agenda = (AgendaDTO)cmbAgenda.SelectedItem
-            };
-
-            this.DialogResult = DialogResult.OK;
-            this.Close();
         }
 
-        private void btnCancelar_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
-        }
-
-        private void AnyadirCitas_Load(object sender, EventArgs e)
-        {
-
-        }
+        private void btnCancelar_Click(object sender, EventArgs e) => this.Close();
     }
 }
