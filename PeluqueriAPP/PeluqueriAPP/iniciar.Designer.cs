@@ -2,15 +2,8 @@
 {
     partial class iniciar
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,10 +15,6 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(iniciar));
@@ -41,7 +30,7 @@
             // iconoFP
             // 
             iconoFP.Image = (Image)resources.GetObject("iconoFP.Image");
-            iconoFP.Location = new Point(12, 59);
+            iconoFP.Location = new Point(12, 45);
             iconoFP.Name = "iconoFP";
             iconoFP.Size = new Size(116, 119);
             iconoFP.SizeMode = PictureBoxSizeMode.Zoom;
@@ -50,60 +39,83 @@
             // 
             // txtUsuario
             // 
-            txtUsuario.Location = new Point(152, 77);
+            txtUsuario.BackColor = Color.White;
+            txtUsuario.BorderStyle = BorderStyle.FixedSingle;
+            txtUsuario.Font = new Font("Segoe UI", 10F);
+            txtUsuario.Location = new Point(152, 65);
             txtUsuario.Name = "txtUsuario";
-            txtUsuario.Size = new Size(141, 23);
-            txtUsuario.TabIndex = 5;
+            txtUsuario.Size = new Size(160, 25);
+            txtUsuario.TabIndex = 0;
             // 
             // lblUsuario
             // 
             lblUsuario.AutoSize = true;
-            lblUsuario.Location = new Point(152, 59);
+            lblUsuario.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblUsuario.ForeColor = Color.FromArgb(64, 64, 64);
+            lblUsuario.Location = new Point(152, 45);
             lblUsuario.Name = "lblUsuario";
-            lblUsuario.Size = new Size(104, 15);
+            lblUsuario.Size = new Size(57, 17);
             lblUsuario.TabIndex = 6;
-            lblUsuario.Text = "Introducir usuario:";
-            lblUsuario.Click += label1_Click;
+            lblUsuario.Text = "Usuario:";
             // 
             // lblContrasenya
             // 
             lblContrasenya.AutoSize = true;
-            lblContrasenya.Location = new Point(152, 124);
+            lblContrasenya.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            lblContrasenya.ForeColor = Color.FromArgb(64, 64, 64);
+            lblContrasenya.Location = new Point(152, 105);
             lblContrasenya.Name = "lblContrasenya";
-            lblContrasenya.Size = new Size(123, 15);
+            lblContrasenya.Size = new Size(80, 17);
             lblContrasenya.TabIndex = 7;
-            lblContrasenya.Text = "Introducir contraseña:";
+            lblContrasenya.Text = "Contraseña:";
             // 
             // txtContrasenya
             // 
-            txtContrasenya.Location = new Point(152, 142);
+            txtContrasenya.BackColor = Color.White;
+            txtContrasenya.BorderStyle = BorderStyle.FixedSingle;
+            txtContrasenya.Font = new Font("Segoe UI", 10F);
+            txtContrasenya.Location = new Point(152, 125);
             txtContrasenya.Name = "txtContrasenya";
-            txtContrasenya.Size = new Size(141, 23);
-            txtContrasenya.TabIndex = 8;
+            txtContrasenya.Size = new Size(160, 25);
+            txtContrasenya.TabIndex = 1;
+            txtContrasenya.UseSystemPasswordChar = true;
             // 
             // btnIniciar
             // 
-            btnIniciar.Location = new Point(177, 183);
+            btnIniciar.BackColor = Color.FromArgb(45, 45, 48);
+            btnIniciar.Cursor = Cursors.Hand;
+            btnIniciar.FlatAppearance.BorderSize = 0;
+            btnIniciar.FlatAppearance.MouseDownBackColor = Color.FromArgb(28, 28, 28);
+            btnIniciar.FlatAppearance.MouseOverBackColor = Color.FromArgb(63, 63, 65);
+            btnIniciar.FlatStyle = FlatStyle.Flat;
+            btnIniciar.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            btnIniciar.ForeColor = Color.White;
+            btnIniciar.Location = new Point(152, 170);
             btnIniciar.Name = "btnIniciar";
-            btnIniciar.Size = new Size(87, 23);
-            btnIniciar.TabIndex = 9;
-            btnIniciar.Text = "Iniciar Sesion";
-            btnIniciar.UseVisualStyleBackColor = true;
+            btnIniciar.Size = new Size(160, 35);
+            btnIniciar.TabIndex = 2;
+            btnIniciar.Text = "Iniciar Sesión";
+            btnIniciar.UseVisualStyleBackColor = false;
             btnIniciar.Click += btnIniciar_Click;
             // 
             // iniciar
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(343, 229);
+            BackColor = Color.FromArgb(240, 240, 240); // Fondo grisáceo claro
+            ClientSize = new Size(343, 235);
             Controls.Add(btnIniciar);
             Controls.Add(txtContrasenya);
             Controls.Add(lblContrasenya);
             Controls.Add(lblUsuario);
             Controls.Add(txtUsuario);
             Controls.Add(iconoFP);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "iniciar";
-            Text = "Form1";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "PeluqueriAPP - Acceso";
             ((System.ComponentModel.ISupportInitialize)iconoFP).EndInit();
             ResumeLayout(false);
             PerformLayout();

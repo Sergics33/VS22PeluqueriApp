@@ -453,132 +453,17 @@ namespace PeluqueriAPP
             ResumeLayout(false);
         }
 
-        private void label4_Click(object sender, EventArgs e)
-        {
-        }
 
-        private void label6_Click_1(object sender, EventArgs e)
-        {
-        }
-
-        private void lblBernatS_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void lblNumCitas_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void panelCitas_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
-        private void panelPorServi_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void panel3_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
-        private void lblNombre9_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void panel4_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
-        private void lblBernat_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void lblPanel_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void iconoFP_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void lblGestion_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void lblHome_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void lblCitas_Click(object sender, EventArgs e)
-        {
-            Citas anterior = new Citas();
-            anterior.Show();
-            Close();
-        }
-
-        
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void lblAdmin_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void lblCerrarSesion_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void IconoPerfil_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void IconoHome_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void IconoCitas_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void IconoServicios_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void IconoPersonal_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void lblTitulo_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void lblUbi_Click(object sender, EventArgs e)
-        {
-        }
 
         #endregion
 
+        // Asegúrate de que estas variables estén declaradas al final del Designer.cs
         private Panel panel1;
         private Label lblPanel;
         private Label lblBernat;
         private Label label3;
         private PictureBox iconoFP;
         private Label label9;
-        private Label lblPersonal;
         private Label lblServicios;
         private Label lblCitas;
         private Label lblHome;
@@ -587,10 +472,6 @@ namespace PeluqueriAPP
         private Label lblCerrarSesion;
         private Label lblAdmin;
         private Label label1;
-        private PictureBox IconoHome;
-        private PictureBox IconoCitas;
-        private PictureBox IconoPersonal;
-        private PictureBox IconoServicios;
         private Panel panel2;
         private Label label2;
         private Label lblUbi;
@@ -602,7 +483,6 @@ namespace PeluqueriAPP
         private Panel panel3;
         private Label label5;
         private Panel panel4;
-        private Label lblUsuarios;
         private Label label7;
         private PictureBox pictureBox1;
         private PictureBox pictureBox2;

@@ -18,6 +18,13 @@ namespace PeluqueriAPP
         public Citas()
         {
             InitializeComponent();
+
+            // --- AJUSTES PARA SER FORMULARIO HIJO ---
+            this.TopLevel = false;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.Dock = DockStyle.Fill;
+            // ----------------------------------------
+
             dgvCitas.AutoGenerateColumns = false;
             dgvCitas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             ConfigurarColumnas();
@@ -68,8 +75,6 @@ namespace PeluqueriAPP
             dgvCitas.DataSource = listaParaGrid;
         }
 
-        // --- ACCIONES PRINCIPALES ---
-
         private async void btnAnyadir_Click(object sender, EventArgs e)
         {
             using (AnyadirCitas form = new AnyadirCitas())
@@ -79,12 +84,10 @@ namespace PeluqueriAPP
                     var n = form.NuevaCita;
                     var payload = new
                     {
-                        // Para añadir, NO enviamos ID o enviamos 0
                         fechaHoraInicio = n.fechaHoraInicio.ToString("yyyy-MM-ddTHH:mm:ss"),
                         clienteId = n.cliente.id,
                         agendaId = n.agenda.id
                     };
-
                     await EnviarApiCita(HttpMethod.Post, API_CITAS_URL, payload);
                 }
             }
@@ -100,7 +103,6 @@ namespace PeluqueriAPP
 
             long id = (long)dgvCitas.SelectedRows[0].Cells["IdCol"].Value;
             var seleccionada = listaCitasOriginal.FirstOrDefault(c => c.id == id);
-
             if (seleccionada == null) return;
 
             using (AnyadirCitas form = new AnyadirCitas(seleccionada))
@@ -108,8 +110,6 @@ namespace PeluqueriAPP
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     var n = form.NuevaCita;
-
-                    // Enviamos el objeto con la estructura que Spring suele preferir para PUT
                     var payload = new
                     {
                         id = id,
@@ -117,11 +117,7 @@ namespace PeluqueriAPP
                         clienteId = n.cliente.id,
                         agendaId = n.agenda.id
                     };
-
-                    // IMPORTANTE: La URL debe terminar en el ID sin barras extra
                     string urlEditar = API_CITAS_URL.TrimEnd('/') + "/" + id;
-
-                    // Volvemos a intentar PUT. Si falla con 405, el problema está en el Backend (CORS)
                     await EnviarApiCita(HttpMethod.Put, urlEditar, payload);
                 }
             }
@@ -147,13 +143,9 @@ namespace PeluqueriAPP
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
                 HttpResponseMessage response;
-
-                if (metodo == HttpMethod.Post)
-                    response = await httpClient.PostAsJsonAsync(url, data);
-                else if (metodo == HttpMethod.Put)
-                    response = await httpClient.PutAsJsonAsync(url, data); // Enviamos PUT real
-                else if (metodo == HttpMethod.Delete)
-                    response = await httpClient.DeleteAsync(url);
+                if (metodo == HttpMethod.Post) response = await httpClient.PostAsJsonAsync(url, data);
+                else if (metodo == HttpMethod.Put) response = await httpClient.PutAsJsonAsync(url, data);
+                else if (metodo == HttpMethod.Delete) response = await httpClient.DeleteAsync(url);
                 else return;
 
                 if (response.IsSuccessStatusCode)
@@ -170,50 +162,19 @@ namespace PeluqueriAPP
             catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
         }
 
-        // --- MÉTODOS DE NAVEGACIÓN (CONSERVADOS) ---
-
         private async void Citas_Load(object sender, EventArgs e)
         {
             await CargarCitas();
         }
 
-        private void lblHome_Click_1(object sender, EventArgs e)
-        {
-            new Home().Show();
-            this.Close();
-        }
-
-        private void lblHome_Click(object sender, EventArgs e) { new Home().Show(); this.Close(); }
-        private void lblServicios_Click(object sender, EventArgs e) { new Servicios().Show(); this.Close(); }
-        private void lblAgenda_Click(object sender, EventArgs e) { new Agendas().Show(); this.Close(); }
-        private void label7_Click(object sender, EventArgs e) { new Admins().Show(); this.Close(); }
+        // --- MÉTODOS VACÍOS PARA CALMAR AL DESIGNER ---
+        // Estos métodos son necesarios porque el Citas.Designer.cs aún tiene los eventos click asignados
+        private void lblHome_Click(object sender, EventArgs e) { }
     }
 
     // --- DTOs ---
-    public class Cita
-    {
-        public long id { get; set; }
-        public DateTime fechaHoraInicio { get; set; }
-        public ClienteDTO cliente { get; set; }
-        public AgendaDTO agenda { get; set; }
-    }
-
-    public class ClienteDTO
-    {
-        public long id { get; set; }
-        public string nombreCompleto { get; set; }
-    }
-
-    public class AgendaDTO
-    {
-        public long id { get; set; }
-        public string aula { get; set; }
-        public ServicioSimpleDTO servicio { get; set; }
-    }
-
-    public class ServicioSimpleDTO
-    {
-        public long id { get; set; }
-        public string nombre { get; set; }
-    }
+    public class Cita { public long id { get; set; } public DateTime fechaHoraInicio { get; set; } public ClienteDTO cliente { get; set; } public AgendaDTO agenda { get; set; } }
+    public class ClienteDTO { public long id { get; set; } public string nombreCompleto { get; set; } }
+    public class AgendaDTO { public long id { get; set; } public string aula { get; set; } public ServicioSimpleDTO servicio { get; set; } }
+    public class ServicioSimpleDTO { public long id { get; set; } public string nombre { get; set; } }
 }

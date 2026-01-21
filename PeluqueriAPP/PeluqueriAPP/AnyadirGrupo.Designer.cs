@@ -31,89 +31,106 @@ namespace PeluqueriAPP
             // 
             // lbltitulo
             // 
-            lbltitulo.AutoSize = true;
             lbltitulo.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
-            lbltitulo.Location = new Point(45, 20);
+            lbltitulo.ForeColor = Color.ForestGreen;
+            lbltitulo.Location = new Point(0, 20);
             lbltitulo.Name = "lbltitulo";
-            lbltitulo.Size = new Size(0, 37);
+            lbltitulo.Size = new Size(380, 45);
             lbltitulo.TabIndex = 0;
+            lbltitulo.Text = "AÑADIR GRUPO/CLASE";
+            lbltitulo.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblNombre
             // 
             lblNombre.AutoSize = true;
-            lblNombre.Location = new Point(45, 80);
+            lblNombre.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold); // Estilo Semibold
+            lblNombre.ForeColor = Color.FromArgb(64, 64, 64); // Gris oscuro profesional
+            lblNombre.Location = new Point(35, 90);
             lblNombre.Name = "lblNombre";
-            lblNombre.Size = new Size(54, 15);
-            lblNombre.TabIndex = 1;
+            lblNombre.Size = new Size(63, 19);
             lblNombre.Text = "Nombre:";
             // 
             // tbNombre
             // 
-            tbNombre.Location = new Point(150, 80);
+            tbNombre.Font = new Font("Segoe UI", 10F);
+            tbNombre.Location = new Point(140, 87);
             tbNombre.Name = "tbNombre";
-            tbNombre.Size = new Size(100, 23);
-            tbNombre.TabIndex = 2;
+            tbNombre.Size = new Size(200, 25);
+            tbNombre.TabIndex = 1;
             // 
             // lblEmail
             // 
             lblEmail.AutoSize = true;
-            lblEmail.Location = new Point(45, 120);
+            lblEmail.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            lblEmail.ForeColor = Color.FromArgb(64, 64, 64);
+            lblEmail.Location = new Point(35, 130);
             lblEmail.Name = "lblEmail";
-            lblEmail.Size = new Size(39, 15);
-            lblEmail.TabIndex = 3;
+            lblEmail.Size = new Size(46, 19);
             lblEmail.Text = "Email:";
             // 
             // tbEmail
             // 
-            tbEmail.Location = new Point(150, 120);
+            tbEmail.Font = new Font("Segoe UI", 10F);
+            tbEmail.Location = new Point(140, 127);
             tbEmail.Name = "tbEmail";
-            tbEmail.Size = new Size(100, 23);
-            tbEmail.TabIndex = 4;
+            tbEmail.Size = new Size(200, 25);
+            tbEmail.TabIndex = 2;
             // 
             // lblPassword
             // 
             lblPassword.AutoSize = true;
-            lblPassword.Location = new Point(45, 160);
+            lblPassword.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            lblPassword.ForeColor = Color.FromArgb(64, 64, 64);
+            lblPassword.Location = new Point(35, 170);
             lblPassword.Name = "lblPassword";
-            lblPassword.Size = new Size(60, 15);
-            lblPassword.TabIndex = 5;
+            lblPassword.Size = new Size(71, 19);
             lblPassword.Text = "Password:";
             // 
             // tbPassword
             // 
-            tbPassword.Location = new Point(150, 160);
+            tbPassword.Font = new Font("Segoe UI", 10F);
+            tbPassword.Location = new Point(140, 167);
             tbPassword.Name = "tbPassword";
-            tbPassword.Size = new Size(100, 23);
-            tbPassword.TabIndex = 6;
+            tbPassword.Size = new Size(200, 25);
+            tbPassword.TabIndex = 4;
+            tbPassword.UseSystemPasswordChar = true;
             // 
             // lblClase
             // 
             lblClase.AutoSize = true;
-            lblClase.Location = new Point(45, 200);
+            lblClase.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            lblClase.ForeColor = Color.FromArgb(64, 64, 64);
+            lblClase.Location = new Point(35, 210);
             lblClase.Name = "lblClase";
-            lblClase.Size = new Size(38, 15);
-            lblClase.TabIndex = 7;
+            lblClase.Size = new Size(45, 19);
             lblClase.Text = "Clase:";
             // 
             // tbClase
             // 
-            tbClase.Location = new Point(150, 200);
+            tbClase.Font = new Font("Segoe UI", 10F);
+            tbClase.Location = new Point(140, 207);
             tbClase.Name = "tbClase";
-            tbClase.Size = new Size(100, 23);
-            tbClase.TabIndex = 8;
-            tbClase.TextChanged += tbClase_TextChanged;
+            tbClase.Size = new Size(200, 25);
+            tbClase.TabIndex = 6;
             // 
             // btnAnyadir
             // 
-            btnAnyadir.Location = new Point(150, 240);
+            btnAnyadir.BackColor = Color.FromArgb(255, 192, 128);
+            btnAnyadir.FlatAppearance.BorderSize = 0;
+            btnAnyadir.FlatStyle = FlatStyle.Flat;
+            btnAnyadir.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            btnAnyadir.ForeColor = Color.White;
+            btnAnyadir.Location = new Point(35, 260);
             btnAnyadir.Name = "btnAnyadir";
-            btnAnyadir.Size = new Size(150, 30);
-            btnAnyadir.TabIndex = 9;
-            btnAnyadir.Text = "AÑADIR GRUPO";
+            btnAnyadir.Size = new Size(305, 45);
+            btnAnyadir.TabIndex = 7;
+            btnAnyadir.Text = "AÑADIR GRUPO/CLASE";
+            btnAnyadir.UseVisualStyleBackColor = false;
             // 
             // AnyadirGrupo
             // 
-            ClientSize = new Size(360, 300);
+            BackColor = Color.FromArgb(245, 245, 245);
+            ClientSize = new Size(380, 340);
             Controls.Add(lbltitulo);
             Controls.Add(lblNombre);
             Controls.Add(tbNombre);
@@ -124,7 +141,10 @@ namespace PeluqueriAPP
             Controls.Add(lblClase);
             Controls.Add(tbClase);
             Controls.Add(btnAnyadir);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
             Name = "AnyadirGrupo";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "Añadir Grupo";
             ResumeLayout(false);
             PerformLayout();

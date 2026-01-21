@@ -31,10 +31,10 @@
     <Compile Update="Citas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="SeleccionarTipoUsuario.cs">
+    <Compile Update="iniciar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="iniciar.cs">
+    <Compile Update="SeleccionarTipoUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Home.cs">

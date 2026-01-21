@@ -14,11 +14,14 @@ namespace PeluqueriAPP
         public AgendaResponseDTO NuevaAgenda { get; private set; }
         private bool esEdicion = false;
 
+        // Constructor para AÑADIR
         public AnyadirAgenda()
         {
             InitializeComponent();
+            esEdicion = false;
         }
 
+        // Constructor para EDITAR
         public AnyadirAgenda(AgendaResponseDTO agendaExistente) : this()
         {
             esEdicion = true;
@@ -27,27 +30,52 @@ namespace PeluqueriAPP
 
         private async void AnyadirAgenda_Load(object sender, EventArgs e)
         {
-            // Formatos de fecha y límites del numérico
+            ConfigurarLimitesYFormatos();
+
+            // 1. Cargar datos de la API primero
+            await CargarCatalogos();
+
+            // 2. Aplicar estilo y rellenar si es edición
+            ConfigurarInterfazModoEdicion();
+        }
+
+        private void ConfigurarLimitesYFormatos()
+        {
             dtpInicio.Format = DateTimePickerFormat.Custom;
             dtpInicio.CustomFormat = "dd/MM/yyyy HH:mm";
             dtpFin.Format = DateTimePickerFormat.Custom;
             dtpFin.CustomFormat = "dd/MM/yyyy HH:mm";
-            numSillas.Minimum = 0;
+            numSillas.Minimum = 1;
             numSillas.Maximum = 100;
+        }
 
-            await CargarCatalogos();
-
+        private void ConfigurarInterfazModoEdicion()
+        {
             if (esEdicion && NuevaAgenda != null)
             {
+                // Cambiar textos al estilo "Editar"
+                label7.Text = "EDITAR HORARIO";
+                btnGuardar.Text = "GUARDAR";
                 this.Text = "Editar Agenda";
+
+                // Rellenar campos
                 tbAula.Text = NuevaAgenda.Aula;
                 dtpInicio.Value = NuevaAgenda.HoraInicio;
                 dtpFin.Value = NuevaAgenda.HoraFin;
                 numSillas.Value = (decimal)NuevaAgenda.Sillas;
 
-                // Seleccionamos los valores en los combos basándonos en el ID
-                cbServicios.SelectedValue = NuevaAgenda.Servicio?.id;
-                cbGrupos.SelectedValue = NuevaAgenda.Grupo?.Id;
+                // Seleccionar en ComboBoxes
+                if (NuevaAgenda.Servicio != null)
+                    cbServicios.SelectedValue = NuevaAgenda.Servicio.id;
+
+                if (NuevaAgenda.Grupo != null)
+                    cbGrupos.SelectedValue = NuevaAgenda.Grupo.Id;
+            }
+            else
+            {
+                label7.Text = "AÑADIR AL HORARIO";
+                btnGuardar.Text = "AÑADIR";
+                this.Text = "Añadir Agenda";
             }
         }
 
@@ -70,71 +98,57 @@ namespace PeluqueriAPP
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar catálogos: " + ex.Message);
+                MessageBox.Show("Error al cargar catálogos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            // 1. Validación de campos obligatorios
-            if (string.IsNullOrWhiteSpace(tbAula.Text))
-            {
-                MessageBox.Show("El campo 'Aula' es obligatorio.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (cbServicios.SelectedValue == null || cbGrupos.SelectedValue == null)
-            {
-                MessageBox.Show("Debe seleccionar un Servicio y un Grupo válidos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // 2. Validación de coherencia de fechas (Evita el NullPointerException en Java)
-            if (dtpFin.Value <= dtpInicio.Value)
-            {
-                MessageBox.Show("La hora de fin debe ser posterior a la hora de inicio.", "Error de fechas", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            if (!ValidarCampos()) return;
 
             try
             {
-                // 3. Inicializar el DTO si es una creación nueva
-                if (NuevaAgenda == null)
-                {
-                    NuevaAgenda = new AgendaResponseDTO();
-                }
+                if (NuevaAgenda == null) NuevaAgenda = new AgendaResponseDTO();
 
-                // 4. MAPEO DE DATOS (La parte crucial)
-                NuevaAgenda.Aula = tbAula.Text;
+                // Mapeo de datos del formulario al DTO
+                NuevaAgenda.Aula = tbAula.Text.Trim();
                 NuevaAgenda.HoraInicio = dtpInicio.Value;
                 NuevaAgenda.HoraFin = dtpFin.Value;
                 NuevaAgenda.Sillas = (int)numSillas.Value;
+                NuevaAgenda.Servicio = (Servicio)cbServicios.SelectedItem;
+                NuevaAgenda.Grupo = (Grupo)cbGrupos.SelectedItem;
 
-                // Asignamos los objetos completos (para uso interno en C#)
-                var servicioSeleccionado = (Servicio)cbServicios.SelectedItem;
-                var grupoSeleccionado = (Grupo)cbGrupos.SelectedItem;
-
-                NuevaAgenda.Servicio = servicioSeleccionado;
-                NuevaAgenda.Grupo = grupoSeleccionado;
-
-                // IMPORTANTE: Asegúrate de que los IDs no viajen nulos a la API.
-                // Si tu objeto NuevaAgenda tiene campos 'ServicioId' y 'GrupoId', asígnalos aquí:
-                // NuevaAgenda.ServicioId = (int)cbServicios.SelectedValue;
-                // NuevaAgenda.GrupoId = (int)cbGrupos.SelectedValue;
-
-                // 5. Finalizar con éxito
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al procesar los datos del formulario: " + ex.Message, "Error Interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al procesar datos: " + ex.Message);
             }
+        }
+
+        private bool ValidarCampos()
+        {
+            if (string.IsNullOrWhiteSpace(tbAula.Text))
+            {
+                MessageBox.Show("El campo 'Aula' es obligatorio.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (cbServicios.SelectedValue == null || cbGrupos.SelectedValue == null)
+            {
+                MessageBox.Show("Seleccione un Servicio y un Grupo.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (dtpFin.Value <= dtpInicio.Value)
+            {
+                MessageBox.Show("La hora de fin debe ser posterior a la de inicio.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            return true;
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            // Cerramos indicando CANCELACIÓN
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }

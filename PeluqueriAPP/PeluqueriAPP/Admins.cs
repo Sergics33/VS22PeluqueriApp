@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace PeluqueriAPP
 {
@@ -17,7 +18,9 @@ namespace PeluqueriAPP
         public Admins()
         {
             InitializeComponent();
-            Load += Admins_Load;
+
+            // Suscripción al evento Load
+            this.Load += Admins_Load;
 
             // Configuración DataGridView
             dgvAdmins.AutoGenerateColumns = false;
@@ -29,11 +32,10 @@ namespace PeluqueriAPP
 
             ConfigurarColumnas();
 
-            // Eventos
-            tbBusqueda.TextChanged += TbBusqueda_TextChanged;
-            btnAnyadir.Click += BtnAnyadir_Click;
-            btnEditar.Click += BtnEditar_Click;
-            btnBorrar.Click += BtnBorrar_Click;
+            // --- CORRECCIÓN ---
+            // Se han eliminado las líneas de tbBusqueda.TextChanged, btnAnyadir.Click, etc.
+            // porque ya están en el InitializeComponent() del archivo Designer.
+            // Esto evita que las ventanas se abran dos veces.
 
             // Timer refresco cada 5 segundos
             timerRefrescar = new System.Windows.Forms.Timer { Interval = 5000 };
@@ -68,9 +70,7 @@ namespace PeluqueriAPP
 
                 var nuevaLista = new List<Usuario>();
 
-                // ==========================
                 // Traer Admins
-                // ==========================
                 try
                 {
                     var responseAdmins = await httpClient.GetAsync("http://localhost:8080/api/admin/");
@@ -79,19 +79,10 @@ namespace PeluqueriAPP
                         var admins = await responseAdmins.Content.ReadFromJsonAsync<List<Usuario>>();
                         if (admins != null) nuevaLista.AddRange(admins);
                     }
-                    else
-                    {
-                        MessageBox.Show($"Error cargando admins: {responseAdmins.StatusCode}");
-                    }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error al obtener admins: {ex.Message}");
-                }
+                catch { /* Manejo silencioso en timer */ }
 
-                // ==========================
                 // Traer Clientes
-                // ==========================
                 try
                 {
                     var responseClientes = await httpClient.GetAsync("http://localhost:8080/api/clientes/");
@@ -100,44 +91,24 @@ namespace PeluqueriAPP
                         var clientes = await responseClientes.Content.ReadFromJsonAsync<List<Usuario>>();
                         if (clientes != null) nuevaLista.AddRange(clientes);
                     }
-                    else
-                    {
-                        MessageBox.Show($"Error cargando clientes: {responseClientes.StatusCode}");
-                    }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error al obtener clientes: {ex.Message}");
-                }
+                catch { /* Manejo silencioso en timer */ }
 
-                // ==========================
                 // Traer Grupos
-                // ==========================
-                // ==========================
-                // Traer Grupos
-                // ==========================
                 try
                 {
                     var responseGrupos = await httpClient.GetAsync("http://localhost:8080/api/grupos/");
                     if (responseGrupos.IsSuccessStatusCode)
                     {
-                        // Deserializamos como Usuario, Clase viene incluida en la clase Usuario
                         var grupos = await responseGrupos.Content.ReadFromJsonAsync<List<Usuario>>();
                         if (grupos != null) nuevaLista.AddRange(grupos);
                     }
-                    // No mostrar MessageBox en caso de error
                 }
-                catch
-                {
-                    // Ignorar errores temporales de grupos
-                }
+                catch { /* Manejo silencioso en timer */ }
 
-
-                // ==========================
-                // Actualizar DataGridView
-                // ==========================
+                // Comparar para evitar parpadeos en el grid
                 bool listaIgual = nuevaLista.Count == listaUsuariosOriginal.Count &&
-                                  !nuevaLista.Except(listaUsuariosOriginal).Any();
+                                 !nuevaLista.Except(listaUsuariosOriginal).Any();
 
                 if (!listaIgual)
                 {
@@ -164,10 +135,10 @@ namespace PeluqueriAPP
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error inesperado al refrescar usuarios: {ex.Message}");
+                // Solo mostrar error si no es una operación de fondo (opcional)
+                Console.WriteLine($"Error al refrescar: {ex.Message}");
             }
         }
-
 
         private void AplicarFiltroYActualizarGrid()
         {
@@ -209,9 +180,6 @@ namespace PeluqueriAPP
             AplicarFiltroYActualizarGrid();
         }
 
-        // ============================
-        // CRUD: AÑADIR
-        // ============================
         private async void BtnAnyadir_Click(object sender, EventArgs e)
         {
             using var selector = new SeleccionarTipoUsuario();
@@ -242,7 +210,6 @@ namespace PeluqueriAPP
                                 especialidad = form.Especialidad
                             };
 
-
                             var response = await httpClient.PostAsJsonAsync(
                                 "http://localhost:8080/api/auth/register/admin",
                                 nuevoAdmin
@@ -250,20 +217,16 @@ namespace PeluqueriAPP
 
                             if (response.IsSuccessStatusCode)
                             {
-                                MessageBox.Show("Admin añadido correctamente.");
-                                await RefrescarUsuarios();
+                                MessageBox.Show("Usuario añadido correctamente.");
                             }
                             else
                             {
                                 string contenido = await response.Content.ReadAsStringAsync();
-                                MessageBox.Show($"Error al añadir Admin: {response.StatusCode}\n{contenido}");
+                                MessageBox.Show($"Error al añadir: {response.StatusCode}\n{contenido}");
                             }
-
                             break;
                         }
-                        break;
                 }
-
                 await RefrescarUsuarios();
             }
             catch (Exception ex)
@@ -272,65 +235,66 @@ namespace PeluqueriAPP
             }
         }
 
-        // ============================
-        // CRUD: EDITAR
-        // ============================
         private async void BtnEditar_Click(object sender, EventArgs e)
         {
             if (dgvAdmins.SelectedRows.Count == 0) return;
 
             var row = dgvAdmins.SelectedRows[0];
             long id = Convert.ToInt64(row.Cells["Id"].Value);
+
+            // Buscamos el usuario en la lista cargada
             var usuario = listaUsuariosOriginal.Find(u => u.Id == id);
             if (usuario == null) return;
 
-            using var form = new AnyadirUsuario(usuario);
-            if (form.ShowDialog() != DialogResult.OK) return;
-
-            var request = new
+            // Solo abrimos AnyadirAdmin si el rol es Admin
+            if (usuario.Rol == "ROLE_ADMIN")
             {
-                nombreCompleto = form.Nombre,
-                email = form.Email,
-                password = form.Contrasena,
-                telefono = form.Telefono,
-                alergenos = form.Alergenos,
-                observaciones = form.Observaciones
-            };
+                using var form = new AnyadirAdmin(usuario); // Pasamos el usuario al constructor
+                if (form.ShowDialog() != DialogResult.OK) return;
 
-            string url = usuario.Rol switch
+                // Construimos el objeto para enviar a la API
+                var request = new
+                {
+                    nombreCompleto = form.Nombre,
+                    email = form.Email,
+                    password = string.IsNullOrWhiteSpace(form.Contrasena) ? null : form.Contrasena,
+                    especialidad = form.Especialidad
+                };
+
+                await EnviarActualizacion($"http://localhost:8080/api/admin/{id}", request);
+            }
+            else
             {
-                "ROLE_ADMIN" => $"http://localhost:8080/api/admin/{id}",
-                "ROLE_CLIENTE" => $"http://localhost:8080/api/clientes/{id}",
-                "ROLE_GRUPO" => $"http://localhost:8080/api/grupos/{id}",
-                _ => throw new Exception("Rol no válido")
-            };
+                MessageBox.Show("Por ahora solo se puede editar el perfil de Administrador desde aquí.");
+            }
+        }
 
+        // Método auxiliar para no repetir código de red
+        private async Task EnviarActualizacion(string url, object data)
+        {
             try
             {
                 httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
+                var response = await httpClient.PutAsJsonAsync(url, data);
 
-                var response = await httpClient.PutAsJsonAsync(url, request);
-
-                if (!response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Actualizado correctamente.");
+                    await RefrescarUsuarios();
+                }
+                else
                 {
                     string error = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Error {response.StatusCode}\n{error}");
-                    return;
+                    MessageBox.Show($"Error: {error}");
                 }
-
-                MessageBox.Show("Usuario editado correctamente.");
-                await RefrescarUsuarios();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error inesperado: " + ex.Message);
+                MessageBox.Show($"Error de conexión: {ex.Message}");
             }
         }
 
-        // ============================
-        // CRUD: BORRAR
-        // ============================
         private async void BtnBorrar_Click(object sender, EventArgs e)
         {
             if (dgvAdmins.SelectedRows.Count == 0) return;
@@ -338,6 +302,7 @@ namespace PeluqueriAPP
             var row = dgvAdmins.SelectedRows[0];
             long id = Convert.ToInt64(row.Cells["Id"].Value);
             var usuario = listaUsuariosOriginal.Find(u => u.Id == id);
+            if (usuario == null) return;
 
             var confirm = MessageBox.Show("¿Eliminar este usuario?", "Confirmar", MessageBoxButtons.YesNo);
             if (confirm != DialogResult.Yes) return;
@@ -354,18 +319,18 @@ namespace PeluqueriAPP
             {
                 httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
-
                 var response = await httpClient.DeleteAsync(url);
 
-                if (!response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Usuario eliminado correctamente.");
+                    await RefrescarUsuarios();
+                }
+                else
                 {
                     string error = await response.Content.ReadAsStringAsync();
                     MessageBox.Show($"Error {response.StatusCode}\n{error}");
-                    return;
                 }
-
-                MessageBox.Show("Usuario eliminado correctamente.");
-                await RefrescarUsuarios();
             }
             catch (Exception ex)
             {
@@ -375,28 +340,22 @@ namespace PeluqueriAPP
 
         private void lblServicios_Click(object sender, EventArgs e)
         {
-            Servicios nuevaVentana = new Servicios();
-            nuevaVentana.Show();
+            new Servicios().Show();
             this.Close();
         }
 
         private void lblHomeAdmin_Click(object sender, EventArgs e)
         {
-            Home nuevaVentana = new Home();
-            nuevaVentana.Show();
+            new Home().Show();
             this.Close();
-        }
-
-        private void dgvAdmins_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
 
         private void lblAgenda_Click(object sender, EventArgs e)
         {
-            Agendas nuevaVentana = new Agendas();
-            nuevaVentana.Show();
+            new Agendas().Show();
             this.Close();
         }
+
+        private void dgvAdmins_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
     }
 }

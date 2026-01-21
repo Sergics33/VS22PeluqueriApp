@@ -19,15 +19,14 @@ namespace PeluqueriAPP
         {
             InitializeComponent();
 
-            this.Load += Agendas_Load;
-            this.tbBusqueda.TextChanged += new System.EventHandler(this.tbBusqueda_TextChanged);
-            this.btnAnyadir.Click += new System.EventHandler(this.btnAnyadir_Click);
-            this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
-            this.btnBorrar.Click += new System.EventHandler(this.btnBorrar_Click);
+            // Nota: Los eventos Click y TextChanged ya se gestionan en InitializeComponent()
+            // a través del archivo Agendas.Designer.cs para evitar ejecuciones dobles.
 
             dgvServicios.AutoGenerateColumns = false;
             dgvServicios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             ConfigurarColumnas();
+
+            this.Load += Agendas_Load;
         }
 
         private void ConfigurarColumnas()
@@ -91,7 +90,6 @@ namespace PeluqueriAPP
             ActualizarGrid(filtrados);
         }
 
-        // --- CORRECCIÓN CLAVE: Envío de IDs planos para AgendaRequest ---
         private async void btnAnyadir_Click(object sender, EventArgs e)
         {
             using (AnyadirAgenda form = new AnyadirAgenda())
@@ -99,16 +97,16 @@ namespace PeluqueriAPP
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     var n = form.NuevaAgenda;
+                    if (n == null) return;
 
-                    // El objeto anónimo debe coincidir EXACTAMENTE con los campos de tu AgendaRequest en Java
                     var dto = new
                     {
                         aula = n.Aula,
-                        horaInicio = n.HoraInicio.ToString("yyyy-MM-ddTHH:mm:ss"), // Formato ISO para evitar errores
+                        horaInicio = n.HoraInicio.ToString("yyyy-MM-ddTHH:mm:ss"),
                         horaFin = n.HoraFin.ToString("yyyy-MM-ddTHH:mm:ss"),
                         sillas = n.Sillas,
-                        servicioId = n.Servicio?.id, // Campo plano: servicioId
-                        grupoId = n.Grupo?.Id        // Campo plano: grupoId
+                        servicioId = n.Servicio?.id,
+                        grupoId = n.Grupo?.Id
                     };
 
                     await EnviarApi(HttpMethod.Post, API_BASE_URL, dto);
@@ -120,7 +118,6 @@ namespace PeluqueriAPP
         {
             if (dgvServicios.SelectedRows.Count == 0) return;
 
-            // 1. Obtener ID de la fila seleccionada
             long id = (long)dgvServicios.SelectedRows[0].Cells["IdCol"].Value;
             var seleccionada = listaAgendasOriginal.FirstOrDefault(a => a.Id == id);
 
@@ -129,8 +126,8 @@ namespace PeluqueriAPP
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     var n = form.NuevaAgenda;
+                    if (n == null) return;
 
-                    // 2. Crear el DTO con campos planos (servicioId, grupoId)
                     var dto = new
                     {
                         aula = n.Aula,
@@ -141,10 +138,7 @@ namespace PeluqueriAPP
                         grupoId = n.Grupo?.Id
                     };
 
-                    // 3. Limpiar la URL para evitar la doble barra //
-                    // Si API_BASE_URL es ".../agendas/", esto la convierte en ".../agendas/5"
                     string urlLimpia = API_BASE_URL.TrimEnd('/') + "/" + id;
-
                     await EnviarApi(HttpMethod.Put, urlLimpia, dto);
                 }
             }
@@ -153,7 +147,7 @@ namespace PeluqueriAPP
         private async void btnBorrar_Click(object sender, EventArgs e)
         {
             if (dgvServicios.SelectedRows.Count == 0) return;
-            if (MessageBox.Show("¿Eliminar agenda?", "Confirmar", MessageBoxButtons.YesNo) != DialogResult.Yes) return;
+            if (MessageBox.Show("¿Eliminar agenda?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
 
             long id = (long)dgvServicios.SelectedRows[0].Cells["IdCol"].Value;
             await EnviarApi(HttpMethod.Delete, API_BASE_URL + id, null);
@@ -176,7 +170,6 @@ namespace PeluqueriAPP
                 }
                 else
                 {
-                    // Leer el error detallado del servidor para depurar
                     string errorMsg = await res.Content.ReadAsStringAsync();
                     MessageBox.Show($"Error en la operación: {res.StatusCode}\nDetalle: {errorMsg}");
                 }
@@ -192,13 +185,18 @@ namespace PeluqueriAPP
         private void lblServicios_Click(object sender, EventArgs e) { new Servicios().Show(); this.Close(); }
         private void lblCitas_Click(object sender, EventArgs e) { new Citas().Show(); this.Close(); }
         private void label7_Click(object sender, EventArgs e) { new Admins().Show(); this.Close(); }
-        #endregion
 
         private void lblAgenda_Click(object sender, EventArgs e)
         {
-            Agendas nuevaVentana = new Agendas();
-            nuevaVentana.Show();
-            this.Close();
+            // Evitar abrir la misma ventana si ya estamos en ella
+            if (this.GetType() != typeof(Agendas))
+            {
+                new Agendas().Show();
+                this.Close();
+            }
         }
+        #endregion
+
+        private void dgvServicios_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
     }
 }

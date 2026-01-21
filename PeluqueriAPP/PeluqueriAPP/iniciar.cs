@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PeluqueriAPP
@@ -20,7 +18,7 @@ namespace PeluqueriAPP
 
         private void label1_Click(object sender, EventArgs e)
         {
-            // Puedes dejarlo vacío
+            // Evento opcional
         }
 
         private async void btnIniciar_Click(object sender, EventArgs e)
@@ -28,12 +26,14 @@ namespace PeluqueriAPP
             string usuario = txtUsuario.Text.Trim();
             string contrasena = txtContrasenya.Text.Trim();
 
+            // Validación de campos vacíos
             if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(contrasena))
             {
-                MessageBox.Show("Debes ingresar usuario y contraseña.");
+                MessageBox.Show("Debes ingresar usuario y contraseña.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
+            // Bloquear botón para evitar múltiples clics
             btnIniciar.Enabled = false;
             btnIniciar.Text = "Iniciando...";
 
@@ -55,34 +55,35 @@ namespace PeluqueriAPP
                         PropertyNameCaseInsensitive = true
                     });
 
-                    // Guardar en la sesión
+                    // Guardar datos en la clase Session (Asegúrate de que la clase Session exista)
                     Session.AccessToken = data.AccessToken;
                     Session.TokenType = data.TokenType;
                     Session.UserId = data.Id;
                     Session.Username = data.Username;
 
-                    // Abrir Home
+                    // Abrir Home y ocultar Login
                     Home home = new Home();
                     home.Show();
                     this.Hide();
                 }
                 else
                 {
-                    MessageBox.Show("Usuario o contraseña incorrectos.");
+                    MessageBox.Show("Usuario o contraseña incorrectos.", "Error de Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al iniciar sesión: " + ex.Message);
+                MessageBox.Show("Error al conectar con el servidor: " + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
+                // Restaurar estado del botón
                 btnIniciar.Enabled = true;
                 btnIniciar.Text = "Iniciar Sesion";
             }
         }
 
-        // Clase interna para mapear la respuesta del API
+        // Modelo de respuesta de la API
         private class LoginResponse
         {
             public string AccessToken { get; set; }

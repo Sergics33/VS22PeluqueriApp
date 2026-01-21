@@ -1,9 +1,11 @@
 ﻿using System.Windows.Forms;
+using System.Drawing;
 
 namespace PeluqueriAPP
 {
     partial class AnyadirAdmin
     {
+        private System.ComponentModel.IContainer components = null;
         private Label lblTitulo;
         private Label lblNombre, lblEmail, lblPassword, lblEspecialidad;
         private TextBox tbNombre, tbEmail, tbPassword, tbEspecialidad;
@@ -24,49 +26,83 @@ namespace PeluqueriAPP
 
             SuspendLayout();
 
+            // Estilos comunes
+            Font fuenteLabels = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
+            Font fuenteInputs = new Font("Segoe UI", 10F);
+            Color colorTexto = Color.FromArgb(64, 64, 64);
+
             // lblTitulo
-            lblTitulo.AutoSize = true;
-            lblTitulo.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
-            lblTitulo.Location = new System.Drawing.Point(100, 20);
-            lblTitulo.Size = new System.Drawing.Size(200, 32);
-            lblTitulo.Text = "AÑADIR ADMIN";
+            lblTitulo.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblTitulo.ForeColor = Color.FromArgb(45, 156, 219);
+            lblTitulo.Location = new Point(0, 20);
+            lblTitulo.Size = new Size(400, 35);
+            lblTitulo.Text = "Nuevo Administrador";
+            lblTitulo.TextAlign = ContentAlignment.MiddleCenter;
 
             // lblNombre
             lblNombre.AutoSize = true;
-            lblNombre.Location = new System.Drawing.Point(30, 70);
-            lblNombre.Text = "Nombre:";
-            tbNombre.Location = new System.Drawing.Point(150, 70);
-            tbNombre.Width = 200;
+            lblNombre.Font = fuenteLabels;
+            lblNombre.ForeColor = colorTexto;
+            lblNombre.Location = new Point(45, 75);
+            lblNombre.Text = "Nombre completo:";
+
+            // tbNombre
+            tbNombre.Font = fuenteInputs;
+            tbNombre.Location = new Point(45, 95);
+            tbNombre.Size = new Size(310, 25);
 
             // lblEmail
             lblEmail.AutoSize = true;
-            lblEmail.Location = new System.Drawing.Point(30, 110);
-            lblEmail.Text = "Email:";
-            tbEmail.Location = new System.Drawing.Point(150, 110);
-            tbEmail.Width = 200;
+            lblEmail.Font = fuenteLabels;
+            lblEmail.ForeColor = colorTexto;
+            lblEmail.Location = new Point(45, 130);
+            lblEmail.Text = "Correo electrónico:";
+
+            // tbEmail
+            tbEmail.Font = fuenteInputs;
+            tbEmail.Location = new Point(45, 150);
+            tbEmail.Size = new Size(310, 25);
 
             // lblPassword
             lblPassword.AutoSize = true;
-            lblPassword.Location = new System.Drawing.Point(30, 150);
+            lblPassword.Font = fuenteLabels;
+            lblPassword.ForeColor = colorTexto;
+            lblPassword.Location = new Point(45, 185);
             lblPassword.Text = "Contraseña:";
-            tbPassword.Location = new System.Drawing.Point(150, 150);
-            tbPassword.Width = 200;
-            tbPassword.PasswordChar = '*';
+
+            // tbPassword
+            tbPassword.Font = fuenteInputs;
+            tbPassword.Location = new Point(45, 205);
+            tbPassword.Size = new Size(310, 25);
+            tbPassword.PasswordChar = '●'; // Carácter más elegante que '*'
 
             // lblEspecialidad
             lblEspecialidad.AutoSize = true;
-            lblEspecialidad.Location = new System.Drawing.Point(30, 190);
-            lblEspecialidad.Text = "Especialidad:";
-            tbEspecialidad.Location = new System.Drawing.Point(150, 190);
-            tbEspecialidad.Width = 200;
+            lblEspecialidad.Font = fuenteLabels;
+            lblEspecialidad.ForeColor = colorTexto;
+            lblEspecialidad.Location = new Point(45, 240);
+            lblEspecialidad.Text = "Especialidad (opcional):";
+
+            // tbEspecialidad
+            tbEspecialidad.Font = fuenteInputs;
+            tbEspecialidad.Location = new Point(45, 260);
+            tbEspecialidad.Size = new Size(310, 25);
 
             // btnAnyadir
-            btnAnyadir.Location = new System.Drawing.Point(150, 240);
-            btnAnyadir.Size = new System.Drawing.Size(200, 30);
-            btnAnyadir.Text = "AÑADIR ADMIN";
+            btnAnyadir.BackColor = Color.FromArgb(45, 156, 219);
+            btnAnyadir.Cursor = Cursors.Hand;
+            btnAnyadir.FlatAppearance.BorderSize = 0;
+            btnAnyadir.FlatStyle = FlatStyle.Flat;
+            btnAnyadir.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+            btnAnyadir.ForeColor = Color.White;
+            btnAnyadir.Location = new Point(45, 315);
+            btnAnyadir.Size = new Size(310, 45);
+            btnAnyadir.Text = "Registrar Administrador";
+            btnAnyadir.UseVisualStyleBackColor = false;
 
             // AnyadirAdmin Form
-            ClientSize = new System.Drawing.Size(400, 300);
+            ClientSize = new Size(400, 400);
+            BackColor = Color.White;
             Controls.Add(lblTitulo);
             Controls.Add(lblNombre);
             Controls.Add(tbNombre);
@@ -77,7 +113,13 @@ namespace PeluqueriAPP
             Controls.Add(lblEspecialidad);
             Controls.Add(tbEspecialidad);
             Controls.Add(btnAnyadir);
-            Text = "Añadir Admin";
+
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "AnyadirAdmin";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Gestión de Personal";
 
             ResumeLayout(false);
             PerformLayout();
