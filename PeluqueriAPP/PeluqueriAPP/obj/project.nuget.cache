@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "GrPirMRs7EQ=",
+  "dgSpecHash": "0xRsx531vU0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\sercarsen\\Documents\\GitHub\\Flutter\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\PeluqueriAPP.csproj",
+  "projectFilePath": "C:\\Users\\sercarsen\\Desktop\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\PeluqueriAPP.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sercarsen\\.nuget\\packages\\newtonsoft.json\\13.0.4\\newtonsoft.json.13.0.4.nupkg.sha512"
   ],
