@@ -1,4 +1,7 @@
-﻿namespace PeluqueriAPP
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace PeluqueriAPP
 {
     partial class AnyadirUsuario
     {
@@ -7,6 +10,7 @@
         private Label lblNombre, lblEmail, lblContrasena, lblTelefono, lblAlergenos, lblObservaciones;
         private TextBox tbNombre, tbEmail, tbContrasena, tbTelefono, tbAlergenos, tbObservaciones;
         private Button btnAnyadir;
+        private Panel panelContenedor;
 
         protected override void Dispose(bool disposing)
         {
@@ -16,104 +20,103 @@
 
         private void InitializeComponent()
         {
-            this.lblTitulo = new Label();
-            this.lblNombre = new Label();
-            this.tbNombre = new TextBox();
-            this.lblEmail = new Label();
-            this.tbEmail = new TextBox();
-            this.lblContrasena = new Label();
-            this.tbContrasena = new TextBox();
-            this.lblTelefono = new Label();
-            this.tbTelefono = new TextBox();
-            this.lblAlergenos = new Label();
-            this.tbAlergenos = new TextBox();
-            this.lblObservaciones = new Label();
-            this.tbObservaciones = new TextBox();
-            this.btnAnyadir = new Button();
-            this.SuspendLayout();
+            lblTitulo = new Label();
+            lblNombre = new Label();
+            tbNombre = new TextBox();
+            lblEmail = new Label();
+            tbEmail = new TextBox();
+            lblContrasena = new Label();
+            tbContrasena = new TextBox();
+            lblTelefono = new Label();
+            tbTelefono = new TextBox();
+            lblAlergenos = new Label();
+            tbAlergenos = new TextBox();
+            lblObservaciones = new Label();
+            tbObservaciones = new TextBox();
+            btnAnyadir = new Button();
+            panelContenedor = new Panel();
+            panelContenedor.SuspendLayout();
+            SuspendLayout();
 
-            // lblTitulo
-            this.lblTitulo.AutoSize = true;
-            this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
-            this.lblTitulo.Location = new System.Drawing.Point(100, 20);
-            this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(200, 32);
-            this.lblTitulo.Text = "AÑADIR USUARIO";
+            // lblTitulo (Estilo Verde y Centrado)
+            lblTitulo.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            lblTitulo.ForeColor = Color.ForestGreen;
+            lblTitulo.Location = new Point(0, 15);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(420, 45);
+            lblTitulo.TabIndex = 0;
+            lblTitulo.Text = "AÑADIR USUARIO";
+            lblTitulo.TextAlign = ContentAlignment.MiddleCenter;
 
-            // lblNombre
-            this.lblNombre.AutoSize = true;
-            this.lblNombre.Location = new System.Drawing.Point(30, 70);
-            this.lblNombre.Text = "Nombre:";
-            // tbNombre
-            this.tbNombre.Location = new System.Drawing.Point(150, 70);
-            this.tbNombre.Width = 200;
+            // panelContenedor (Caja blanca para los campos)
+            panelContenedor.BackColor = Color.White;
+            panelContenedor.BorderStyle = BorderStyle.FixedSingle;
+            panelContenedor.Location = new Point(25, 75);
+            panelContenedor.Name = "panelContenedor";
+            panelContenedor.Size = new Size(370, 410);
+            panelContenedor.TabIndex = 1;
 
-            // lblEmail
-            this.lblEmail.AutoSize = true;
-            this.lblEmail.Location = new System.Drawing.Point(30, 110);
-            this.lblEmail.Text = "Email:";
-            // tbEmail
-            this.tbEmail.Location = new System.Drawing.Point(150, 110);
-            this.tbEmail.Width = 200;
+            // --- Configuración de Campos ---
+            int yStart = 15;
+            int ySpacing = 65;
 
-            // lblContrasena
-            this.lblContrasena.AutoSize = true;
-            this.lblContrasena.Location = new System.Drawing.Point(30, 150);
-            this.lblContrasena.Text = "Contraseña:";
-            // tbContrasena
-            this.tbContrasena.Location = new System.Drawing.Point(150, 150);
-            this.tbContrasena.Width = 200;
-            this.tbContrasena.PasswordChar = '*';
+            ConfigurarCampo(lblNombre, tbNombre, "Nombre Completo:", yStart);
+            ConfigurarCampo(lblEmail, tbEmail, "Email:", yStart + ySpacing);
+            ConfigurarCampo(lblContrasena, tbContrasena, "Contraseña:", yStart + (ySpacing * 2));
+            tbContrasena.PasswordChar = '*';
+            ConfigurarCampo(lblTelefono, tbTelefono, "Teléfono:", yStart + (ySpacing * 3));
+            ConfigurarCampo(lblAlergenos, tbAlergenos, "Alérgenos:", yStart + (ySpacing * 4));
+            ConfigurarCampo(lblObservaciones, tbObservaciones, "Observaciones:", yStart + (ySpacing * 5));
 
-            // lblTelefono
-            this.lblTelefono.AutoSize = true;
-            this.lblTelefono.Location = new System.Drawing.Point(30, 190);
-            this.lblTelefono.Text = "Teléfono:";
-            // tbTelefono
-            this.tbTelefono.Location = new System.Drawing.Point(150, 190);
-            this.tbTelefono.Width = 200;
-
-            // lblAlergenos
-            this.lblAlergenos.AutoSize = true;
-            this.lblAlergenos.Location = new System.Drawing.Point(30, 230);
-            this.lblAlergenos.Text = "Alérgenos:";
-            // tbAlergenos
-            this.tbAlergenos.Location = new System.Drawing.Point(150, 230);
-            this.tbAlergenos.Width = 200;
-
-            // lblObservaciones
-            this.lblObservaciones.AutoSize = true;
-            this.lblObservaciones.Location = new System.Drawing.Point(30, 270);
-            this.lblObservaciones.Text = "Observaciones:";
-            // tbObservaciones
-            this.tbObservaciones.Location = new System.Drawing.Point(150, 270);
-            this.tbObservaciones.Width = 200;
+            panelContenedor.Controls.AddRange(new Control[] {
+                lblNombre, tbNombre, lblEmail, tbEmail, lblContrasena, tbContrasena,
+                lblTelefono, tbTelefono, lblAlergenos, tbAlergenos, lblObservaciones, tbObservaciones
+            });
 
             // btnAnyadir
-            this.btnAnyadir.Location = new System.Drawing.Point(150, 320);
-            this.btnAnyadir.Size = new System.Drawing.Size(200, 30);
-            this.btnAnyadir.Text = "AÑADIR USUARIO";
+            btnAnyadir.BackColor = Color.FromArgb(255, 192, 128);
+            btnAnyadir.FlatAppearance.BorderSize = 0;
+            btnAnyadir.FlatStyle = FlatStyle.Flat;
+            btnAnyadir.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            btnAnyadir.ForeColor = Color.White;
+            btnAnyadir.Location = new Point(25, 500);
+            btnAnyadir.Name = "btnAnyadir";
+            btnAnyadir.Size = new Size(370, 45);
+            btnAnyadir.TabIndex = 2;
+            btnAnyadir.Text = "AÑADIR USUARIO";
+            btnAnyadir.UseVisualStyleBackColor = false;
 
-            // AnyadirUsuario
-            this.ClientSize = new System.Drawing.Size(400, 380);
-            this.Controls.Add(this.lblTitulo);
-            this.Controls.Add(this.lblNombre);
-            this.Controls.Add(this.tbNombre);
-            this.Controls.Add(this.lblEmail);
-            this.Controls.Add(this.tbEmail);
-            this.Controls.Add(this.lblContrasena);
-            this.Controls.Add(this.tbContrasena);
-            this.Controls.Add(this.lblTelefono);
-            this.Controls.Add(this.tbTelefono);
-            this.Controls.Add(this.lblAlergenos);
-            this.Controls.Add(this.tbAlergenos);
-            this.Controls.Add(this.lblObservaciones);
-            this.Controls.Add(this.tbObservaciones);
-            this.Controls.Add(this.btnAnyadir);
+            // --- ESTA LÍNEA ES LA QUE FALTA ---
+            btnAnyadir.Click += new System.EventHandler(this.BtnAnyadir_Click);
 
-            this.Text = "Añadir Usuario";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            // Formulario
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(245, 245, 245);
+            ClientSize = new Size(420, 570);
+            Controls.Add(lblTitulo);
+            Controls.Add(panelContenedor);
+            Controls.Add(btnAnyadir);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            Name = "AnyadirUsuario";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Gestión de Usuario";
+            panelContenedor.ResumeLayout(false);
+            panelContenedor.PerformLayout();
+            ResumeLayout(false);
+        }
+
+        private void ConfigurarCampo(Label lbl, TextBox tb, string texto, int y)
+        {
+            lbl.AutoSize = true;
+            lbl.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
+            lbl.ForeColor = Color.FromArgb(64, 64, 64);
+            lbl.Location = new Point(20, y);
+            lbl.Text = texto;
+            tb.Font = new Font("Segoe UI", 10F);
+            tb.Location = new Point(20, y + 22);
+            tb.Size = new Size(325, 25);
         }
     }
 }

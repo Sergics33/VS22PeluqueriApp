@@ -22,6 +22,9 @@
     <Compile Update="AnyadirCitas.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="AnyadirCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="AnyadirServicio.cs">
       <SubType>Form</SubType>
     </Compile>

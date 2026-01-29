@@ -266,3 +266,4 @@ C:\Users\sercarsen\Desktop\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\
 C:\Users\sercarsen\Desktop\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.pdb
 C:\Users\sercarsen\Desktop\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.genruntimeconfig.cache
 C:\Users\sercarsen\Desktop\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\ref\PeluqueriAPP.dll
+C:\Users\sercarsen\Desktop\VS22PeluqueriApp\PeluqueriAPP\PeluqueriAPP\obj\Debug\net8.0-windows\PeluqueriAPP.AnyadirCliente.resources

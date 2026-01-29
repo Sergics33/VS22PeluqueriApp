@@ -5,7 +5,7 @@ namespace PeluqueriAPP
 {
     public partial class SeleccionarTipoUsuario : Form
     {
-        public string TipoSeleccionado { get; private set; } = null;
+        public string TipoSeleccionado { get; private set; }
 
         public SeleccionarTipoUsuario()
         {
@@ -15,22 +15,19 @@ namespace PeluqueriAPP
         private void btnAdmin_Click(object sender, EventArgs e)
         {
             TipoSeleccionado = "Admin";
-            DialogResult = DialogResult.OK;
-            Close();
+            this.DialogResult = DialogResult.OK;
         }
 
         private void btnGrupo_Click(object sender, EventArgs e)
         {
             TipoSeleccionado = "Grupo";
-            DialogResult = DialogResult.OK;
-            Close();
+            this.DialogResult = DialogResult.OK;
         }
 
         private void btnCliente_Click(object sender, EventArgs e)
         {
             TipoSeleccionado = "Cliente";
-            DialogResult = DialogResult.OK;
-            Close();
+            this.DialogResult = DialogResult.OK;
         }
     }
 }

@@ -8,146 +8,132 @@ namespace PeluqueriAPP
 {
     public partial class AnyadirUsuario : Form
     {
-        private readonly HttpClient httpClient = new HttpClient();
-        private string tipoUsuario; // Admin, Cliente, Grupo
+        private string tipoUsuario;
+        private long? usuarioId = null; // Si es null, estamos creando. Si tiene valor, editamos.
 
+        // CONSTRUCTOR PARA AÑADIR NUEVO
         public AnyadirUsuario(string tipo)
         {
             InitializeComponent();
-            tipoUsuario = tipo;
+            this.tipoUsuario = tipo;
 
             lblTitulo.Text = $"AÑADIR {tipo.ToUpper()}";
-            btnAnyadir.Text = $"AÑADIR {tipo.ToUpper()}";
+            btnAnyadir.Text = $"GUARDAR {tipo.ToUpper()}";
 
             ConfigurarCampos(tipo);
-            btnAnyadir.Click += BtnAnyadir_Click;
         }
 
-        // Constructor para EDITAR usuario
+        // CONSTRUCTOR PARA EDITAR EXISTENTE
         public AnyadirUsuario(Usuario usuario)
         {
             if (usuario == null) throw new ArgumentNullException(nameof(usuario));
-
             InitializeComponent();
 
-            tipoUsuario = usuario.Rol == "ROLE_CLIENTE" ? "Cliente" :
-                          usuario.Rol == "ROLE_ADMIN" ? "Admin" : "Grupo";
+            this.usuarioId = usuario.Id;
+            this.tipoUsuario = usuario.Rol == "ROLE_CLIENTE" ? "Cliente" :
+                               usuario.Rol == "ROLE_ADMIN" ? "Admin" : "Grupo";
 
             lblTitulo.Text = $"EDITAR {tipoUsuario.ToUpper()}";
-            btnAnyadir.Text = $"GUARDAR {tipoUsuario.ToUpper()}";
+            btnAnyadir.Text = "ACTUALIZAR DATOS";
 
             ConfigurarCampos(tipoUsuario);
 
+            // Rellenar los campos con los datos actuales
             tbNombre.Text = usuario.NombreCompleto;
             tbEmail.Text = usuario.Email;
-            if (tbContrasena.Visible) tbContrasena.Text = usuario.Contrasena;
+
             if (tbTelefono.Visible) tbTelefono.Text = usuario.Telefono;
             if (tbAlergenos.Visible) tbAlergenos.Text = usuario.Alergenos;
             if (tbObservaciones.Visible) tbObservaciones.Text = usuario.Observaciones;
 
-            btnAnyadir.Click += BtnAnyadir_Click;
+            // En edición, la contraseña se marca como opcional
+            lblContrasena.Text = "Contraseña (dejar vacío para no cambiar):";
         }
 
         private void ConfigurarCampos(string tipo)
         {
-            tbNombre.Visible = lblNombre.Visible = true;
-            tbEmail.Visible = lblEmail.Visible = true;
-            tbContrasena.Visible = lblContrasena.Visible = true;
-            tbTelefono.Visible = lblTelefono.Visible = true;
-            tbAlergenos.Visible = lblAlergenos.Visible = true;
-            tbObservaciones.Visible = lblObservaciones.Visible = true;
+            // Reset de visibilidad (por defecto todo visible para Cliente)
+            lblNombre.Visible = tbNombre.Visible = true;
+            lblEmail.Visible = tbEmail.Visible = true;
+            lblContrasena.Visible = tbContrasena.Visible = true;
+            lblTelefono.Visible = tbTelefono.Visible = true;
+            lblAlergenos.Visible = tbAlergenos.Visible = true;
+            lblObservaciones.Visible = tbObservaciones.Visible = true;
 
-            switch (tipo)
+            if (tipo == "Admin")
             {
-                case "Cliente":
-                    break; // todo visible
-                case "Admin":
-                    tbTelefono.Visible = lblTelefono.Visible = false;
-                    tbAlergenos.Visible = lblAlergenos.Visible = false;
-                    tbObservaciones.Visible = lblObservaciones.Visible = false;
-                    break;
-                case "Grupo":
-                    tbContrasena.Visible = lblContrasena.Visible = false;
-                    tbTelefono.Visible = lblTelefono.Visible = false;
-                    tbAlergenos.Visible = lblAlergenos.Visible = false;
-                    tbObservaciones.Visible = lblObservaciones.Visible = false;
-                    break;
+                lblTelefono.Visible = tbTelefono.Visible = false;
+                lblAlergenos.Visible = tbAlergenos.Visible = false;
+                lblObservaciones.Visible = tbObservaciones.Visible = false;
+            }
+            else if (tipo == "Grupo")
+            {
+                lblContrasena.Visible = tbContrasena.Visible = false;
+                lblTelefono.Visible = tbTelefono.Visible = false;
+                lblAlergenos.Visible = tbAlergenos.Visible = false;
+                lblObservaciones.Visible = tbObservaciones.Visible = false;
             }
         }
 
         private async void BtnAnyadir_Click(object sender, EventArgs e)
         {
+            // Validación básica
             if (string.IsNullOrWhiteSpace(tbNombre.Text) || string.IsNullOrWhiteSpace(tbEmail.Text))
             {
-                MessageBox.Show("Nombre y Email son obligatorios.");
+                MessageBox.Show("El nombre y el email son obligatorios.");
                 return;
             }
 
-            // Preparar el objeto según tipo de usuario
-            var nuevoUsuario = new
+            // Preparar el objeto JSON
+            var datos = new
             {
                 nombreCompleto = tbNombre.Text.Trim(),
                 email = tbEmail.Text.Trim(),
-                password = tbContrasena.Visible ? tbContrasena.Text.Trim() : null,
+                password = string.IsNullOrWhiteSpace(tbContrasena.Text) ? null : tbContrasena.Text.Trim(),
                 telefono = tbTelefono.Visible ? tbTelefono.Text.Trim() : null,
                 alergenos = tbAlergenos.Visible ? tbAlergenos.Text.Trim() : null,
                 observaciones = tbObservaciones.Visible ? tbObservaciones.Text.Trim() : null
             };
 
-            string url = tipoUsuario switch
-            {
-                "Cliente" => "http://localhost:8080/api/auth/register/cliente",
-                "Admin" => "http://localhost:8080/api/auth/register/admin",
-                "Grupo" => "http://localhost:8080/api/auth/register/grupo",
-                _ => throw new Exception("Tipo de usuario no válido")
-            };
-
             try
             {
-                using var httpClient = new HttpClient();
-                httpClient.DefaultRequestHeaders.Clear();
-                httpClient.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", Session.AccessToken);
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
-                var response = await httpClient.PostAsJsonAsync(url, nuevoUsuario);
+                HttpResponseMessage response;
+                string url;
 
-                if (response.IsSuccessStatusCode)
+                if (usuarioId.HasValue)
                 {
-                    MessageBox.Show($"{tipoUsuario} añadido correctamente.");
-                    DialogResult = DialogResult.OK;
-                    Close();
+                    // --- MODO EDICIÓN (PUT) ---
+                    // Determinamos el endpoint según el rol
+                    string folder = tipoUsuario.ToLower() == "cliente" ? "clientes" : tipoUsuario.ToLower();
+                    url = $"http://localhost:8080/api/{folder}/{usuarioId.Value}";
+                    response = await client.PutAsJsonAsync(url, datos);
                 }
                 else
                 {
-                    // Capturamos error de email duplicado
-                    var contenido = await response.Content.ReadAsStringAsync();
-                    if (response.StatusCode == System.Net.HttpStatusCode.BadRequest &&
-                        contenido.Contains("email") && contenido.Contains("ya existe"))
-                    {
-                        MessageBox.Show("Error: ya existe un usuario con este email. Cambia el email e intenta de nuevo.");
-                        return; // no cerrar formulario
-                    }
+                    // --- MODO CREACIÓN (POST) ---
+                    url = $"http://localhost:8080/api/auth/register/{tipoUsuario.ToLower()}";
+                    response = await client.PostAsJsonAsync(url, datos);
+                }
 
-                    MessageBox.Show($"Error al añadir usuario: {response.StatusCode}\n{contenido}");
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show(usuarioId.HasValue ? "Usuario actualizado con éxito." : "Usuario creado con éxito.");
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    string errorMsg = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error en la operación: {errorMsg}");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error inesperado: " + ex.Message);
+                MessageBox.Show($"Error de conexión: {ex.Message}");
             }
         }
-
-
-        // ===========================
-        // PROPIEDADES PÚBLICAS PARA Admins.cs
-        // ===========================
-        public string Nombre => tbNombre.Text.Trim();
-        public string Email => tbEmail.Text.Trim();
-        public string Contrasena => tbContrasena.Visible ? tbContrasena.Text.Trim() : null;
-        public string Telefono => tbTelefono.Visible ? tbTelefono.Text.Trim() : null;
-        public string Alergenos => tbAlergenos.Visible ? tbAlergenos.Text.Trim() : null;
-        public string Observaciones => tbObservaciones.Visible ? tbObservaciones.Text.Trim() : null;
-        public string Rol => tipoUsuario == "Cliente" ? "ROLE_CLIENTE" :
-                             tipoUsuario == "Admin" ? "ROLE_ADMIN" : "ROLE_GRUPO";
     }
 }
