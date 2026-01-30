@@ -13,8 +13,7 @@ namespace PeluqueriAPP
         public Servicio NuevoServicio { get; private set; }
         private bool esEdicion = false;
         private readonly HttpClient httpClient = new HttpClient();
-        private const string API_TIPOS_URL = "http://localhost:8080/api/tiposservicio";
-
+        private const string API_TIPOS_URL = "http://localhost:8080/api/tipos-servicio/";
         public AnyadirServicio()
         {
             InitializeComponent();

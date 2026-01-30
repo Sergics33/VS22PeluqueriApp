@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "op3h7QOLndk=",
+  "dgSpecHash": "3kyyyQ0ONV0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\sergi\\Desktop\\VS22PeluqueriApp\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\PeluqueriAPP.csproj",
+  "projectFilePath": "C:\\Users\\sercarsen\\Desktop\\proyecto\\VS22PeluqueriApp\\PeluqueriAPP\\PeluqueriAPP\\PeluqueriAPP.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\sergi\\.nuget\\packages\\newtonsoft.json\\13.0.4\\newtonsoft.json.13.0.4.nupkg.sha512"
+    "C:\\Users\\sercarsen\\.nuget\\packages\\newtonsoft.json\\13.0.4\\newtonsoft.json.13.0.4.nupkg.sha512"
   ],
   "logs": []
 }
