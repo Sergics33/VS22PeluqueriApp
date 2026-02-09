@@ -8,69 +8,66 @@ namespace PeluqueriAPP
 {
     public partial class AnyadirGrupo : Form
     {
-        public Grupo NuevoGrupo { get; private set; }
-
+        private Usuario _usuarioParaEditar;
         private readonly HttpClient httpClient = new HttpClient();
 
-        public AnyadirGrupo()
+        // Propiedades públicas para que Admins pueda leer los datos
+        public string Nombre => tbNombre.Text.Trim();
+        public string Email => tbEmail.Text.Trim();
+        public string Password => tbPassword.Text.Trim();
+        public string Clase => tbClase.Text.Trim();
+
+        public AnyadirGrupo(Usuario usuario = null)
         {
             InitializeComponent();
+            _usuarioParaEditar = usuario;
             btnAnyadir.Click += BtnAnyadir_Click;
-            lbltitulo.Text = "AÑADIR GRUPO";
-            btnAnyadir.Text = "AÑADIR GRUPO";
+
+            if (_usuarioParaEditar != null)
+            {
+                lbltitulo.Text = "EDITAR GRUPO";
+                btnAnyadir.Text = "ACTUALIZAR";
+                tbNombre.Text = _usuarioParaEditar.NombreCompleto;
+                tbEmail.Text = _usuarioParaEditar.Email;
+                tbClase.Text = _usuarioParaEditar.Clase;
+            }
+            else
+            {
+                lbltitulo.Text = "AÑADIR GRUPO";
+                btnAnyadir.Text = "AÑADIR GRUPO";
+            }
         }
 
         private async void BtnAnyadir_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(tbNombre.Text) ||
-                string.IsNullOrWhiteSpace(tbEmail.Text) ||
-                string.IsNullOrWhiteSpace(tbPassword.Text) ||
-                string.IsNullOrWhiteSpace(tbClase.Text))
+            if (string.IsNullOrWhiteSpace(Nombre) || string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Clase))
             {
-                MessageBox.Show("Todos los campos son obligatorios");
+                MessageBox.Show("Campos obligatorios incompletos.");
                 return;
             }
 
-            var request = new
+            // Si es EDICIÓN, simplemente cerramos con OK para que Admins.cs ejecute el PUT
+            if (_usuarioParaEditar != null)
             {
-                nombreCompleto = tbNombre.Text.Trim(),
-                email = tbEmail.Text.Trim(),
-                password = tbPassword.Text.Trim(),
-                clase = tbClase.Text.Trim()
-            };
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+                return;
+            }
 
+            // Si es NUEVO, mantenemos tu lógica de POST original
+            var request = new { nombreCompleto = Nombre, email = Email, password = Password, clase = Clase };
             try
             {
-                httpClient.DefaultRequestHeaders.Clear();
-                httpClient.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", Session.AccessToken);
-
-                var response = await httpClient.PostAsJsonAsync(
-                    "http://localhost:8080/api/auth/register/grupo",
-                    request
-                );
-
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
+                var response = await httpClient.PostAsJsonAsync("http://localhost:8080/api/auth/register/grupo", request);
                 if (response.IsSuccessStatusCode)
                 {
                     MessageBox.Show("Grupo añadido correctamente");
                     DialogResult = DialogResult.OK;
                     Close();
                 }
-                else
-                {
-                    string error = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Error {response.StatusCode}\n{error}");
-                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error de conexión:\n" + ex.Message);
-            }
-        }
-
-        private void tbClase_TextChanged(object sender, EventArgs e)
-        {
-
+            catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
         }
     }
 }
