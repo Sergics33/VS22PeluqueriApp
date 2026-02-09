@@ -3,7 +3,6 @@
     partial class AnyadirCitas
     {
         private System.ComponentModel.IContainer components = null;
-        private Panel panelContenedor;
 
         protected override void Dispose(bool disposing)
         {
@@ -13,8 +12,6 @@
             }
             base.Dispose(disposing);
         }
-
-        #region Windows Form Designer generated code
 
         private void InitializeComponent()
         {
@@ -33,22 +30,23 @@
             monthCalendarCitas = new MonthCalendar();
             panelContenedor.SuspendLayout();
             SuspendLayout();
+
             // 
-            // label1 (Título)
+            // label1 (Título Principal) - Un poco más grande
             // 
-            label1.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
-            label1.ForeColor = Color.ForestGreen;
-            label1.Location = new Point(0, 20);
+            label1.Font = new Font("Segoe UI Semibold", 22F, FontStyle.Bold);
+            label1.ForeColor = Color.FromArgb(45, 45, 48);
+            label1.Location = new Point(0, 10);
             label1.Name = "label1";
-            label1.Size = new Size(492, 50);
+            label1.Size = new Size(580, 65);
             label1.TabIndex = 8;
-            label1.Text = "AÑADIR CITA";
+            label1.Text = "Añadir Nueva Cita";
             label1.TextAlign = ContentAlignment.MiddleCenter;
+
             // 
-            // panelContenedor
+            // panelContenedor - Ajustado para dar más espacio
             // 
             panelContenedor.BackColor = Color.White;
-            panelContenedor.BorderStyle = BorderStyle.FixedSingle;
             panelContenedor.Controls.Add(monthCalendarCitas);
             panelContenedor.Controls.Add(lbCliente);
             panelContenedor.Controls.Add(cmbCliente);
@@ -58,152 +56,123 @@
             panelContenedor.Controls.Add(cmbServicio);
             panelContenedor.Controls.Add(label2);
             panelContenedor.Controls.Add(cmbHoras);
-            panelContenedor.Location = new Point(25, 85);
+            panelContenedor.Location = new Point(30, 85);
             panelContenedor.Name = "panelContenedor";
-            panelContenedor.Size = new Size(440, 285);
+            panelContenedor.Size = new Size(520, 320);
             panelContenedor.TabIndex = 14;
+
             // 
-            // lbCliente
+            // Estilo de Labels de campo - Fuente subida de 8.5 a 10
             // 
+            Color colorLabelSutil = Color.FromArgb(120, 120, 120);
+            Font fuenteLabelSutil = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+
+            lbCliente.Font = fuenteLabelSutil;
+            lbCliente.ForeColor = colorLabelSutil;
+            lbCliente.Location = new Point(20, 15);
+            lbCliente.Text = "CLIENTE";
             lbCliente.AutoSize = true;
-            lbCliente.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
-            lbCliente.ForeColor = Color.FromArgb(64, 64, 64);
-            lbCliente.Location = new Point(15, 15);
-            lbCliente.Name = "lbCliente";
-            lbCliente.Size = new Size(52, 17);
-            lbCliente.Text = "Cliente:";
-            // 
-            // cmbCliente
-            // 
-            cmbCliente.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbCliente.Font = new Font("Segoe UI", 10F);
-            cmbCliente.Location = new Point(15, 35);
-            cmbCliente.Name = "cmbCliente";
-            cmbCliente.Size = new Size(185, 25);
-            // 
-            // lbGrupo
-            // 
+
+            lbGrupo.Font = fuenteLabelSutil;
+            lbGrupo.ForeColor = colorLabelSutil;
+            lbGrupo.Location = new Point(20, 90);
+            lbGrupo.Text = "GRUPO";
             lbGrupo.AutoSize = true;
-            lbGrupo.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
-            lbGrupo.ForeColor = Color.FromArgb(64, 64, 64);
-            lbGrupo.Location = new Point(15, 80);
-            lbGrupo.Name = "lbGrupo";
-            lbGrupo.Size = new Size(49, 17);
-            lbGrupo.Text = "Grupo:";
-            // 
-            // cmbGrupo
-            // 
-            cmbGrupo.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbGrupo.Font = new Font("Segoe UI", 10F);
-            cmbGrupo.Location = new Point(15, 100);
-            cmbGrupo.Name = "cmbGrupo";
-            cmbGrupo.Size = new Size(185, 25);
-            // 
-            // lblServicio
-            // 
+
+            lblServicio.Font = fuenteLabelSutil;
+            lblServicio.ForeColor = colorLabelSutil;
+            lblServicio.Location = new Point(20, 165);
+            lblServicio.Text = "SERVICIO";
             lblServicio.AutoSize = true;
-            lblServicio.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
-            lblServicio.ForeColor = Color.FromArgb(64, 64, 64);
-            lblServicio.Location = new Point(15, 145);
-            lblServicio.Name = "lblServicio";
-            lblServicio.Size = new Size(58, 17);
-            lblServicio.Text = "Servicio:";
-            // 
-            // cmbServicio
-            // 
-            cmbServicio.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbServicio.Font = new Font("Segoe UI", 10F);
-            cmbServicio.Location = new Point(15, 165);
-            cmbServicio.Name = "cmbServicio";
-            cmbServicio.Size = new Size(185, 25);
-            // 
-            // label2 (Hora)
-            // 
+
+            label2.Font = fuenteLabelSutil;
+            label2.ForeColor = colorLabelSutil;
+            label2.Location = new Point(20, 240);
+            label2.Text = "HORA";
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
-            label2.ForeColor = Color.FromArgb(64, 64, 64);
-            label2.Location = new Point(15, 210);
-            label2.Name = "label2";
-            label2.Size = new Size(41, 17);
-            label2.Text = "Hora:";
+
             // 
-            // cmbHoras
+            // Estilo de ComboBox - Fuente subida de 11 a 12.5 y bloques más anchos
             // 
+            Color colorFondoInput = Color.FromArgb(242, 242, 242);
+            Size tamañoCombo = new Size(220, 32);
+
+            cmbCliente.BackColor = colorFondoInput;
+            cmbCliente.FlatStyle = FlatStyle.Flat;
+            cmbCliente.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbCliente.Font = new Font("Segoe UI", 12.5F);
+            cmbCliente.Location = new Point(20, 40);
+            cmbCliente.Size = tamañoCombo;
+
+            cmbGrupo.BackColor = colorFondoInput;
+            cmbGrupo.FlatStyle = FlatStyle.Flat;
+            cmbGrupo.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbGrupo.Font = new Font("Segoe UI", 12.5F);
+            cmbGrupo.Location = new Point(20, 115);
+            cmbGrupo.Size = tamañoCombo;
+
+            cmbServicio.BackColor = colorFondoInput;
+            cmbServicio.FlatStyle = FlatStyle.Flat;
+            cmbServicio.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbServicio.Font = new Font("Segoe UI", 12.5F);
+            cmbServicio.Location = new Point(20, 190);
+            cmbServicio.Size = tamañoCombo;
+
+            cmbHoras.BackColor = colorFondoInput;
+            cmbHoras.FlatStyle = FlatStyle.Flat;
             cmbHoras.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbHoras.Font = new Font("Segoe UI", 10F);
-            cmbHoras.Location = new Point(15, 230);
-            cmbHoras.Name = "cmbHoras";
-            cmbHoras.Size = new Size(185, 25);
+            cmbHoras.Font = new Font("Segoe UI", 12.5F);
+            cmbHoras.Location = new Point(20, 265);
+            cmbHoras.Size = tamañoCombo;
+
             // 
-            // monthCalendarCitas
+            // monthCalendarCitas - Lo movemos ligeramente a la derecha
             // 
-            monthCalendarCitas.BackColor = Color.White;
-            monthCalendarCitas.ForeColor = Color.FromArgb(33, 37, 41);
-            monthCalendarCitas.Location = new Point(225, 35);
+            monthCalendarCitas.Location = new Point(265, 40);
             monthCalendarCitas.MaxSelectionCount = 1;
-            monthCalendarCitas.Name = "monthCalendarCitas";
-            monthCalendarCitas.ShowToday = false;
-            monthCalendarCitas.ShowTodayCircle = true;
-            monthCalendarCitas.TabIndex = 15;
-            monthCalendarCitas.TitleBackColor = Color.ForestGreen;
-            monthCalendarCitas.TitleForeColor = Color.White;
-            monthCalendarCitas.TrailingForeColor = Color.Silver;
+
             // 
-            // btnGuardar
+            // Botones (Mantienen su tamaño y estilo)
             // 
-            btnGuardar.BackColor = Color.FromArgb(255, 192, 128);
-            btnGuardar.Cursor = Cursors.Hand;
-            btnGuardar.FlatAppearance.BorderSize = 0;
+            btnGuardar.BackColor = Color.FromArgb(45, 45, 48);
             btnGuardar.FlatStyle = FlatStyle.Flat;
-            btnGuardar.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            btnGuardar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             btnGuardar.ForeColor = Color.White;
-            btnGuardar.Location = new Point(60, 390);
-            btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(175, 45);
-            btnGuardar.TabIndex = 6;
+            btnGuardar.Location = new Point(100, 420);
+            btnGuardar.Size = new Size(180, 45);
             btnGuardar.Text = "GUARDAR CITA";
-            btnGuardar.UseVisualStyleBackColor = false;
-            btnGuardar.Click += btnGuardar_Click;
-            // 
-            // btnCancelar
-            // 
-            btnCancelar.BackColor = Color.FromArgb(230, 230, 230);
-            btnCancelar.Cursor = Cursors.Hand;
-            btnCancelar.FlatAppearance.BorderSize = 0;
+            btnGuardar.Click += btnGuardar_Click_1;
+
+            btnCancelar.BackColor = Color.FromArgb(210, 210, 210);
             btnCancelar.FlatStyle = FlatStyle.Flat;
-            btnCancelar.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
-            btnCancelar.ForeColor = Color.FromArgb(64, 64, 64);
-            btnCancelar.Location = new Point(255, 390);
-            btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(175, 45);
-            btnCancelar.TabIndex = 7;
+            btnCancelar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnCancelar.ForeColor = Color.FromArgb(60, 60, 60);
+            btnCancelar.Location = new Point(300, 420);
+            btnCancelar.Size = new Size(180, 45);
             btnCancelar.Text = "CANCELAR";
-            btnCancelar.UseVisualStyleBackColor = false;
-            btnCancelar.Click += btnCancelar_Click;
+            btnCancelar.Click += btnCancelar_Click_1;
+
             // 
-            // AnyadirCitas (Form Properties)
+            // Formulario AnyadirCitas - Ajustado el ClientSize total
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(245, 245, 245);
-            ClientSize = new Size(492, 465);
+            BackColor = Color.White;
+            ClientSize = new Size(580, 500);
             Controls.Add(panelContenedor);
             Controls.Add(label1);
             Controls.Add(btnCancelar);
             Controls.Add(btnGuardar);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
-            MinimizeBox = false;
             Name = "AnyadirCitas";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Gestión de Citas";
             panelContenedor.ResumeLayout(false);
             panelContenedor.PerformLayout();
             ResumeLayout(false);
         }
 
-        #endregion
-
+        private Panel panelContenedor;
         private ComboBox cmbCliente;
         private ComboBox cmbGrupo;
         private Label lbCliente;

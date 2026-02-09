@@ -3,6 +3,8 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Windows.Forms;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace PeluqueriAPP
 {
@@ -14,11 +16,27 @@ namespace PeluqueriAPP
         public iniciar()
         {
             InitializeComponent();
+            ConfigurarEstilos();
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void ConfigurarEstilos()
         {
-            // Evento opcional
+            // Redondeo tipo "píldora" (extremo) para el botón
+            btnIniciar.Paint += (s, e) => DibujarBordeRedondeado(btnIniciar, e.Graphics, 38);
+        }
+
+        private void DibujarBordeRedondeado(Control control, Graphics g, int radio)
+        {
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            using (GraphicsPath path = new GraphicsPath())
+            {
+                path.AddArc(0, 0, radio, radio, 180, 90);
+                path.AddArc(control.Width - radio, 0, radio, radio, 270, 90);
+                path.AddArc(control.Width - radio, control.Height - radio, radio, radio, 0, 90);
+                path.AddArc(0, control.Height - radio, radio, radio, 90, 90);
+                path.CloseAllFigures();
+                control.Region = new Region(path);
+            }
         }
 
         private async void btnIniciar_Click(object sender, EventArgs e)
@@ -26,25 +44,18 @@ namespace PeluqueriAPP
             string usuario = txtUsuario.Text.Trim();
             string contrasena = txtContrasenya.Text.Trim();
 
-            // Validación de campos vacíos
             if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(contrasena))
             {
                 MessageBox.Show("Debes ingresar usuario y contraseña.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Bloquear botón para evitar múltiples clics
             btnIniciar.Enabled = false;
-            btnIniciar.Text = "Iniciando...";
+            btnIniciar.Text = "CARGANDO...";
 
             try
             {
-                var loginData = new
-                {
-                    email = usuario,
-                    password = contrasena
-                };
-
+                var loginData = new { email = usuario, password = contrasena };
                 var response = await httpClient.PostAsJsonAsync(API_BASE_URL, loginData);
 
                 if (response.IsSuccessStatusCode)
@@ -55,35 +66,31 @@ namespace PeluqueriAPP
                         PropertyNameCaseInsensitive = true
                     });
 
-                    // Guardar datos en la clase Session (Asegúrate de que la clase Session exista)
                     Session.AccessToken = data.AccessToken;
                     Session.TokenType = data.TokenType;
                     Session.UserId = data.Id;
                     Session.Username = data.Username;
 
-                    // Abrir Home y ocultar Login
                     Home home = new Home();
                     home.Show();
                     this.Hide();
                 }
                 else
                 {
-                    MessageBox.Show("Usuario o contraseña incorrectos.", "Error de Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Credenciales incorrectas.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al conectar con el servidor: " + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error de conexión: " + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
-                // Restaurar estado del botón
                 btnIniciar.Enabled = true;
-                btnIniciar.Text = "Iniciar Sesion";
+                btnIniciar.Text = "INICIAR SESIÓN";
             }
         }
 
-        // Modelo de respuesta de la API
         private class LoginResponse
         {
             public string AccessToken { get; set; }

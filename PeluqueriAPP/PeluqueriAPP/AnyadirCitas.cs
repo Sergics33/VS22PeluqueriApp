@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Linq;
 using System.Text.Json;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace PeluqueriAPP
 {
@@ -23,9 +25,11 @@ namespace PeluqueriAPP
         public AnyadirCitas(Cita cita = null)
         {
             InitializeComponent();
+            ConfigurarEstilosPersonalizados();
 
-            // EVENTOS PRINCIPALES
-            cmbGrupo.SelectedIndexChanged += async (s, e) => {
+            // EVENTOS DE CAMBIO EN COMBOS
+            cmbGrupo.SelectedIndexChanged += async (s, e) =>
+            {
                 if (!cargando)
                 {
                     await FiltrarServiciosPorGrupo();
@@ -33,12 +37,13 @@ namespace PeluqueriAPP
                 }
             };
 
-            cmbServicio.SelectedIndexChanged += async (s, e) => {
+            cmbServicio.SelectedIndexChanged += async (s, e) =>
+            {
                 if (!cargando) await CargarDiasDisponibles();
             };
 
-            // Evento del Calendario: Cuando el usuario hace clic en un día
-            monthCalendarCitas.DateSelected += (s, e) => {
+            monthCalendarCitas.DateSelected += (s, e) =>
+            {
                 if (!cargando) ActualizarComboHoras();
             };
 
@@ -46,9 +51,31 @@ namespace PeluqueriAPP
             {
                 citaId = cita.id;
                 this.Text = "Editar Cita";
+                label1.Text = "EDITAR CITA";
             }
 
             this.Load += async (s, e) => await CargarDatosIniciales(cita);
+        }
+
+        private void ConfigurarEstilosPersonalizados()
+        {
+            // Aplicar redondeo a los botones mediante evento Paint para no perder el estilo al redimensionar
+            btnGuardar.Paint += (s, e) => DibujarBordeRedondeado(btnGuardar, e.Graphics, 20);
+            btnCancelar.Paint += (s, e) => DibujarBordeRedondeado(btnCancelar, e.Graphics, 20);
+        }
+
+        private void DibujarBordeRedondeado(Control control, Graphics g, int radio)
+        {
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            using (GraphicsPath path = new GraphicsPath())
+            {
+                path.AddArc(0, 0, radio, radio, 180, 90);
+                path.AddArc(control.Width - radio, 0, radio, radio, 270, 90);
+                path.AddArc(control.Width - radio, control.Height - radio, radio, radio, 0, 90);
+                path.AddArc(0, control.Height - radio, radio, radio, 90, 90);
+                path.CloseAllFigures();
+                control.Region = new Region(path);
+            }
         }
 
         private async Task CargarDatosIniciales(Cita citaExistente)
@@ -58,7 +85,8 @@ namespace PeluqueriAPP
                 cargando = true;
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
-                listaServiciosMaestra = await httpClient.GetFromJsonAsync<List<Servicio>>("http://localhost:8080/api/servicios/") ?? new List<Servicio>();
+                // IMPORTANTE: URL corregida para evitar el NotFound
+                listaServiciosMaestra = await httpClient.GetFromJsonAsync<List<Servicio>>("http://localhost:8080/api/tipos-servicio/") ?? new List<Servicio>();
 
                 var clientes = await httpClient.GetFromJsonAsync<List<ClienteDTO>>("http://localhost:8080/api/clientes/");
                 cmbCliente.DataSource = clientes;
@@ -74,14 +102,13 @@ namespace PeluqueriAPP
                 await FiltrarServiciosPorGrupo();
                 await CargarDiasDisponibles();
             }
-            catch (Exception ex) { MessageBox.Show("Error inicial: " + ex.Message); }
+            catch (Exception ex) { MessageBox.Show("Error al cargar datos: " + ex.Message); }
         }
 
         private async Task FiltrarServiciosPorGrupo()
         {
             if (cmbGrupo.SelectedValue == null) return;
             long grupoId = Convert.ToInt64(cmbGrupo.SelectedValue);
-
             try
             {
                 string url = $"http://localhost:8080/api/agendas/?grupo={grupoId}";
@@ -91,7 +118,6 @@ namespace PeluqueriAPP
                 string jsonRaw = await response.Content.ReadAsStringAsync();
                 using var doc = JsonDocument.Parse(jsonRaw);
                 var idsServicios = new HashSet<long>();
-
                 foreach (var elemento in doc.RootElement.EnumerateArray())
                 {
                     if (elemento.TryGetProperty("servicio", out var serv) && serv.TryGetProperty("id", out var idProp))
@@ -99,7 +125,6 @@ namespace PeluqueriAPP
                 }
 
                 var filtrados = listaServiciosMaestra.Where(s => idsServicios.Contains(s.id)).ToList();
-
                 cargando = true;
                 cmbServicio.DataSource = null;
                 if (filtrados.Any())
@@ -116,33 +141,23 @@ namespace PeluqueriAPP
         private async Task CargarDiasDisponibles()
         {
             if (cmbGrupo.SelectedValue == null || cmbServicio.SelectedValue == null) return;
-
             try
             {
                 long grupoId = Convert.ToInt64(cmbGrupo.SelectedValue);
                 long servicioId = Convert.ToInt64(cmbServicio.SelectedValue);
-
                 string url = $"http://localhost:8080/api/agendas/?servicio={servicioId}&grupo={grupoId}";
                 agendasActuales = await httpClient.GetFromJsonAsync<List<AgendaResponseDTO>>(url);
 
                 cargando = true;
-                monthCalendarCitas.RemoveAllBoldedDates(); // Limpiar calendario
-
+                monthCalendarCitas.RemoveAllBoldedDates();
                 if (agendasActuales != null)
                 {
-                    var fechasLibres = agendasActuales
-                        .SelectMany(a => a.HorasDisponiblesEstado)
-                        .Where(h => h.Value == true)
-                        .Select(h => DateTime.Parse(h.Key).Date)
-                        .Distinct()
-                        .ToArray();
-
-                    monthCalendarCitas.BoldedDates = fechasLibres; // Marcamos días con huecos
+                    var fechasLibres = agendasActuales.SelectMany(a => a.HorasDisponiblesEstado)
+                        .Where(h => h.Value == true).Select(h => DateTime.Parse(h.Key).Date).Distinct().ToArray();
+                    monthCalendarCitas.BoldedDates = fechasLibres;
                     monthCalendarCitas.UpdateBoldedDates();
-
                     if (fechasLibres.Any()) monthCalendarCitas.SelectionStart = fechasLibres.First();
                 }
-
                 cargando = false;
                 ActualizarComboHoras();
             }
@@ -153,16 +168,13 @@ namespace PeluqueriAPP
         {
             DateTime fechaSeleccionada = monthCalendarCitas.SelectionStart.Date;
             cmbHoras.Items.Clear();
-
             foreach (var agenda in agendasActuales)
             {
                 if (agenda.HorasDisponiblesEstado != null)
                 {
                     var horas = agenda.HorasDisponiblesEstado
                         .Where(h => DateTime.Parse(h.Key).Date == fechaSeleccionada && h.Value == true)
-                        .Select(h => DateTime.Parse(h.Key).ToString("HH:mm"))
-                        .OrderBy(h => h);
-
+                        .Select(h => DateTime.Parse(h.Key).ToString("HH:mm")).OrderBy(h => h);
                     foreach (var h in horas)
                     {
                         if (!cmbHoras.Items.Contains(h)) cmbHoras.Items.Add(h);
@@ -172,17 +184,26 @@ namespace PeluqueriAPP
             if (cmbHoras.Items.Count > 0) cmbHoras.SelectedIndex = 0;
         }
 
-        private void btnGuardar_Click(object sender, EventArgs e)
-        {
-            if (cmbHoras.SelectedItem == null) return;
 
+
+        private void btnCancelar_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnGuardar_Click_1(object sender, EventArgs e)
+        {
+            if (cmbHoras.SelectedItem == null)
+            {
+                MessageBox.Show("Por favor, seleccione una hora.");
+                return;
+            }
             DateTime fechaBase = monthCalendarCitas.SelectionStart.Date;
             TimeSpan horaBase = TimeSpan.Parse(cmbHoras.SelectedItem.ToString());
             DateTime fechaFinal = fechaBase.Add(horaBase);
 
             var agendaSeleccionada = agendasActuales.FirstOrDefault(a =>
-                a.HorasDisponiblesEstado != null &&
-                a.HorasDisponiblesEstado.Any(h => DateTime.Parse(h.Key) == fechaFinal));
+                a.HorasDisponiblesEstado != null && a.HorasDisponiblesEstado.Any(h => DateTime.Parse(h.Key) == fechaFinal));
 
             if (agendaSeleccionada != null)
             {
@@ -197,7 +218,5 @@ namespace PeluqueriAPP
                 this.Close();
             }
         }
-
-        private void btnCancelar_Click(object sender, EventArgs e) => this.Close();
     }
 }

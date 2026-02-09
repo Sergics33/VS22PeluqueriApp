@@ -7,82 +7,77 @@ namespace PeluqueriAPP
 {
     public partial class Home : Form
     {
-        // Variable para guardar qué formulario está abierto encima
         private Form formularioActivo = null;
 
         public Home()
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+
+            // Definimos el color oscuro suave (Antracita)
+            panel1.BackColor = Color.FromArgb(45, 45, 48);
+
+            // Aseguramos transparencia para que no salgan recuadros grises en los textos
+            foreach (Control c in panel1.Controls)
+            {
+                c.BackColor = Color.Transparent;
+            }
+
+            ConfigurarEfectosMenu();
         }
 
-        // --- MÉTODO CORREGIDO PARA ABRIR FORMULARIOS ---
+        private void ConfigurarEfectosMenu()
+        {
+            // Efecto de iluminación suave al pasar el ratón
+            Label[] menuItems = { lblHome, lblCitas, lblServicios, label7, lblAgenda, lblCerrarSesion };
+
+            foreach (var lbl in menuItems)
+            {
+                lbl.MouseEnter += (s, e) => { ((Label)s).ForeColor = Color.Silver; ((Label)s).Cursor = Cursors.Hand; };
+                lbl.MouseLeave += (s, e) => { ((Label)s).ForeColor = Color.White; ((Label)s).Cursor = Cursors.Default; };
+            }
+        }
+
         private void AbrirFormEnPanel(Form formularioHijo)
         {
-            // 1. Si ya hay un formulario abierto (ej. estamos en Citas y vamos a Servicios), lo cerramos primero
             if (formularioActivo != null)
             {
                 formularioActivo.Close();
-                panel2.Controls.Remove(formularioActivo); // Lo quitamos visualmente
+                panel2.Controls.Remove(formularioActivo);
             }
 
-            // 2. Configuramos el nuevo formulario
             formularioActivo = formularioHijo;
             formularioHijo.TopLevel = false;
             formularioHijo.FormBorderStyle = FormBorderStyle.None;
-            formularioHijo.Dock = DockStyle.Fill; // Que ocupe todo el espacio
-            formularioHijo.BackColor = panel2.BackColor; // Que coja el color de fondo
+            formularioHijo.Dock = DockStyle.Fill;
+            formularioHijo.BackColor = panel2.BackColor;
 
-            // 3. ¡OJO! NO usamos Clear(). Añadimos el form y lo traemos al frente.
             panel2.Controls.Add(formularioHijo);
             panel2.Tag = formularioHijo;
-
-            // Esto es la clave: Ponemos el formulario ENCIMA de tus botones originales
             formularioHijo.BringToFront();
             formularioHijo.Show();
+
+            lblUbi.Text = formularioHijo.Text;
         }
 
-        // --- BOTÓN HOME (VOLVER AL INICIO) ---
         private void lblHome_Click(object sender, EventArgs e)
         {
-            // Simplemente cerramos el formulario hijo. 
-            // Al desaparecer, se verán tus botones originales que estaban debajo.
             if (formularioActivo != null)
             {
                 formularioActivo.Close();
                 panel2.Controls.Remove(formularioActivo);
                 formularioActivo = null;
+                lblUbi.Text = "Home";
             }
         }
 
-        // --- NAVEGACIÓN ---
-        private void lblCitas_Click(object sender, EventArgs e)
-        {
-            AbrirFormEnPanel(new Citas());
-        }
+        private void lblCitas_Click(object sender, EventArgs e) => AbrirFormEnPanel(new Citas());
+        private void lblServicios_Click(object sender, EventArgs e) => AbrirFormEnPanel(new Servicios());
+        private void label7_Click(object sender, EventArgs e) => AbrirFormEnPanel(new Admins());
+        private void lblAgenda_Click(object sender, EventArgs e) => AbrirFormEnPanel(new Agendas());
+        private void lblCerrarSesion_Click(object sender, EventArgs e) => Application.Exit();
 
-        private void lblServicios_Click(object sender, EventArgs e)
-        {
-            AbrirFormEnPanel(new Servicios());
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-            AbrirFormEnPanel(new Admins());
-        }
-
-        private void lblAgenda_Click(object sender, EventArgs e)
-        {
-            AbrirFormEnPanel(new Agendas());
-        }
-
-        private void lblCerrarSesion_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        // --- EVENTOS DEL DESIGNER (NO BORRAR) ---
-        // Déjalos tal cual para que no falle el diseñador
+        // Eventos del designer (No tocamos nada)
         private void panel1_Paint(object sender, PaintEventArgs e) { }
         private void panel2_Paint(object sender, PaintEventArgs e) { }
         private void panelCitas_Paint(object sender, PaintEventArgs e) { }

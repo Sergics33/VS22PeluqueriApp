@@ -6,14 +6,9 @@
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
+            if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
-
-        #region Windows Form Designer generated code
 
         private void InitializeComponent()
         {
@@ -24,77 +19,79 @@
             lblContrasenya = new Label();
             txtContrasenya = new TextBox();
             btnIniciar = new Button();
+            lblBienvenida = new Label();
             ((System.ComponentModel.ISupportInitialize)iconoFP).BeginInit();
             SuspendLayout();
+            // 
+            // lblBienvenida
+            // 
+            lblBienvenida.AutoSize = true;
+            lblBienvenida.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold);
+            lblBienvenida.ForeColor = Color.FromArgb(60, 60, 60); // Gris muy oscuro sutil
+            lblBienvenida.Location = new Point(40, 18);
+            lblBienvenida.Name = "lblBienvenida";
+            lblBienvenida.Size = new Size(166, 32);
+            lblBienvenida.Text = "Bienvenido a Bernat Sarrià";
             // 
             // iconoFP
             // 
             iconoFP.Image = (Image)resources.GetObject("iconoFP.Image");
-            iconoFP.Location = new Point(12, 45);
+            iconoFP.Location = new Point(30, 70);
             iconoFP.Name = "iconoFP";
-            iconoFP.Size = new Size(116, 119);
+            iconoFP.Size = new Size(100, 100);
             iconoFP.SizeMode = PictureBoxSizeMode.Zoom;
             iconoFP.TabIndex = 4;
-            iconoFP.TabStop = false;
-            // 
-            // txtUsuario
-            // 
-            txtUsuario.BackColor = Color.White;
-            txtUsuario.BorderStyle = BorderStyle.FixedSingle;
-            txtUsuario.Font = new Font("Segoe UI", 10F);
-            txtUsuario.Location = new Point(152, 65);
-            txtUsuario.Name = "txtUsuario";
-            txtUsuario.Size = new Size(160, 25);
-            txtUsuario.TabIndex = 0;
             // 
             // lblUsuario
             // 
             lblUsuario.AutoSize = true;
-            lblUsuario.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblUsuario.ForeColor = Color.FromArgb(64, 64, 64);
-            lblUsuario.Location = new Point(152, 45);
-            lblUsuario.Name = "lblUsuario";
-            lblUsuario.Size = new Size(57, 17);
-            lblUsuario.TabIndex = 6;
-            lblUsuario.Text = "Usuario:";
+            lblUsuario.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblUsuario.ForeColor = Color.FromArgb(120, 120, 120); // Gris sutil
+            lblUsuario.Location = new Point(155, 65);
+            lblUsuario.Text = "EMAIL O USUARIO";
+            // 
+            // txtUsuario
+            // 
+            txtUsuario.BackColor = Color.FromArgb(242, 242, 242);
+            txtUsuario.BorderStyle = BorderStyle.None;
+            txtUsuario.Font = new Font("Segoe UI", 11F);
+            txtUsuario.Location = new Point(155, 85);
+            txtUsuario.Name = "txtUsuario";
+            txtUsuario.Size = new Size(185, 20);
+            txtUsuario.TabIndex = 0;
             // 
             // lblContrasenya
             // 
             lblContrasenya.AutoSize = true;
-            lblContrasenya.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            lblContrasenya.ForeColor = Color.FromArgb(64, 64, 64);
-            lblContrasenya.Location = new Point(152, 105);
-            lblContrasenya.Name = "lblContrasenya";
-            lblContrasenya.Size = new Size(80, 17);
-            lblContrasenya.TabIndex = 7;
-            lblContrasenya.Text = "Contraseña:";
+            lblContrasenya.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblContrasenya.ForeColor = Color.FromArgb(120, 120, 120); // Gris sutil
+            lblContrasenya.Location = new Point(155, 120);
+            lblContrasenya.Text = "CONTRASEÑA";
             // 
             // txtContrasenya
             // 
-            txtContrasenya.BackColor = Color.White;
-            txtContrasenya.BorderStyle = BorderStyle.FixedSingle;
-            txtContrasenya.Font = new Font("Segoe UI", 10F);
-            txtContrasenya.Location = new Point(152, 125);
+            txtContrasenya.BackColor = Color.FromArgb(242, 242, 242);
+            txtContrasenya.BorderStyle = BorderStyle.None;
+            txtContrasenya.Font = new Font("Segoe UI", 11F);
+            txtContrasenya.Location = new Point(155, 140);
             txtContrasenya.Name = "txtContrasenya";
-            txtContrasenya.Size = new Size(160, 25);
+            txtContrasenya.Size = new Size(185, 20);
             txtContrasenya.TabIndex = 1;
             txtContrasenya.UseSystemPasswordChar = true;
             // 
             // btnIniciar
             // 
-            btnIniciar.BackColor = Color.FromArgb(45, 45, 48);
+            btnIniciar.BackColor = Color.FromArgb(45, 45, 48); // Antracita elegante
             btnIniciar.Cursor = Cursors.Hand;
             btnIniciar.FlatAppearance.BorderSize = 0;
-            btnIniciar.FlatAppearance.MouseDownBackColor = Color.FromArgb(28, 28, 28);
-            btnIniciar.FlatAppearance.MouseOverBackColor = Color.FromArgb(63, 63, 65);
             btnIniciar.FlatStyle = FlatStyle.Flat;
-            btnIniciar.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            btnIniciar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             btnIniciar.ForeColor = Color.White;
-            btnIniciar.Location = new Point(152, 170);
+            btnIniciar.Location = new Point(155, 185);
             btnIniciar.Name = "btnIniciar";
-            btnIniciar.Size = new Size(160, 35);
+            btnIniciar.Size = new Size(185, 45);
             btnIniciar.TabIndex = 2;
-            btnIniciar.Text = "Iniciar Sesión";
+            btnIniciar.Text = "INICIAR SESIÓN";
             btnIniciar.UseVisualStyleBackColor = false;
             btnIniciar.Click += btnIniciar_Click;
             // 
@@ -102,8 +99,9 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(240, 240, 240); // Fondo grisáceo claro
-            ClientSize = new Size(343, 235);
+            BackColor = Color.White;
+            ClientSize = new Size(380, 260);
+            Controls.Add(lblBienvenida);
             Controls.Add(btnIniciar);
             Controls.Add(txtContrasenya);
             Controls.Add(lblContrasenya);
@@ -112,16 +110,13 @@
             Controls.Add(iconoFP);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
-            MinimizeBox = false;
             Name = "iniciar";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "PeluqueriAPP - Acceso";
+            Text = "Login";
             ((System.ComponentModel.ISupportInitialize)iconoFP).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
-
-        #endregion
 
         private PictureBox iconoFP;
         private TextBox txtUsuario;
@@ -129,5 +124,6 @@
         private Label lblContrasenya;
         private TextBox txtContrasenya;
         private Button btnIniciar;
+        private Label lblBienvenida;
     }
 }

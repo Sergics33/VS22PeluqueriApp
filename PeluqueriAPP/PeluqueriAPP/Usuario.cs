@@ -26,7 +26,7 @@ namespace PeluqueriAPP
         public string Telefono { get; set; }
 
         [JsonPropertyName("observaciones")]
-        public string Observaciones { get; set; }
+        public string Observaciones { get; set; }   
 
         [JsonPropertyName("alergenos")]
         public string Alergenos { get; set; }

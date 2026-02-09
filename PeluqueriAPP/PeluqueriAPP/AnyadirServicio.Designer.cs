@@ -48,22 +48,23 @@ namespace PeluqueriAPP
             panelContenedor = new Panel();
             panelContenedor.SuspendLayout();
             SuspendLayout();
+
             // 
-            // lbltitulo
+            // lbltitulo (Estilo Home/Login)
             // 
-            lbltitulo.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold);
-            lbltitulo.ForeColor = Color.ForestGreen;
-            lbltitulo.Location = new Point(0, 20);
+            lbltitulo.Font = new Font("Segoe UI Semibold", 22F, FontStyle.Bold);
+            lbltitulo.ForeColor = Color.FromArgb(45, 45, 48); // Antracita
+            lbltitulo.Location = new Point(0, 15);
             lbltitulo.Name = "lbltitulo";
-            lbltitulo.Size = new Size(380, 45);
+            lbltitulo.Size = new Size(420, 50);
             lbltitulo.TabIndex = 0;
-            lbltitulo.Text = "AÑADIR SERVICIO";
+            lbltitulo.Text = "Añadir Servicio";
             lbltitulo.TextAlign = ContentAlignment.MiddleCenter;
+
             // 
             // panelContenedor
             // 
             panelContenedor.BackColor = Color.White;
-            panelContenedor.BorderStyle = BorderStyle.FixedSingle;
             panelContenedor.Controls.Add(lblNombre);
             panelContenedor.Controls.Add(tbNombre);
             panelContenedor.Controls.Add(lblTipo);
@@ -74,122 +75,109 @@ namespace PeluqueriAPP
             panelContenedor.Controls.Add(tbDuracion);
             panelContenedor.Controls.Add(lblPrecio);
             panelContenedor.Controls.Add(tbPrecio);
-            panelContenedor.Location = new Point(25, 80);
+            panelContenedor.Location = new Point(30, 80);
             panelContenedor.Name = "panelContenedor";
-            panelContenedor.Size = new Size(330, 310);
+            panelContenedor.Size = new Size(360, 370);
             panelContenedor.TabIndex = 1;
+
             // 
-            // lblNombre
+            // Estilo Común para Labels y Inputs
             // 
+            Color colorLabelSutil = Color.FromArgb(120, 120, 120);
+            Font fuenteLabel = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            Color colorFondoInput = Color.FromArgb(242, 242, 242);
+            Font fuenteInput = new Font("Segoe UI", 12.5F);
+            int anchoInput = 320;
+
+            // Nombre
             lblNombre.AutoSize = true;
-            lblNombre.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            lblNombre.ForeColor = Color.FromArgb(64, 64, 64);
+            lblNombre.Font = fuenteLabel;
+            lblNombre.ForeColor = colorLabelSutil;
             lblNombre.Location = new Point(20, 15);
-            lblNombre.Name = "lblNombre";
-            lblNombre.Size = new Size(63, 19);
-            lblNombre.Text = "Nombre:";
-            // 
-            // tbNombre
-            // 
-            tbNombre.Font = new Font("Segoe UI", 10F);
-            tbNombre.Location = new Point(20, 37);
-            tbNombre.Name = "tbNombre";
-            tbNombre.Size = new Size(285, 25);
-            tbNombre.TabIndex = 2;
-            // 
-            // lblTipo
-            // 
+            lblNombre.Text = "NOMBRE";
+
+            tbNombre.BackColor = colorFondoInput;
+            tbNombre.BorderStyle = BorderStyle.None;
+            tbNombre.Font = fuenteInput;
+            tbNombre.Location = new Point(20, 38);
+            tbNombre.Size = new Size(anchoInput, 23);
+
+            // Tipo (ComboBox)
             lblTipo.AutoSize = true;
-            lblTipo.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            lblTipo.ForeColor = Color.FromArgb(64, 64, 64);
-            lblTipo.Location = new Point(20, 72);
-            lblTipo.Name = "lblTipo";
-            lblTipo.Size = new Size(39, 19);
-            lblTipo.Text = "Tipo:";
-            // 
-            // comboBoxTipos
-            // 
+            lblTipo.Font = fuenteLabel;
+            lblTipo.ForeColor = colorLabelSutil;
+            lblTipo.Location = new Point(20, 80);
+            lblTipo.Text = "TIPO";
+
+            comboBoxTipos.BackColor = colorFondoInput;
+            comboBoxTipos.FlatStyle = FlatStyle.Flat;
             comboBoxTipos.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxTipos.Font = new Font("Segoe UI", 10F);
-            comboBoxTipos.Location = new Point(20, 94);
-            comboBoxTipos.Name = "comboBoxTipos";
-            comboBoxTipos.Size = new Size(285, 25);
-            comboBoxTipos.TabIndex = 3;
-            // 
-            // lblDescripcion
-            // 
+            comboBoxTipos.Font = fuenteInput;
+            comboBoxTipos.Location = new Point(20, 103);
+            comboBoxTipos.Size = new Size(anchoInput, 31);
+
+            // Descripción
             lblDescripcion.AutoSize = true;
-            lblDescripcion.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            lblDescripcion.ForeColor = Color.FromArgb(64, 64, 64);
-            lblDescripcion.Location = new Point(20, 129);
-            lblDescripcion.Name = "lblDescripcion";
-            lblDescripcion.Size = new Size(86, 19);
-            lblDescripcion.Text = "Descripción:";
-            // 
-            // tbDescripcion
-            // 
-            tbDescripcion.Font = new Font("Segoe UI", 10F);
-            tbDescripcion.Location = new Point(20, 151);
-            tbDescripcion.Name = "tbDescripcion";
-            tbDescripcion.Size = new Size(285, 25);
-            tbDescripcion.TabIndex = 4;
-            // 
-            // lblDuracion
-            // 
+            lblDescripcion.Font = fuenteLabel;
+            lblDescripcion.ForeColor = colorLabelSutil;
+            lblDescripcion.Location = new Point(20, 150);
+            lblDescripcion.Text = "DESCRIPCIÓN";
+
+            tbDescripcion.BackColor = colorFondoInput;
+            tbDescripcion.BorderStyle = BorderStyle.None;
+            tbDescripcion.Font = fuenteInput;
+            tbDescripcion.Location = new Point(20, 173);
+            tbDescripcion.Size = new Size(anchoInput, 23);
+
+            // Duración
             lblDuracion.AutoSize = true;
-            lblDuracion.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            lblDuracion.ForeColor = Color.FromArgb(64, 64, 64);
-            lblDuracion.Location = new Point(20, 186);
-            lblDuracion.Name = "lblDuracion";
-            lblDuracion.Size = new Size(68, 19);
-            lblDuracion.Text = "Duración:";
-            // 
-            // tbDuracion
-            // 
-            tbDuracion.Font = new Font("Segoe UI", 10F);
-            tbDuracion.Location = new Point(20, 208);
-            tbDuracion.Name = "tbDuracion";
-            tbDuracion.Size = new Size(285, 25);
-            tbDuracion.TabIndex = 5;
-            // 
-            // lblPrecio
-            // 
+            lblDuracion.Font = fuenteLabel;
+            lblDuracion.ForeColor = colorLabelSutil;
+            lblDuracion.Location = new Point(20, 220);
+            lblDuracion.Text = "DURACIÓN (MIN)";
+
+            tbDuracion.BackColor = colorFondoInput;
+            tbDuracion.BorderStyle = BorderStyle.None;
+            tbDuracion.Font = fuenteInput;
+            tbDuracion.Location = new Point(20, 243);
+            tbDuracion.Size = new Size(anchoInput, 23);
+
+            // Precio
             lblPrecio.AutoSize = true;
-            lblPrecio.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            lblPrecio.ForeColor = Color.FromArgb(64, 64, 64);
-            lblPrecio.Location = new Point(20, 243);
-            lblPrecio.Name = "lblPrecio";
-            lblPrecio.Size = new Size(50, 19);
-            lblPrecio.Text = "Precio:";
+            lblPrecio.Font = fuenteLabel;
+            lblPrecio.ForeColor = colorLabelSutil;
+            lblPrecio.Location = new Point(20, 290);
+            lblPrecio.Text = "PRECIO (€)";
+
+            tbPrecio.BackColor = colorFondoInput;
+            tbPrecio.BorderStyle = BorderStyle.None;
+            tbPrecio.Font = fuenteInput;
+            tbPrecio.Location = new Point(20, 313);
+            tbPrecio.Size = new Size(anchoInput, 23);
+
             // 
-            // tbPrecio
+            // btnAnyadir (Estilo Botón Principal)
             // 
-            tbPrecio.Font = new Font("Segoe UI", 10F);
-            tbPrecio.Location = new Point(20, 265);
-            tbPrecio.Name = "tbPrecio";
-            tbPrecio.Size = new Size(285, 25);
-            tbPrecio.TabIndex = 6;
-            // 
-            // btnAnyadir
-            // 
-            btnAnyadir.BackColor = Color.FromArgb(255, 192, 128);
+            btnAnyadir.BackColor = Color.FromArgb(45, 45, 48); // Antracita
+            btnAnyadir.Cursor = Cursors.Hand;
             btnAnyadir.FlatAppearance.BorderSize = 0;
             btnAnyadir.FlatStyle = FlatStyle.Flat;
-            btnAnyadir.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+            btnAnyadir.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnAnyadir.ForeColor = Color.White;
-            btnAnyadir.Location = new Point(25, 405);
+            btnAnyadir.Location = new Point(30, 470);
             btnAnyadir.Name = "btnAnyadir";
-            btnAnyadir.Size = new Size(330, 45);
+            btnAnyadir.Size = new Size(360, 45);
             btnAnyadir.TabIndex = 7;
-            btnAnyadir.Text = "AÑADIR SERVICIO";
+            btnAnyadir.Text = "GUARDAR SERVICIO";
             btnAnyadir.UseVisualStyleBackColor = false;
+
             // 
-            // AnyadirServicio
+            // AnyadirServicio (Configuración Form)
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(245, 245, 245);
-            ClientSize = new Size(380, 475);
+            BackColor = Color.White;
+            ClientSize = new Size(420, 540);
             Controls.Add(panelContenedor);
             Controls.Add(btnAnyadir);
             Controls.Add(lbltitulo);
@@ -201,7 +189,6 @@ namespace PeluqueriAPP
             panelContenedor.ResumeLayout(false);
             panelContenedor.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
     }
 }

@@ -1,17 +1,9 @@
-﻿
-namespace PeluqueriAPP
+﻿namespace PeluqueriAPP
 {
     partial class Home
     {
-        /// <summary>
-        ///  Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        ///  Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -23,10 +15,6 @@ namespace PeluqueriAPP
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Home));
@@ -77,7 +65,7 @@ namespace PeluqueriAPP
             // 
             // panel1
             // 
-            panel1.BackColor = Color.FromArgb(40, 40, 40);
+            panel1.BackColor = Color.Transparent; // Clave para el degradado
             panel1.Controls.Add(lblAgenda);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(IconoPerfil);
@@ -453,11 +441,8 @@ namespace PeluqueriAPP
             ResumeLayout(false);
         }
 
-
-
         #endregion
 
-        // Asegúrate de que estas variables estén declaradas al final del Designer.cs
         private Panel panel1;
         private Label lblPanel;
         private Label lblBernat;
