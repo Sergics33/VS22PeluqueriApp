@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -14,13 +15,13 @@ namespace PeluqueriAPP
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
 
-            // Definimos el color oscuro suave (Antracita)
-            panel1.BackColor = Color.FromArgb(45, 45, 48);
-
-            // Aseguramos transparencia para que no salgan recuadros grises en los textos
+            // Mantenemos transparencia en los labels para que se vea el degradado detrás
             foreach (Control c in panel1.Controls)
             {
-                c.BackColor = Color.Transparent;
+                if (c is Label || c is PictureBox)
+                {
+                    c.BackColor = Color.Transparent;
+                }
             }
 
             ConfigurarEfectosMenu();
@@ -28,7 +29,6 @@ namespace PeluqueriAPP
 
         private void ConfigurarEfectosMenu()
         {
-            // Efecto de iluminación suave al pasar el ratón
             Label[] menuItems = { lblHome, lblCitas, lblServicios, label7, lblAgenda, lblCerrarSesion };
 
             foreach (var lbl in menuItems)
@@ -36,6 +36,18 @@ namespace PeluqueriAPP
                 lbl.MouseEnter += (s, e) => { ((Label)s).ForeColor = Color.Silver; ((Label)s).Cursor = Cursors.Hand; };
                 lbl.MouseLeave += (s, e) => { ((Label)s).ForeColor = Color.White; ((Label)s).Cursor = Cursors.Default; };
             }
+        }
+
+        // Pintamos el degradado naranja en el panel lateral
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            LinearGradientBrush brush = new LinearGradientBrush(
+                panel1.ClientRectangle,
+                Color.FromArgb(255, 128, 0),  // Naranja Intenso
+                Color.FromArgb(255, 200, 100), // Naranja Claro
+                LinearGradientMode.Vertical);
+
+            e.Graphics.FillRectangle(brush, panel1.ClientRectangle);
         }
 
         private void AbrirFormEnPanel(Form formularioHijo)
@@ -77,8 +89,7 @@ namespace PeluqueriAPP
         private void lblAgenda_Click(object sender, EventArgs e) => AbrirFormEnPanel(new Agendas());
         private void lblCerrarSesion_Click(object sender, EventArgs e) => Application.Exit();
 
-        // Eventos del designer (No tocamos nada)
-        private void panel1_Paint(object sender, PaintEventArgs e) { }
+        // Eventos vacíos del Designer
         private void panel2_Paint(object sender, PaintEventArgs e) { }
         private void panelCitas_Paint(object sender, PaintEventArgs e) { }
         private void panelPorServi_Paint(object sender, PaintEventArgs e) { }

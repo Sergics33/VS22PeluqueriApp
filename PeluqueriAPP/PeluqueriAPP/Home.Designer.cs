@@ -65,7 +65,7 @@
             // 
             // panel1
             // 
-            panel1.BackColor = Color.Transparent; // Clave para el degradado
+            panel1.BackColor = Color.Transparent;
             panel1.Controls.Add(lblAgenda);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(IconoPerfil);
@@ -136,7 +136,7 @@
             // lblAdmin
             // 
             lblAdmin.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblAdmin.ForeColor = SystemColors.ControlDark;
+            lblAdmin.ForeColor = Color.WhiteSmoke;
             lblAdmin.Location = new Point(59, 557);
             lblAdmin.Name = "lblAdmin";
             lblAdmin.Size = new Size(90, 20);
@@ -204,7 +204,7 @@
             // 
             lblGestion.AutoSize = true;
             lblGestion.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblGestion.ForeColor = SystemColors.ControlDark;
+            lblGestion.ForeColor = Color.WhiteSmoke;
             lblGestion.Location = new Point(39, 174);
             lblGestion.Name = "lblGestion";
             lblGestion.Size = new Size(59, 20);
@@ -236,7 +236,7 @@
             // 
             lblPanel.AutoSize = true;
             lblPanel.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblPanel.ForeColor = SystemColors.ControlDark;
+            lblPanel.ForeColor = Color.WhiteSmoke;
             lblPanel.Location = new Point(27, 135);
             lblPanel.Name = "lblPanel";
             lblPanel.Size = new Size(169, 20);
