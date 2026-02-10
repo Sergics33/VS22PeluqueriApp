@@ -17,17 +17,56 @@ namespace PeluqueriAPP
         {
             InitializeComponent();
             ConfigurarEstilos();
+
+            pnlLateral.Paint += PnlLateral_Paint;
+            iconoFP.Paint += IconoFP_Paint;
         }
 
         private void ConfigurarEstilos()
         {
-            // Redondeo tipo "píldora" (extremo) para el botón
+            // Redondeo del botón y de los TextBox
             btnIniciar.Paint += (s, e) => DibujarBordeRedondeado(btnIniciar, e.Graphics, 38);
+
+            // Suscribimos el evento Paint de los TextBox para dibujar el redondeo y fondo
+            txtUsuario.SizeChanged += (s, e) => DibujarBordeRedondeado(txtUsuario, null, 15);
+            txtContrasenya.SizeChanged += (s, e) => DibujarBordeRedondeado(txtContrasenya, null, 15);
+
+            DibujarBordeRedondeado(txtUsuario, null, 15);
+            DibujarBordeRedondeado(txtContrasenya, null, 15);
+        }
+
+        private void IconoFP_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+            int margenCirculo = 1;
+            using (SolidBrush brush = new SolidBrush(Color.White))
+            {
+                e.Graphics.FillEllipse(brush, margenCirculo, margenCirculo, iconoFP.Width - (margenCirculo * 2), iconoFP.Height - (margenCirculo * 2));
+            }
+
+            if (iconoFP.Image != null)
+            {
+                int paddingLogo = 12;
+                int yOffset = 8;
+                Rectangle rectLogo = new Rectangle(paddingLogo, paddingLogo + yOffset, iconoFP.Width - (paddingLogo * 2), iconoFP.Height - (paddingLogo * 2));
+                e.Graphics.DrawImage(iconoFP.Image, rectLogo);
+            }
+        }
+
+        private void PnlLateral_Paint(object sender, PaintEventArgs e)
+        {
+            Color colorInicio = Color.FromArgb(255, 110, 0);
+            Color colorFin = Color.FromArgb(255, 170, 40);
+            using (LinearGradientBrush brush = new LinearGradientBrush(pnlLateral.ClientRectangle, colorInicio, colorFin, LinearGradientMode.Vertical))
+            {
+                e.Graphics.FillRectangle(brush, pnlLateral.ClientRectangle);
+            }
         }
 
         private void DibujarBordeRedondeado(Control control, Graphics g, int radio)
         {
-            g.SmoothingMode = SmoothingMode.AntiAlias;
             using (GraphicsPath path = new GraphicsPath())
             {
                 path.AddArc(0, 0, radio, radio, 180, 90);
@@ -35,6 +74,7 @@ namespace PeluqueriAPP
                 path.AddArc(control.Width - radio, control.Height - radio, radio, radio, 0, 90);
                 path.AddArc(0, control.Height - radio, radio, radio, 90, 90);
                 path.CloseAllFigures();
+
                 control.Region = new Region(path);
             }
         }
@@ -46,7 +86,7 @@ namespace PeluqueriAPP
 
             if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(contrasena))
             {
-                MessageBox.Show("Debes ingresar usuario y contraseña.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Debes introducir el usuario y la contraseña.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -61,14 +101,10 @@ namespace PeluqueriAPP
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    var data = JsonSerializer.Deserialize<LoginResponse>(json, new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    });
+                    var data = JsonSerializer.Deserialize<LoginResponse>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
                     Session.AccessToken = data.AccessToken;
                     Session.TokenType = data.TokenType;
-                    Session.UserId = data.Id;
                     Session.Username = data.Username;
 
                     Home home = new Home();
@@ -77,12 +113,12 @@ namespace PeluqueriAPP
                 }
                 else
                 {
-                    MessageBox.Show("Credenciales incorrectas.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Usuario o contraseña incorrectos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error de conexión: " + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error de conexión: " + ex.Message);
             }
             finally
             {
@@ -95,8 +131,8 @@ namespace PeluqueriAPP
         {
             public string AccessToken { get; set; }
             public string TokenType { get; set; }
-            public long Id { get; set; }
             public string Username { get; set; }
+            public long Id { get; set; }
         }
     }
 }
