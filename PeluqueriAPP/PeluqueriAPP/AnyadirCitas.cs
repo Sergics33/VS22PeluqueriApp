@@ -27,7 +27,6 @@ namespace PeluqueriAPP
             InitializeComponent();
             ConfigurarEstilosPersonalizados();
 
-            // EVENTOS DE CAMBIO EN COMBOS
             cmbGrupo.SelectedIndexChanged += async (s, e) =>
             {
                 if (!cargando)
@@ -59,14 +58,40 @@ namespace PeluqueriAPP
 
         private void ConfigurarEstilosPersonalizados()
         {
-            // Aplicar redondeo a los botones mediante evento Paint para no perder el estilo al redimensionar
-            btnGuardar.Paint += (s, e) => DibujarBordeRedondeado(btnGuardar, e.Graphics, 20);
-            btnCancelar.Paint += (s, e) => DibujarBordeRedondeado(btnCancelar, e.Graphics, 20);
+            // Bordes redondeados para botones
+            btnGuardar.Paint += (s, e) => DibujarBordeRedondeado(btnGuardar, e.Graphics, 38);
+            btnCancelar.Paint += (s, e) => DibujarBordeRedondeado(btnCancelar, e.Graphics, 38);
+
+            // ComboBoxes redondeados (Blancos sobre el panel translúcido)
+            Control[] controlesBlancos = { cmbCliente, cmbGrupo, cmbServicio, cmbHoras };
+            foreach (var ctrl in controlesBlancos)
+            {
+                ctrl.SizeChanged += (s, e) => DibujarBordeRedondeado(ctrl, null, 15);
+                DibujarBordeRedondeado(ctrl, null, 15);
+            }
+
+            // Calendario
+            monthCalendarCitas.TitleBackColor = Color.FromArgb(255, 128, 0);
+            monthCalendarCitas.TitleForeColor = Color.White;
+        }
+
+        // Fondo con degradado naranja
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            using (LinearGradientBrush brush = new LinearGradientBrush(this.ClientRectangle,
+                                                                       Color.FromArgb(255, 140, 0),
+                                                                       Color.FromArgb(255, 220, 150),
+                                                                       LinearGradientMode.ForwardDiagonal))
+            {
+                e.Graphics.FillRectangle(brush, this.ClientRectangle);
+            }
         }
 
         private void DibujarBordeRedondeado(Control control, Graphics g, int radio)
         {
-            g.SmoothingMode = SmoothingMode.AntiAlias;
+            Graphics graphics = g ?? control.CreateGraphics();
+            graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
             using (GraphicsPath path = new GraphicsPath())
             {
                 path.AddArc(0, 0, radio, radio, 180, 90);
@@ -84,8 +109,6 @@ namespace PeluqueriAPP
             {
                 cargando = true;
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
-
-                // IMPORTANTE: URL corregida para evitar el NotFound
                 listaServiciosMaestra = await httpClient.GetFromJsonAsync<List<Servicio>>("http://localhost:8080/api/tipos-servicio/") ?? new List<Servicio>();
 
                 var clientes = await httpClient.GetFromJsonAsync<List<ClienteDTO>>("http://localhost:8080/api/clientes/");
@@ -119,20 +142,14 @@ namespace PeluqueriAPP
                 using var doc = JsonDocument.Parse(jsonRaw);
                 var idsServicios = new HashSet<long>();
                 foreach (var elemento in doc.RootElement.EnumerateArray())
-                {
                     if (elemento.TryGetProperty("servicio", out var serv) && serv.TryGetProperty("id", out var idProp))
                         idsServicios.Add(idProp.GetInt64());
-                }
 
                 var filtrados = listaServiciosMaestra.Where(s => idsServicios.Contains(s.id)).ToList();
                 cargando = true;
-                cmbServicio.DataSource = null;
-                if (filtrados.Any())
-                {
-                    cmbServicio.DataSource = filtrados;
-                    cmbServicio.DisplayMember = "nombre";
-                    cmbServicio.ValueMember = "id";
-                }
+                cmbServicio.DataSource = filtrados.Any() ? filtrados : null;
+                cmbServicio.DisplayMember = "nombre";
+                cmbServicio.ValueMember = "id";
                 cargando = false;
             }
             catch { cargando = false; }
@@ -169,53 +186,29 @@ namespace PeluqueriAPP
             DateTime fechaSeleccionada = monthCalendarCitas.SelectionStart.Date;
             cmbHoras.Items.Clear();
             foreach (var agenda in agendasActuales)
-            {
                 if (agenda.HorasDisponiblesEstado != null)
                 {
                     var horas = agenda.HorasDisponiblesEstado
                         .Where(h => DateTime.Parse(h.Key).Date == fechaSeleccionada && h.Value == true)
                         .Select(h => DateTime.Parse(h.Key).ToString("HH:mm")).OrderBy(h => h);
-                    foreach (var h in horas)
-                    {
-                        if (!cmbHoras.Items.Contains(h)) cmbHoras.Items.Add(h);
-                    }
+                    foreach (var h in horas) if (!cmbHoras.Items.Contains(h)) cmbHoras.Items.Add(h);
                 }
-            }
             if (cmbHoras.Items.Count > 0) cmbHoras.SelectedIndex = 0;
         }
 
-
-
-        private void btnCancelar_Click_1(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+        private void btnCancelar_Click_1(object sender, EventArgs e) => this.Close();
 
         private void btnGuardar_Click_1(object sender, EventArgs e)
         {
-            if (cmbHoras.SelectedItem == null)
-            {
-                MessageBox.Show("Por favor, seleccione una hora.");
-                return;
-            }
+            if (cmbHoras.SelectedItem == null) { MessageBox.Show("Seleccione una hora."); return; }
             DateTime fechaBase = monthCalendarCitas.SelectionStart.Date;
             TimeSpan horaBase = TimeSpan.Parse(cmbHoras.SelectedItem.ToString());
             DateTime fechaFinal = fechaBase.Add(horaBase);
-
-            var agendaSeleccionada = agendasActuales.FirstOrDefault(a =>
-                a.HorasDisponiblesEstado != null && a.HorasDisponiblesEstado.Any(h => DateTime.Parse(h.Key) == fechaFinal));
-
+            var agendaSeleccionada = agendasActuales.FirstOrDefault(a => a.HorasDisponiblesEstado != null && a.HorasDisponiblesEstado.Any(h => DateTime.Parse(h.Key) == fechaFinal));
             if (agendaSeleccionada != null)
             {
-                NuevaCita = new Cita
-                {
-                    id = citaId ?? 0,
-                    fechaHoraInicio = fechaFinal,
-                    cliente = (ClienteDTO)cmbCliente.SelectedItem,
-                    agenda = new AgendaDTO { id = agendaSeleccionada.Id }
-                };
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                NuevaCita = new Cita { id = citaId ?? 0, fechaHoraInicio = fechaFinal, cliente = (ClienteDTO)cmbCliente.SelectedItem, agenda = new AgendaDTO { id = agendaSeleccionada.Id } };
+                this.DialogResult = DialogResult.OK; this.Close();
             }
         }
     }

@@ -1,33 +1,26 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
-
-namespace PeluqueriAPP
+﻿namespace PeluqueriAPP
 {
     partial class AnyadirServicio
     {
         private System.ComponentModel.IContainer components = null;
 
-        // Definición de controles
-        private Label lbltitulo;
-        private Label lblNombre;
-        private TextBox tbNombre;
-        private Label lblDescripcion;
-        private TextBox tbDescripcion;
-        private Label lblDuracion;
-        private TextBox tbDuracion;
-        private Label lblPrecio;
-        private TextBox tbPrecio;
-        private Button btnAnyadir;
-        private ComboBox comboBoxTipos;
-        private Label lblTipo;
-        private Panel panelContenedor;
+        private System.Windows.Forms.Label lbltitulo;
+        private System.Windows.Forms.Label lblNombre;
+        private System.Windows.Forms.TextBox tbNombre;
+        private System.Windows.Forms.Label lblDescripcion;
+        private System.Windows.Forms.TextBox tbDescripcion;
+        private System.Windows.Forms.Label lblDuracion;
+        private System.Windows.Forms.TextBox tbDuracion;
+        private System.Windows.Forms.Label lblPrecio;
+        private System.Windows.Forms.TextBox tbPrecio;
+        private System.Windows.Forms.Button btnAnyadir;
+        private System.Windows.Forms.ComboBox comboBoxTipos;
+        private System.Windows.Forms.Label lblTipo;
+        private System.Windows.Forms.Panel panelContenedor;
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
+            if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
 
@@ -48,23 +41,22 @@ namespace PeluqueriAPP
             panelContenedor = new Panel();
             panelContenedor.SuspendLayout();
             SuspendLayout();
-
             // 
-            // lbltitulo (Estilo Home/Login)
+            // lbltitulo
             // 
-            lbltitulo.Font = new Font("Segoe UI Semibold", 22F, FontStyle.Bold);
-            lbltitulo.ForeColor = Color.FromArgb(45, 45, 48); // Antracita
-            lbltitulo.Location = new Point(0, 15);
+            lbltitulo.BackColor = Color.Transparent;
+            lbltitulo.Font = new Font("Segoe UI Semibold", 26F, FontStyle.Bold);
+            lbltitulo.ForeColor = Color.White;
+            lbltitulo.Location = new Point(0, 5);
             lbltitulo.Name = "lbltitulo";
-            lbltitulo.Size = new Size(420, 50);
+            lbltitulo.Size = new Size(420, 75);
             lbltitulo.TabIndex = 0;
             lbltitulo.Text = "Añadir Servicio";
             lbltitulo.TextAlign = ContentAlignment.MiddleCenter;
-
             // 
             // panelContenedor
             // 
-            panelContenedor.BackColor = Color.White;
+            panelContenedor.BackColor = Color.FromArgb(180, 240, 240, 240); // GRIS CON OPACIDAD
             panelContenedor.Controls.Add(lblNombre);
             panelContenedor.Controls.Add(tbNombre);
             panelContenedor.Controls.Add(lblTipo);
@@ -79,86 +71,96 @@ namespace PeluqueriAPP
             panelContenedor.Name = "panelContenedor";
             panelContenedor.Size = new Size(360, 370);
             panelContenedor.TabIndex = 1;
-
             // 
-            // Estilo Común para Labels y Inputs
+            // lblNombre
             // 
-            Color colorLabelSutil = Color.FromArgb(120, 120, 120);
-            Font fuenteLabel = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            Color colorFondoInput = Color.FromArgb(242, 242, 242);
-            Font fuenteInput = new Font("Segoe UI", 12.5F);
-            int anchoInput = 320;
-
-            // Nombre
             lblNombre.AutoSize = true;
-            lblNombre.Font = fuenteLabel;
-            lblNombre.ForeColor = colorLabelSutil;
+            lblNombre.BackColor = Color.Transparent;
+            lblNombre.Font = new Font("Segoe UI Bold", 9.5F, FontStyle.Bold);
+            lblNombre.ForeColor = Color.FromArgb(50, 50, 50);
             lblNombre.Location = new Point(20, 15);
-            lblNombre.Text = "NOMBRE";
-
-            tbNombre.BackColor = colorFondoInput;
+            lblNombre.Text = "NOMBRE:";
+            // 
+            // tbNombre
+            // 
+            tbNombre.BackColor = Color.White;
             tbNombre.BorderStyle = BorderStyle.None;
-            tbNombre.Font = fuenteInput;
+            tbNombre.Font = new Font("Segoe UI", 12F);
             tbNombre.Location = new Point(20, 38);
-            tbNombre.Size = new Size(anchoInput, 23);
-
-            // Tipo (ComboBox)
+            tbNombre.Size = new Size(320, 30);
+            // 
+            // lblTipo
+            // 
             lblTipo.AutoSize = true;
-            lblTipo.Font = fuenteLabel;
-            lblTipo.ForeColor = colorLabelSutil;
+            lblTipo.BackColor = Color.Transparent;
+            lblTipo.Font = new Font("Segoe UI Bold", 9.5F, FontStyle.Bold);
+            lblTipo.ForeColor = Color.FromArgb(50, 50, 50);
             lblTipo.Location = new Point(20, 80);
-            lblTipo.Text = "TIPO";
-
-            comboBoxTipos.BackColor = colorFondoInput;
-            comboBoxTipos.FlatStyle = FlatStyle.Flat;
+            lblTipo.Text = "TIPO:";
+            // 
+            // comboBoxTipos
+            // 
+            comboBoxTipos.BackColor = Color.White;
             comboBoxTipos.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxTipos.Font = fuenteInput;
+            comboBoxTipos.FlatStyle = FlatStyle.Flat;
+            comboBoxTipos.Font = new Font("Segoe UI", 11F);
             comboBoxTipos.Location = new Point(20, 103);
-            comboBoxTipos.Size = new Size(anchoInput, 31);
-
-            // Descripción
+            comboBoxTipos.Size = new Size(320, 32);
+            // 
+            // lblDescripcion
+            // 
             lblDescripcion.AutoSize = true;
-            lblDescripcion.Font = fuenteLabel;
-            lblDescripcion.ForeColor = colorLabelSutil;
+            lblDescripcion.BackColor = Color.Transparent;
+            lblDescripcion.Font = new Font("Segoe UI Bold", 9.5F, FontStyle.Bold);
+            lblDescripcion.ForeColor = Color.FromArgb(50, 50, 50);
             lblDescripcion.Location = new Point(20, 150);
-            lblDescripcion.Text = "DESCRIPCIÓN";
-
-            tbDescripcion.BackColor = colorFondoInput;
+            lblDescripcion.Text = "DESCRIPCIÓN:";
+            // 
+            // tbDescripcion
+            // 
+            tbDescripcion.BackColor = Color.White;
             tbDescripcion.BorderStyle = BorderStyle.None;
-            tbDescripcion.Font = fuenteInput;
+            tbDescripcion.Font = new Font("Segoe UI", 12F);
             tbDescripcion.Location = new Point(20, 173);
-            tbDescripcion.Size = new Size(anchoInput, 23);
-
-            // Duración
+            tbDescripcion.Size = new Size(320, 30);
+            // 
+            // lblDuracion
+            // 
             lblDuracion.AutoSize = true;
-            lblDuracion.Font = fuenteLabel;
-            lblDuracion.ForeColor = colorLabelSutil;
+            lblDuracion.BackColor = Color.Transparent;
+            lblDuracion.Font = new Font("Segoe UI Bold", 9.5F, FontStyle.Bold);
+            lblDuracion.ForeColor = Color.FromArgb(50, 50, 50);
             lblDuracion.Location = new Point(20, 220);
-            lblDuracion.Text = "DURACIÓN (MIN)";
-
-            tbDuracion.BackColor = colorFondoInput;
+            lblDuracion.Text = "DURACIÓN (MIN):";
+            // 
+            // tbDuracion
+            // 
+            tbDuracion.BackColor = Color.White;
             tbDuracion.BorderStyle = BorderStyle.None;
-            tbDuracion.Font = fuenteInput;
+            tbDuracion.Font = new Font("Segoe UI", 12F);
             tbDuracion.Location = new Point(20, 243);
-            tbDuracion.Size = new Size(anchoInput, 23);
-
-            // Precio
+            tbDuracion.Size = new Size(320, 30);
+            // 
+            // lblPrecio
+            // 
             lblPrecio.AutoSize = true;
-            lblPrecio.Font = fuenteLabel;
-            lblPrecio.ForeColor = colorLabelSutil;
+            lblPrecio.BackColor = Color.Transparent;
+            lblPrecio.Font = new Font("Segoe UI Bold", 9.5F, FontStyle.Bold);
+            lblPrecio.ForeColor = Color.FromArgb(50, 50, 50);
             lblPrecio.Location = new Point(20, 290);
-            lblPrecio.Text = "PRECIO (€)";
-
-            tbPrecio.BackColor = colorFondoInput;
+            lblPrecio.Text = "PRECIO (€):";
+            // 
+            // tbPrecio
+            // 
+            tbPrecio.BackColor = Color.White;
             tbPrecio.BorderStyle = BorderStyle.None;
-            tbPrecio.Font = fuenteInput;
+            tbPrecio.Font = new Font("Segoe UI", 12F);
             tbPrecio.Location = new Point(20, 313);
-            tbPrecio.Size = new Size(anchoInput, 23);
-
+            tbPrecio.Size = new Size(320, 30);
             // 
-            // btnAnyadir (Estilo Botón Principal)
+            // btnAnyadir
             // 
-            btnAnyadir.BackColor = Color.FromArgb(45, 45, 48); // Antracita
+            btnAnyadir.BackColor = Color.SeaGreen;
             btnAnyadir.Cursor = Cursors.Hand;
             btnAnyadir.FlatAppearance.BorderSize = 0;
             btnAnyadir.FlatStyle = FlatStyle.Flat;
@@ -170,13 +172,11 @@ namespace PeluqueriAPP
             btnAnyadir.TabIndex = 7;
             btnAnyadir.Text = "GUARDAR SERVICIO";
             btnAnyadir.UseVisualStyleBackColor = false;
-
             // 
-            // AnyadirServicio (Configuración Form)
+            // AnyadirServicio
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.White;
             ClientSize = new Size(420, 540);
             Controls.Add(panelContenedor);
             Controls.Add(btnAnyadir);

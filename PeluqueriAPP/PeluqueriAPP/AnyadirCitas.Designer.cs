@@ -6,10 +6,7 @@
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
+            if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
 
@@ -33,53 +30,56 @@
             // 
             // cmbCliente
             // 
-            cmbCliente.BackColor = Color.FromArgb(242, 242, 242);
+            cmbCliente.BackColor = Color.White;
             cmbCliente.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbCliente.FlatStyle = FlatStyle.Flat;
-            cmbCliente.Font = new Font("Segoe UI", 12.5F);
+            cmbCliente.Font = new Font("Segoe UI", 11F);
             cmbCliente.Location = new Point(20, 40);
             cmbCliente.Name = "cmbCliente";
-            cmbCliente.Size = new Size(220, 31);
+            cmbCliente.Size = new Size(220, 32);
             cmbCliente.TabIndex = 2;
             // 
             // cmbGrupo
             // 
-            cmbGrupo.BackColor = Color.FromArgb(242, 242, 242);
+            cmbGrupo.BackColor = Color.White;
             cmbGrupo.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbGrupo.FlatStyle = FlatStyle.Flat;
-            cmbGrupo.Font = new Font("Segoe UI", 12.5F);
+            cmbGrupo.Font = new Font("Segoe UI", 11F);
             cmbGrupo.Location = new Point(20, 115);
             cmbGrupo.Name = "cmbGrupo";
-            cmbGrupo.Size = new Size(220, 31);
+            cmbGrupo.Size = new Size(220, 32);
             cmbGrupo.TabIndex = 4;
             // 
             // lbCliente
             // 
             lbCliente.AutoSize = true;
-            lbCliente.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            lbCliente.ForeColor = Color.FromArgb(120, 120, 120);
+            lbCliente.BackColor = Color.Transparent;
+            lbCliente.Font = new Font("Segoe UI Bold", 9.5F, FontStyle.Bold);
+            lbCliente.ForeColor = Color.FromArgb(50, 50, 50);
             lbCliente.Location = new Point(20, 15);
             lbCliente.Name = "lbCliente";
-            lbCliente.Size = new Size(62, 19);
+            lbCliente.Size = new Size(62, 17);
             lbCliente.TabIndex = 1;
-            lbCliente.Text = "CLIENTE";
+            lbCliente.Text = "CLIENTE:";
             // 
             // lbGrupo
             // 
             lbGrupo.AutoSize = true;
-            lbGrupo.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            lbGrupo.ForeColor = Color.FromArgb(120, 120, 120);
+            lbGrupo.BackColor = Color.Transparent;
+            lbGrupo.Font = new Font("Segoe UI Bold", 9.5F, FontStyle.Bold);
+            lbGrupo.ForeColor = Color.FromArgb(50, 50, 50);
             lbGrupo.Location = new Point(20, 90);
             lbGrupo.Name = "lbGrupo";
-            lbGrupo.Size = new Size(57, 19);
+            lbGrupo.Size = new Size(57, 17);
             lbGrupo.TabIndex = 3;
-            lbGrupo.Text = "GRUPO";
+            lbGrupo.Text = "GRUPO:";
             // 
             // btnGuardar
             // 
-            btnGuardar.BackColor = Color.FromArgb(45, 45, 48);
+            btnGuardar.BackColor = Color.SeaGreen;
+            btnGuardar.FlatAppearance.BorderSize = 0;
             btnGuardar.FlatStyle = FlatStyle.Flat;
-            btnGuardar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnGuardar.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnGuardar.ForeColor = Color.White;
             btnGuardar.Location = new Point(100, 420);
             btnGuardar.Name = "btnGuardar";
@@ -91,10 +91,11 @@
             // 
             // btnCancelar
             // 
-            btnCancelar.BackColor = Color.FromArgb(210, 210, 210);
+            btnCancelar.BackColor = Color.Crimson;
+            btnCancelar.FlatAppearance.BorderSize = 0;
             btnCancelar.FlatStyle = FlatStyle.Flat;
-            btnCancelar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnCancelar.ForeColor = Color.FromArgb(60, 60, 60);
+            btnCancelar.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            btnCancelar.ForeColor = Color.White;
             btnCancelar.Location = new Point(300, 420);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(180, 45);
@@ -105,62 +106,65 @@
             // 
             // label1
             // 
-            label1.Font = new Font("Segoe UI Semibold", 22F, FontStyle.Bold);
-            label1.ForeColor = Color.FromArgb(45, 45, 48);
-            label1.Location = new Point(0, 10);
+            label1.BackColor = Color.Transparent;
+            label1.Font = new Font("Segoe UI Semibold", 26F, FontStyle.Bold);
+            label1.ForeColor = Color.White; // Título en blanco para resaltar sobre el naranja
+            label1.Location = new Point(0, 5);
             label1.Name = "label1";
-            label1.Size = new Size(580, 65);
+            label1.Size = new Size(580, 75);
             label1.TabIndex = 8;
             label1.Text = "Añadir Nueva Cita";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // cmbServicio
             // 
-            cmbServicio.BackColor = Color.FromArgb(242, 242, 242);
+            cmbServicio.BackColor = Color.White;
             cmbServicio.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbServicio.FlatStyle = FlatStyle.Flat;
-            cmbServicio.Font = new Font("Segoe UI", 12.5F);
+            cmbServicio.Font = new Font("Segoe UI", 11F);
             cmbServicio.Location = new Point(20, 190);
             cmbServicio.Name = "cmbServicio";
-            cmbServicio.Size = new Size(220, 31);
+            cmbServicio.Size = new Size(220, 32);
             cmbServicio.TabIndex = 6;
             // 
             // lblServicio
             // 
             lblServicio.AutoSize = true;
-            lblServicio.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            lblServicio.ForeColor = Color.FromArgb(120, 120, 120);
+            lblServicio.BackColor = Color.Transparent;
+            lblServicio.Font = new Font("Segoe UI Bold", 9.5F, FontStyle.Bold);
+            lblServicio.ForeColor = Color.FromArgb(50, 50, 50);
             lblServicio.Location = new Point(20, 165);
             lblServicio.Name = "lblServicio";
-            lblServicio.Size = new Size(70, 19);
+            lblServicio.Size = new Size(68, 17);
             lblServicio.TabIndex = 5;
-            lblServicio.Text = "SERVICIO";
+            lblServicio.Text = "SERVICIO:";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            label2.ForeColor = Color.FromArgb(120, 120, 120);
+            label2.BackColor = Color.Transparent;
+            label2.Font = new Font("Segoe UI Bold", 9.5F, FontStyle.Bold);
+            label2.ForeColor = Color.FromArgb(50, 50, 50);
             label2.Location = new Point(20, 240);
             label2.Name = "label2";
-            label2.Size = new Size(48, 19);
+            label2.Size = new Size(50, 17);
             label2.TabIndex = 7;
-            label2.Text = "HORA";
+            label2.Text = "HORA:";
             // 
             // cmbHoras
             // 
-            cmbHoras.BackColor = Color.FromArgb(242, 242, 242);
+            cmbHoras.BackColor = Color.White;
             cmbHoras.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbHoras.FlatStyle = FlatStyle.Flat;
-            cmbHoras.Font = new Font("Segoe UI", 12.5F);
+            cmbHoras.Font = new Font("Segoe UI", 11F);
             cmbHoras.Location = new Point(20, 265);
             cmbHoras.Name = "cmbHoras";
-            cmbHoras.Size = new Size(220, 31);
+            cmbHoras.Size = new Size(220, 32);
             cmbHoras.TabIndex = 8;
             // 
             // panelContenedor
             // 
-            panelContenedor.BackColor = Color.White;
+            panelContenedor.BackColor = Color.FromArgb(180, 240, 240, 240); // GRIS CON OPACIDAD (180 de 255)
             panelContenedor.Controls.Add(monthCalendarCitas);
             panelContenedor.Controls.Add(lbCliente);
             panelContenedor.Controls.Add(cmbCliente);
@@ -177,20 +181,15 @@
             // 
             // monthCalendarCitas
             // 
-            monthCalendarCitas.BackColor = Color.Lime;
             monthCalendarCitas.Location = new Point(265, 40);
             monthCalendarCitas.MaxSelectionCount = 1;
             monthCalendarCitas.Name = "monthCalendarCitas";
             monthCalendarCitas.TabIndex = 0;
-            monthCalendarCitas.TitleBackColor = Color.FromArgb(255, 255, 128);
-            monthCalendarCitas.TitleForeColor = Color.Red;
-            monthCalendarCitas.TrailingForeColor = Color.FromArgb(255, 128, 0);
             // 
             // AnyadirCitas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.White;
             ClientSize = new Size(580, 500);
             Controls.Add(panelContenedor);
             Controls.Add(label1);
