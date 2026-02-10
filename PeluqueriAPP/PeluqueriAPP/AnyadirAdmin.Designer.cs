@@ -1,7 +1,4 @@
-﻿using System.Windows.Forms;
-using System.Drawing;
-
-namespace PeluqueriAPP
+﻿namespace PeluqueriAPP
 {
     partial class AnyadirAdmin
     {
@@ -10,20 +7,18 @@ namespace PeluqueriAPP
         private Label lblNombre, lblEmail, lblPassword, lblEspecialidad;
         private TextBox tbNombre, tbEmail, tbPassword, tbEspecialidad;
         private Button btnAnyadir, btnCancelar;
-        private Panel panelSeparador;
+        private Panel panelContenedor;
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
+            if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
 
         private void InitializeComponent()
         {
             lblTitulo = new Label();
+            panelContenedor = new Panel();
             lblNombre = new Label();
             tbNombre = new TextBox();
             lblEmail = new Label();
@@ -34,143 +29,143 @@ namespace PeluqueriAPP
             tbEspecialidad = new TextBox();
             btnAnyadir = new Button();
             btnCancelar = new Button();
-            panelSeparador = new Panel();
-
+            panelContenedor.SuspendLayout();
             SuspendLayout();
-
-            // Estilos comunes (Inspirados en Citas)
-            Font fuenteLabels = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            Font fuenteInputs = new Font("Segoe UI", 12F);
-            Color colorTextoLabels = Color.FromArgb(120, 120, 120);
-            Color colorAzulPro = Color.FromArgb(45, 156, 219);
-            Color colorFondoInput = Color.FromArgb(242, 242, 242);
-
+            // 
             // lblTitulo
-            lblTitulo.Font = new Font("Segoe UI Semibold", 22F, FontStyle.Bold);
-            lblTitulo.ForeColor = Color.FromArgb(45, 45, 48);
-            lblTitulo.Location = new Point(0, 10);
+            // 
+            lblTitulo.BackColor = Color.Transparent;
+            lblTitulo.Font = new Font("Segoe UI Semibold", 26F, FontStyle.Bold);
+            lblTitulo.ForeColor = Color.White;
+            lblTitulo.Location = new Point(0, 5);
             lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(580, 65);
-            lblTitulo.Text = "Nuevo Administrador";
+            lblTitulo.Size = new Size(580, 75);
+            lblTitulo.TabIndex = 0;
+            lblTitulo.Text = "Añadir Nuevo Admin";
             lblTitulo.TextAlign = ContentAlignment.MiddleCenter;
-
-            // --- COLUMNA IZQUIERDA ---
-
+            // 
+            // panelContenedor
+            // 
+            panelContenedor.BackColor = Color.FromArgb(180, 240, 240, 240);
+            panelContenedor.Controls.Add(lblNombre);
+            panelContenedor.Controls.Add(tbNombre);
+            panelContenedor.Controls.Add(lblEmail);
+            panelContenedor.Controls.Add(tbEmail);
+            panelContenedor.Controls.Add(lblPassword);
+            panelContenedor.Controls.Add(tbPassword);
+            panelContenedor.Controls.Add(lblEspecialidad);
+            panelContenedor.Controls.Add(tbEspecialidad);
+            panelContenedor.Location = new Point(30, 85);
+            panelContenedor.Name = "panelContenedor";
+            panelContenedor.Size = new Size(520, 310);
+            panelContenedor.TabIndex = 1;
+            // 
             // lblNombre
+            // 
             lblNombre.AutoSize = true;
-            lblNombre.Font = fuenteLabels;
-            lblNombre.ForeColor = colorTextoLabels;
-            lblNombre.Location = new Point(50, 85);
-            lblNombre.Text = "NOMBRE COMPLETO";
-
+            lblNombre.Font = new Font("Segoe UI Bold", 9.5F, FontStyle.Bold);
+            lblNombre.ForeColor = Color.FromArgb(50, 50, 50);
+            lblNombre.Location = new Point(20, 20);
+            lblNombre.Text = "NOMBRE COMPLETO:";
+            // 
             // tbNombre
-            tbNombre.BackColor = colorFondoInput;
+            // 
             tbNombre.BorderStyle = BorderStyle.None;
-            tbNombre.Font = fuenteInputs;
-            tbNombre.Location = new Point(50, 110);
-            tbNombre.Size = new Size(220, 28);
-
-            // lblEmail
-            lblEmail.AutoSize = true;
-            lblEmail.Font = fuenteLabels;
-            lblEmail.ForeColor = colorTextoLabels;
-            lblEmail.Location = new Point(50, 160);
-            lblEmail.Text = "CORREO ELECTRÓNICO";
-
-            // tbEmail
-            tbEmail.BackColor = colorFondoInput;
-            tbEmail.BorderStyle = BorderStyle.None;
-            tbEmail.Font = fuenteInputs;
-            tbEmail.Location = new Point(50, 185);
-            tbEmail.Size = new Size(220, 28);
-
-            // --- COLUMNA DERECHA ---
-
+            tbNombre.Font = new Font("Segoe UI", 12F);
+            tbNombre.Location = new Point(20, 45);
+            tbNombre.Size = new Size(230, 30);
+            tbNombre.TabIndex = 1;
+            // 
             // lblPassword
+            // 
             lblPassword.AutoSize = true;
-            lblPassword.Font = fuenteLabels;
-            lblPassword.ForeColor = colorTextoLabels;
-            lblPassword.Location = new Point(310, 85);
-            lblPassword.Text = "CONTRASEÑA";
-
+            lblPassword.Font = new Font("Segoe UI Bold", 9.5F, FontStyle.Bold);
+            lblPassword.Location = new Point(270, 20);
+            lblPassword.Text = "CONTRASEÑA:";
+            // 
             // tbPassword
-            tbPassword.BackColor = colorFondoInput;
+            // 
             tbPassword.BorderStyle = BorderStyle.None;
-            tbPassword.Font = fuenteInputs;
-            tbPassword.Location = new Point(310, 110);
+            tbPassword.Font = new Font("Segoe UI", 12F);
+            tbPassword.Location = new Point(270, 45);
             tbPassword.PasswordChar = '●';
-            tbPassword.Size = new Size(220, 28);
-
+            tbPassword.Size = new Size(230, 30);
+            tbPassword.TabIndex = 2;
+            // 
+            // lblEmail
+            // 
+            lblEmail.AutoSize = true;
+            lblEmail.Font = new Font("Segoe UI Bold", 9.5F, FontStyle.Bold);
+            lblEmail.Location = new Point(20, 100);
+            lblEmail.Text = "CORREO ELECTRÓNICO:";
+            // 
+            // tbEmail
+            // 
+            tbEmail.BorderStyle = BorderStyle.None;
+            tbEmail.Font = new Font("Segoe UI", 12F);
+            tbEmail.Location = new Point(20, 125);
+            tbEmail.Size = new Size(480, 30);
+            tbEmail.TabIndex = 3;
+            // 
             // lblEspecialidad
+            // 
             lblEspecialidad.AutoSize = true;
-            lblEspecialidad.Font = fuenteLabels;
-            lblEspecialidad.ForeColor = colorTextoLabels;
-            lblEspecialidad.Location = new Point(310, 160);
-            lblEspecialidad.Text = "ESPECIALIDAD";
-
+            lblEspecialidad.Font = new Font("Segoe UI Bold", 9.5F, FontStyle.Bold);
+            lblEspecialidad.Location = new Point(20, 180);
+            lblEspecialidad.Text = "ESPECIALIDAD:";
+            // 
             // tbEspecialidad
-            tbEspecialidad.BackColor = colorFondoInput;
+            // 
             tbEspecialidad.BorderStyle = BorderStyle.None;
-            tbEspecialidad.Font = fuenteInputs;
-            tbEspecialidad.Location = new Point(310, 185);
-            tbEspecialidad.Size = new Size(220, 28);
-
-            // panelSeparador (Línea estética opcional)
-            panelSeparador.BackColor = Color.FromArgb(230, 230, 230);
-            panelSeparador.Location = new Point(50, 250);
-            panelSeparador.Size = new Size(480, 1);
-
-            // --- BOTONES ---
-
-            // btnAnyadir (Guardar)
-            btnAnyadir.BackColor = Color.FromArgb(45, 45, 48);
-            btnAnyadir.Cursor = Cursors.Hand;
+            tbEspecialidad.Font = new Font("Segoe UI", 12F);
+            tbEspecialidad.Location = new Point(20, 205);
+            tbEspecialidad.Size = new Size(480, 30);
+            tbEspecialidad.TabIndex = 4;
+            // 
+            // btnAnyadir
+            // 
+            btnAnyadir.BackColor = Color.SeaGreen;
             btnAnyadir.FlatAppearance.BorderSize = 0;
             btnAnyadir.FlatStyle = FlatStyle.Flat;
-            btnAnyadir.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnAnyadir.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnAnyadir.ForeColor = Color.White;
-            btnAnyadir.Location = new Point(100, 290);
+            btnAnyadir.Location = new Point(100, 420);
             btnAnyadir.Size = new Size(180, 45);
-            btnAnyadir.Text = "AÑADIR ADMIN";
+            btnAnyadir.TabIndex = 2;
+            btnAnyadir.Text = "GUARDAR";
             btnAnyadir.UseVisualStyleBackColor = false;
-
+            btnAnyadir.Click += BtnAnyadir_Click;
+            // 
             // btnCancelar
-            btnCancelar.BackColor = Color.FromArgb(210, 210, 210);
-            btnCancelar.Cursor = Cursors.Hand;
+            // 
+            btnCancelar.BackColor = Color.Crimson;
             btnCancelar.FlatAppearance.BorderSize = 0;
             btnCancelar.FlatStyle = FlatStyle.Flat;
-            btnCancelar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnCancelar.ForeColor = Color.FromArgb(60, 60, 60);
-            btnCancelar.Location = new Point(300, 290);
+            btnCancelar.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            btnCancelar.ForeColor = Color.White;
+            btnCancelar.Location = new Point(300, 420);
             btnCancelar.Size = new Size(180, 45);
+            btnCancelar.TabIndex = 3;
             btnCancelar.Text = "CANCELAR";
             btnCancelar.UseVisualStyleBackColor = false;
             btnCancelar.Click += (s, e) => this.Close();
-
-            // Configuración del Formulario AnyadirAdmin
+            // 
+            // AnyadirAdmin
+            // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.White;
-            ClientSize = new Size(580, 380);
-            Controls.Add(lblTitulo);
-            Controls.Add(lblNombre);
-            Controls.Add(tbNombre);
-            Controls.Add(lblEmail);
-            Controls.Add(tbEmail);
-            Controls.Add(lblPassword);
-            Controls.Add(tbPassword);
-            Controls.Add(lblEspecialidad);
-            Controls.Add(tbEspecialidad);
-            Controls.Add(panelSeparador);
+            ClientSize = new Size(580, 500);
             Controls.Add(btnCancelar);
             Controls.Add(btnAnyadir);
+            Controls.Add(panelContenedor);
+            Controls.Add(lblTitulo);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             Name = "AnyadirAdmin";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Gestión de Personal";
+            StartPosition = FormStartPosition.CenterParent;
+            panelContenedor.ResumeLayout(false);
+            panelContenedor.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
     }
 }

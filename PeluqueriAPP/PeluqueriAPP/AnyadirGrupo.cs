@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -11,31 +13,64 @@ namespace PeluqueriAPP
         private Usuario _usuarioParaEditar;
         private readonly HttpClient httpClient = new HttpClient();
 
-        // Propiedades públicas para que Admins pueda leer los datos
-        public string Nombre => tbNombre.Text.Trim();
-        public string Email => tbEmail.Text.Trim();
-        public string Password => tbPassword.Text.Trim();
-        public string Clase => tbClase.Text.Trim();
-
         public AnyadirGrupo(Usuario usuario = null)
         {
             InitializeComponent();
             _usuarioParaEditar = usuario;
-            btnAnyadir.Click += BtnAnyadir_Click;
+            ConfigurarEstilosPersonalizados();
+        }
+
+        private void ConfigurarEstilosPersonalizados()
+        {
+            // Aplicar redondeo al cargar
+            this.Load += (s, e) =>
+            {
+                DibujarBordeRedondeado(btnAnyadir, 38);
+                DibujarBordeRedondeado(btnCancelar, 38);
+                DibujarBordeRedondeado(panelContenedor, 20);
+
+                Control[] campos = { tbNombre, tbEmail, tbPassword, tbClase };
+                foreach (var ctrl in campos) DibujarBordeRedondeado(ctrl, 15);
+            };
 
             if (_usuarioParaEditar != null)
             {
-                lbltitulo.Text = "EDITAR GRUPO";
+                lbltitulo.Text = "Editar Grupo";
                 btnAnyadir.Text = "ACTUALIZAR";
                 tbNombre.Text = _usuarioParaEditar.NombreCompleto;
                 tbEmail.Text = _usuarioParaEditar.Email;
                 tbClase.Text = _usuarioParaEditar.Clase;
+                tbPassword.PlaceholderText = "Opcional en edición";
             }
             else
             {
-                lbltitulo.Text = "AÑADIR GRUPO";
+                lbltitulo.Text = "Nuevo Grupo / Clase";
                 btnAnyadir.Text = "AÑADIR GRUPO";
             }
+        }
+
+        // Fondo degradado naranja (Consistente con la App)
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            using (LinearGradientBrush brush = new LinearGradientBrush(this.ClientRectangle,
+                Color.FromArgb(255, 140, 0),
+                Color.FromArgb(255, 220, 150),
+                LinearGradientMode.ForwardDiagonal))
+            {
+                e.Graphics.FillRectangle(brush, this.ClientRectangle);
+            }
+        }
+
+        private void DibujarBordeRedondeado(Control control, int radio)
+        {
+            GraphicsPath path = new GraphicsPath();
+            path.StartFigure();
+            path.AddArc(0, 0, radio, radio, 180, 90);
+            path.AddArc(control.Width - radio, 0, radio, radio, 270, 90);
+            path.AddArc(control.Width - radio, control.Height - radio, radio, radio, 0, 90);
+            path.AddArc(0, control.Height - radio, radio, radio, 90, 90);
+            path.CloseFigure();
+            control.Region = new Region(path);
         }
 
         private async void BtnAnyadir_Click(object sender, EventArgs e)
@@ -46,7 +81,6 @@ namespace PeluqueriAPP
                 return;
             }
 
-            // Si es EDICIÓN, simplemente cerramos con OK para que Admins.cs ejecute el PUT
             if (_usuarioParaEditar != null)
             {
                 this.DialogResult = DialogResult.OK;
@@ -54,7 +88,6 @@ namespace PeluqueriAPP
                 return;
             }
 
-            // Si es NUEVO, mantenemos tu lógica de POST original
             var request = new { nombreCompleto = Nombre, email = Email, password = Password, clase = Clase };
             try
             {
@@ -69,5 +102,10 @@ namespace PeluqueriAPP
             }
             catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
         }
+
+        public string Nombre => tbNombre.Text.Trim();
+        public string Email => tbEmail.Text.Trim();
+        public string Password => tbPassword.Text.Trim();
+        public string Clase => tbClase.Text.Trim();
     }
 }
