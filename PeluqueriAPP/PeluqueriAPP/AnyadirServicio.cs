@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 
 namespace PeluqueriAPP
 {
@@ -51,25 +52,54 @@ namespace PeluqueriAPP
 
         private void ConfigurarEstilosPersonalizados()
         {
-            // Botón redondeado
+            // 1. Botón redondeado (Manteniendo funcionalidad)
             btnAnyadir.Paint += (s, e) => DibujarBordeRedondeado(btnAnyadir, e.Graphics, 38);
 
-            // Inputs redondeados y blancos
-            Control[] controlesBlancos = { tbNombre, tbDescripcion, tbDuracion, tbPrecio, comboBoxTipos };
-            foreach (var ctrl in controlesBlancos)
-            {
-                ctrl.SizeChanged += (s, e) => DibujarBordeRedondeado(ctrl, null, 15);
-                DibujarBordeRedondeado(ctrl, null, 15);
-            }
+            // 2. Redondeo del panel gris principal
+            panelContenedor.SizeChanged += (s, e) => DibujarBordeRedondeado(panelContenedor, null, 25);
+            DibujarBordeRedondeado(panelContenedor, null, 25);
+
+            // 3. Crear Cápsulas para inputs (X, Y deben coincidir con tus labels en el Designer)
+            // Usamos las posiciones aproximadas de tu InitializeComponent
+            ConfigurarCapsulaInput(tbNombre, 20, 38);
+            ConfigurarCapsulaInput(comboBoxTipos, 20, 103);
+            ConfigurarCapsulaInput(tbDescripcion, 20, 173);
+            ConfigurarCapsulaInput(tbDuracion, 20, 243);
+            ConfigurarCapsulaInput(tbPrecio, 20, 313);
         }
 
-        // Degradado Naranja de fondo
+        private void ConfigurarCapsulaInput(Control ctrl, int x, int y)
+        {
+            // Crear el fondo blanco redondeado
+            Panel pnlFondo = new Panel();
+            pnlFondo.BackColor = Color.White;
+            pnlFondo.Size = new Size(320, 36);
+            pnlFondo.Location = new Point(x, y);
+
+            // Meter el control dentro
+            ctrl.Parent = pnlFondo;
+            ctrl.BackColor = Color.White;
+            ctrl.Width = pnlFondo.Width - 20;
+
+            // Ajuste fino de posición según el tipo de control
+            if (ctrl is ComboBox)
+                ctrl.Location = new Point(10, 4);
+            else
+                ctrl.Location = new Point(10, 8);
+
+            panelContenedor.Controls.Add(pnlFondo);
+            pnlFondo.BringToFront();
+
+            // Dibujar el borde de la cápsula
+            pnlFondo.Paint += (s, e) => DibujarBordeRedondeado(pnlFondo, e.Graphics, 15);
+        }
+
         protected override void OnPaintBackground(PaintEventArgs e)
         {
             using (LinearGradientBrush brush = new LinearGradientBrush(this.ClientRectangle,
-                                                                       Color.FromArgb(255, 140, 0),
-                                                                       Color.FromArgb(255, 220, 150),
-                                                                       LinearGradientMode.ForwardDiagonal))
+                Color.FromArgb(255, 140, 0),
+                Color.FromArgb(255, 220, 150),
+                LinearGradientMode.ForwardDiagonal))
             {
                 e.Graphics.FillRectangle(brush, this.ClientRectangle);
             }
@@ -90,6 +120,8 @@ namespace PeluqueriAPP
                 control.Region = new Region(path);
             }
         }
+
+        // --- LÓGICA DE DATOS ---
 
         private async void AnyadirServicio_Load(object sender, EventArgs e)
         {
@@ -122,42 +154,28 @@ namespace PeluqueriAPP
                     }
                 }
 
-                // Fallback / Dummy
-                var dummyTipos = new List<TipoServicio>
-                {
+                // Fallback si falla la API
+                var dummyTipos = new List<TipoServicio> {
                     new TipoServicio { id = 1, nombre = "Corte" },
-                    new TipoServicio { id = 2, nombre = "Color" },
-                    new TipoServicio { id = 3, nombre = "Peinado" }
+                    new TipoServicio { id = 2, nombre = "Color" }
                 };
                 comboBoxTipos.DataSource = dummyTipos;
-                comboBoxTipos.DisplayMember = "nombre";
-                comboBoxTipos.ValueMember = "id";
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar tipos de servicio: " + ex.Message);
-            }
+            catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
         }
 
         private void BtnAnyadir_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(tbNombre.Text) || string.IsNullOrWhiteSpace(tbDescripcion.Text) ||
-                string.IsNullOrWhiteSpace(tbDuracion.Text) || string.IsNullOrWhiteSpace(tbPrecio.Text) ||
-                comboBoxTipos.SelectedItem == null)
+            // Validaciones
+            if (string.IsNullOrWhiteSpace(tbNombre.Text) || comboBoxTipos.SelectedItem == null)
             {
-                MessageBox.Show("Todos los campos son obligatorios.");
+                MessageBox.Show("Rellene los campos obligatorios.");
                 return;
             }
 
-            if (!int.TryParse(tbDuracion.Text, out int duracion))
+            if (!int.TryParse(tbDuracion.Text, out int duracion) || !decimal.TryParse(tbPrecio.Text, out decimal precio))
             {
-                MessageBox.Show("Duración debe ser un número entero.");
-                return;
-            }
-
-            if (!decimal.TryParse(tbPrecio.Text, out decimal precio))
-            {
-                MessageBox.Show("Precio debe ser un número decimal.");
+                MessageBox.Show("Verifique los valores numéricos.");
                 return;
             }
 

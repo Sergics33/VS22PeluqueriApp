@@ -90,7 +90,7 @@
             // 
             // txtContrasenya
             // 
-            txtContrasenya.BackColor = Color.PowderBlue; // Azul más intenso y visible
+            txtContrasenya.BackColor = Color.DimGray; // Azul más intenso y visible
             txtContrasenya.BorderStyle = BorderStyle.None;
             txtContrasenya.Font = new Font("Segoe UI", 11F);
             txtContrasenya.Location = new Point(165, 148);
