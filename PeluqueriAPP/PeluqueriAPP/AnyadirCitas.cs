@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Linq;
+using System.Text.Json;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace PeluqueriAPP
 {
@@ -25,15 +25,8 @@ namespace PeluqueriAPP
         public AnyadirCitas(Cita cita = null)
         {
             InitializeComponent();
-
-            // 1. Restaurar suscripción de eventos de botones
-            btnGuardar.Click += btnGuardar_Click_1;
-            btnCancelar.Click += btnCancelar_Click_1;
-
-            // 2. Configurar estilos visuales
             ConfigurarEstilosPersonalizados();
 
-            // 3. Restaurar lógica de cambios en combos
             cmbGrupo.SelectedIndexChanged += async (s, e) =>
             {
                 if (!cargando)
@@ -53,7 +46,6 @@ namespace PeluqueriAPP
                 if (!cargando) ActualizarComboHoras();
             };
 
-            // 4. Lógica de edición
             if (cita != null)
             {
                 citaId = cita.id;
@@ -66,51 +58,30 @@ namespace PeluqueriAPP
 
         private void ConfigurarEstilosPersonalizados()
         {
-            // Redondeo de Botones (Manteniendo el dibujo pero sin pisar el evento Click)
+            // Bordes redondeados para botones
             btnGuardar.Paint += (s, e) => DibujarBordeRedondeado(btnGuardar, e.Graphics, 38);
             btnCancelar.Paint += (s, e) => DibujarBordeRedondeado(btnCancelar, e.Graphics, 38);
 
-            // Redondeo del panel principal
-            panelContenedor.SizeChanged += (s, e) => DibujarBordeRedondeado(panelContenedor, null, 25);
-            DibujarBordeRedondeado(panelContenedor, null, 25);
-
-            // Crear Cápsulas para los ComboBoxes (Igual que en las otras clases)
-            ConfigurarCapsulaCombo(cmbCliente, 20, 38);
-            ConfigurarCapsulaCombo(cmbGrupo, 20, 108);
-            ConfigurarCapsulaCombo(cmbServicio, 20, 178);
-            ConfigurarCapsulaCombo(cmbHoras, 20, 248);
+            // ComboBoxes redondeados (Blancos sobre el panel translúcido)
+            Control[] controlesBlancos = { cmbCliente, cmbGrupo, cmbServicio, cmbHoras };
+            foreach (var ctrl in controlesBlancos)
+            {
+                ctrl.SizeChanged += (s, e) => DibujarBordeRedondeado(ctrl, null, 15);
+                DibujarBordeRedondeado(ctrl, null, 15);
+            }
 
             // Calendario
             monthCalendarCitas.TitleBackColor = Color.FromArgb(255, 128, 0);
             monthCalendarCitas.TitleForeColor = Color.White;
         }
 
-        private void ConfigurarCapsulaCombo(ComboBox cmb, int x, int y)
-        {
-            Panel pnlFondo = new Panel();
-            pnlFondo.BackColor = Color.White;
-            pnlFondo.Size = new Size(220, 36);
-            pnlFondo.Location = new Point(x, y);
-
-            cmb.Parent = pnlFondo;
-            cmb.BackColor = Color.White;
-            cmb.Width = pnlFondo.Width - 10;
-            cmb.Location = new Point(5, 4);
-
-            panelContenedor.Controls.Add(pnlFondo);
-            pnlFondo.BringToFront();
-
-            pnlFondo.Paint += (s, e) => DibujarBordeRedondeado(pnlFondo, e.Graphics, 15);
-        }
-
-        // --- MÉTODOS DE DIBUJO ---
-
+        // Fondo con degradado naranja
         protected override void OnPaintBackground(PaintEventArgs e)
         {
             using (LinearGradientBrush brush = new LinearGradientBrush(this.ClientRectangle,
-                Color.FromArgb(255, 140, 0),
-                Color.FromArgb(255, 220, 150),
-                LinearGradientMode.ForwardDiagonal))
+                                                                       Color.FromArgb(255, 140, 0),
+                                                                       Color.FromArgb(255, 220, 150),
+                                                                       LinearGradientMode.ForwardDiagonal))
             {
                 e.Graphics.FillRectangle(brush, this.ClientRectangle);
             }
@@ -132,15 +103,12 @@ namespace PeluqueriAPP
             }
         }
 
-        // --- LÓGICA DE DATOS (RESTAURADA) ---
-
         private async Task CargarDatosIniciales(Cita citaExistente)
         {
             try
             {
                 cargando = true;
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
-
                 listaServiciosMaestra = await httpClient.GetFromJsonAsync<List<Servicio>>("http://localhost:8080/api/tipos-servicio/") ?? new List<Servicio>();
 
                 var clientes = await httpClient.GetFromJsonAsync<List<ClienteDTO>>("http://localhost:8080/api/clientes/");
@@ -228,8 +196,6 @@ namespace PeluqueriAPP
             if (cmbHoras.Items.Count > 0) cmbHoras.SelectedIndex = 0;
         }
 
-        // --- HANDLERS DE BOTONES (FUNCIONALES) ---
-
         private void btnCancelar_Click_1(object sender, EventArgs e) => this.Close();
 
         private void btnGuardar_Click_1(object sender, EventArgs e)
@@ -242,8 +208,7 @@ namespace PeluqueriAPP
             if (agendaSeleccionada != null)
             {
                 NuevaCita = new Cita { id = citaId ?? 0, fechaHoraInicio = fechaFinal, cliente = (ClienteDTO)cmbCliente.SelectedItem, agenda = new AgendaDTO { id = agendaSeleccionada.Id } };
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                this.DialogResult = DialogResult.OK; this.Close();
             }
         }
     }

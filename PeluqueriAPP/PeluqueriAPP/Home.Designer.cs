@@ -35,6 +35,15 @@
             lblPanel = new Label();
             lblBernat = new Label();
             panel2 = new Panel();
+            panel4 = new Panel();
+            pictureBox3 = new PictureBox();
+            panel3 = new Panel();
+            pictureBox4 = new PictureBox();
+            label5 = new Label();
+            panelPorServi = new Panel();
+            pictureBox2 = new PictureBox();
+            panelCitas = new Panel();
+            pictureBox1 = new PictureBox();
             label4 = new Label();
             lblTitulo = new Label();
             label2 = new Label();
@@ -44,6 +53,14 @@
             ((System.ComponentModel.ISupportInitialize)IconoPerfil).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconoFP).BeginInit();
             panel2.SuspendLayout();
+            panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            panelPorServi.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            panelCitas.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -242,6 +259,10 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(238, 238, 238);
+            panel2.Controls.Add(panel4);
+            panel2.Controls.Add(panel3);
+            panel2.Controls.Add(panelPorServi);
+            panel2.Controls.Add(panelCitas);
             panel2.Controls.Add(label4);
             panel2.Controls.Add(lblTitulo);
             panel2.Controls.Add(label2);
@@ -252,6 +273,92 @@
             panel2.Size = new Size(1048, 630);
             panel2.TabIndex = 1;
             panel2.Paint += panel2_Paint;
+            // 
+            // panel4
+            // 
+            panel4.BackColor = SystemColors.ControlDark;
+            panel4.Controls.Add(pictureBox3);
+            panel4.Location = new Point(39, 296);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(941, 310);
+            panel4.TabIndex = 24;
+            panel4.Paint += panel4_Paint;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
+            pictureBox3.Location = new Point(-39, -10);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(1013, 330);
+            pictureBox3.TabIndex = 2;
+            pictureBox3.TabStop = false;
+            // 
+            // panel3
+            // 
+            panel3.BackColor = SystemColors.ControlDark;
+            panel3.Controls.Add(pictureBox4);
+            panel3.Controls.Add(label5);
+            panel3.Location = new Point(690, 135);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(290, 135);
+            panel3.TabIndex = 23;
+            panel3.Paint += panel3_Paint;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
+            pictureBox4.Location = new Point(-304, -225);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(1112, 717);
+            pictureBox4.TabIndex = 2;
+            pictureBox4.TabStop = false;
+            // 
+            // label5
+            // 
+            label5.Location = new Point(0, -18);
+            label5.Name = "label5";
+            label5.Size = new Size(301, 158);
+            label5.TabIndex = 0;
+            // 
+            // panelPorServi
+            // 
+            panelPorServi.BackColor = SystemColors.ControlDark;
+            panelPorServi.Controls.Add(pictureBox2);
+            panelPorServi.Location = new Point(365, 135);
+            panelPorServi.Name = "panelPorServi";
+            panelPorServi.Size = new Size(290, 135);
+            panelPorServi.TabIndex = 23;
+            panelPorServi.Paint += panelPorServi_Paint;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
+            pictureBox2.Location = new Point(-19, -18);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(530, 330);
+            pictureBox2.TabIndex = 1;
+            pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click;
+            // 
+            // panelCitas
+            // 
+            panelCitas.BackColor = SystemColors.ControlDark;
+            panelCitas.Controls.Add(pictureBox1);
+            panelCitas.Location = new Point(39, 135);
+            panelCitas.Name = "panelCitas";
+            panelCitas.Size = new Size(290, 135);
+            panelCitas.TabIndex = 22;
+            panelCitas.Paint += panelCitas_Paint;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(-134, -89);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(530, 330);
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click_1;
             // 
             // label4
             // 
@@ -323,6 +430,14 @@
             ((System.ComponentModel.ISupportInitialize)iconoFP).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            panel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            panelPorServi.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            panelCitas.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
