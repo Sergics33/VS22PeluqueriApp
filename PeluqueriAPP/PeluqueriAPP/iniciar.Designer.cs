@@ -47,57 +47,55 @@
             // lblBienvenida
             // 
             lblBienvenida.AutoSize = true;
-            lblBienvenida.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold);
-            lblBienvenida.ForeColor = Color.FromArgb(40, 40, 40);
-            lblBienvenida.Location = new Point(165, 15);
+            lblBienvenida.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold);
+            lblBienvenida.ForeColor = Color.FromArgb(30, 30, 30);
+            lblBienvenida.Location = new Point(165, 12);
             lblBienvenida.Name = "lblBienvenida";
-            lblBienvenida.Size = new Size(160, 32);
+            lblBienvenida.Size = new Size(184, 37);
             lblBienvenida.TabIndex = 6;
             lblBienvenida.Text = "PeluqueriAPP";
             // 
             // lblUsuario
             // 
             lblUsuario.AutoSize = true;
-            lblUsuario.Font = new Font("Segoe UI Bold", 10F, FontStyle.Bold);
-            lblUsuario.ForeColor = Color.FromArgb(60, 60, 60);
+            lblUsuario.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            lblUsuario.ForeColor = Color.FromArgb(31, 31, 31); // Color oscuro destacado
             lblUsuario.Location = new Point(165, 62);
             lblUsuario.Name = "lblUsuario";
-            lblUsuario.Size = new Size(73, 19);
+            lblUsuario.Size = new Size(70, 17);
             lblUsuario.TabIndex = 5;
             lblUsuario.Text = "USUARIO:";
             // 
             // txtUsuario
             // 
-            txtUsuario.BackColor = Color.PowderBlue; // Azul más intenso y visible
+            txtUsuario.BackColor = Color.LightGray;
             txtUsuario.BorderStyle = BorderStyle.None;
-            txtUsuario.Font = new Font("Segoe UI", 11F);
-            txtUsuario.Location = new Point(165, 85);
-            txtUsuario.Multiline = true;
+            txtUsuario.Font = new Font("Segoe UI", 12F); // Fuente un poco más grande
+            txtUsuario.Location = new Point(165, 83);
             txtUsuario.Name = "txtUsuario";
-            txtUsuario.Size = new Size(215, 30);
+            txtUsuario.Size = new Size(215, 29);
             txtUsuario.TabIndex = 0;
             // 
             // lblContrasenya
             // 
             lblContrasenya.AutoSize = true;
-            lblContrasenya.Font = new Font("Segoe UI Bold", 10F, FontStyle.Bold);
-            lblContrasenya.ForeColor = Color.FromArgb(60, 60, 60);
-            lblContrasenya.Location = new Point(165, 125);
+            lblContrasenya.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            lblContrasenya.ForeColor = Color.FromArgb(31, 31, 31); // Color oscuro destacado
+            lblContrasenya.Location = new Point(165, 122);
             lblContrasenya.Name = "lblContrasenya";
-            lblContrasenya.Size = new Size(104, 19);
+            lblContrasenya.Size = new Size(100, 17);
             lblContrasenya.TabIndex = 4;
             lblContrasenya.Text = "CONTRASEÑA:";
             // 
             // txtContrasenya
             // 
-            txtContrasenya.BackColor = Color.PowderBlue; // Azul más intenso y visible
+            txtContrasenya.BackColor = Color.LightGray;
             txtContrasenya.BorderStyle = BorderStyle.None;
-            txtContrasenya.Font = new Font("Segoe UI", 11F);
-            txtContrasenya.Location = new Point(165, 148);
-            txtContrasenya.Multiline = true;
+            txtContrasenya.Font = new Font("Segoe UI", 12F);
+            txtContrasenya.Location = new Point(165, 143);
             txtContrasenya.Name = "txtContrasenya";
             txtContrasenya.PasswordChar = '●';
-            txtContrasenya.Size = new Size(215, 30);
+            txtContrasenya.Size = new Size(215, 29);
             txtContrasenya.TabIndex = 1;
             // 
             // btnIniciar
@@ -106,9 +104,9 @@
             btnIniciar.Cursor = Cursors.Hand;
             btnIniciar.FlatAppearance.BorderSize = 0;
             btnIniciar.FlatStyle = FlatStyle.Flat;
-            btnIniciar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnIniciar.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnIniciar.ForeColor = Color.White;
-            btnIniciar.Location = new Point(165, 198);
+            btnIniciar.Location = new Point(165, 195);
             btnIniciar.Name = "btnIniciar";
             btnIniciar.Size = new Size(215, 45);
             btnIniciar.TabIndex = 2;

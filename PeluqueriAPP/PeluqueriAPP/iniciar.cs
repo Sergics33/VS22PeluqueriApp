@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Net.Http.Headers;
 
 namespace PeluqueriAPP
 {
@@ -24,22 +25,17 @@ namespace PeluqueriAPP
 
         private void ConfigurarEstilos()
         {
-            // Redondeo del botón y de los TextBox
-            btnIniciar.Paint += (s, e) => DibujarBordeRedondeado(btnIniciar, e.Graphics, 38);
-
-            // Suscribimos el evento Paint de los TextBox para dibujar el redondeo y fondo
-            txtUsuario.SizeChanged += (s, e) => DibujarBordeRedondeado(txtUsuario, null, 15);
-            txtContrasenya.SizeChanged += (s, e) => DibujarBordeRedondeado(txtContrasenya, null, 15);
-
-            DibujarBordeRedondeado(txtUsuario, null, 15);
-            DibujarBordeRedondeado(txtContrasenya, null, 15);
+            // Forzamos el redondeo en el evento Load para asegurar que el Handle esté creado
+            this.Load += (s, e) => {
+                DibujarBordeRedondeado(btnIniciar, 38);
+                DibujarBordeRedondeado(txtUsuario, 10);
+                DibujarBordeRedondeado(txtContrasenya, 10);
+            };
         }
 
         private void IconoFP_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
             int margenCirculo = 1;
             using (SolidBrush brush = new SolidBrush(Color.White))
             {
@@ -49,7 +45,7 @@ namespace PeluqueriAPP
             if (iconoFP.Image != null)
             {
                 int paddingLogo = 12;
-                int yOffset = 8;
+                int yOffset = 5;
                 Rectangle rectLogo = new Rectangle(paddingLogo, paddingLogo + yOffset, iconoFP.Width - (paddingLogo * 2), iconoFP.Height - (paddingLogo * 2));
                 e.Graphics.DrawImage(iconoFP.Image, rectLogo);
             }
@@ -65,18 +61,16 @@ namespace PeluqueriAPP
             }
         }
 
-        private void DibujarBordeRedondeado(Control control, Graphics g, int radio)
+        private void DibujarBordeRedondeado(Control control, int radio)
         {
-            using (GraphicsPath path = new GraphicsPath())
-            {
-                path.AddArc(0, 0, radio, radio, 180, 90);
-                path.AddArc(control.Width - radio, 0, radio, radio, 270, 90);
-                path.AddArc(control.Width - radio, control.Height - radio, radio, radio, 0, 90);
-                path.AddArc(0, control.Height - radio, radio, radio, 90, 90);
-                path.CloseAllFigures();
-
-                control.Region = new Region(path);
-            }
+            GraphicsPath path = new GraphicsPath();
+            path.StartFigure();
+            path.AddArc(0, 0, radio, radio, 180, 90);
+            path.AddArc(control.Width - radio, 0, radio, radio, 270, 90);
+            path.AddArc(control.Width - radio, control.Height - radio, radio, radio, 0, 90);
+            path.AddArc(0, control.Height - radio, radio, radio, 90, 90);
+            path.CloseFigure();
+            control.Region = new Region(path);
         }
 
         private async void btnIniciar_Click(object sender, EventArgs e)
@@ -132,7 +126,6 @@ namespace PeluqueriAPP
             public string AccessToken { get; set; }
             public string TokenType { get; set; }
             public string Username { get; set; }
-            public long Id { get; set; }
         }
     }
 }
