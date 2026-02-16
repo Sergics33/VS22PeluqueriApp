@@ -40,12 +40,12 @@
             lblPanel = new Label();
             lblBernat = new Label();
             panel2 = new Panel();
+            dgvCitasHoy = new DataGridView();
             label4 = new Label();
             lblTitulo = new Label();
             label2 = new Label();
             lblUbi = new Label();
             lblBernatS = new Label();
-            dgvCitasHoy = new DataGridView();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
@@ -322,6 +322,14 @@
             panel2.TabIndex = 1;
             panel2.Paint += panel2_Paint;
             // 
+            // dgvCitasHoy
+            // 
+            dgvCitasHoy.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvCitasHoy.Location = new Point(13, 260);
+            dgvCitasHoy.Name = "dgvCitasHoy";
+            dgvCitasHoy.Size = new Size(1022, 356);
+            dgvCitasHoy.TabIndex = 22;
+            // 
             // label4
             // 
             label4.AutoSize = true;
@@ -376,14 +384,6 @@
             lblBernatS.TabIndex = 18;
             lblBernatS.Text = "Bernat Sarriá >";
             lblBernatS.Click += lblBernatS_Click;
-            // 
-            // dgvCitasHoy
-            // 
-            dgvCitasHoy.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCitasHoy.Location = new Point(257, 265);
-            dgvCitasHoy.Name = "dgvCitasHoy";
-            dgvCitasHoy.Size = new Size(240, 150);
-            dgvCitasHoy.TabIndex = 22;
             // 
             // Home
             // 
