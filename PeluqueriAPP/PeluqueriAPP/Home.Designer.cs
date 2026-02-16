@@ -19,6 +19,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Home));
             panel1 = new Panel();
+            pictureBox5 = new PictureBox();
+            pictureBox4 = new PictureBox();
+            pictureBox3 = new PictureBox();
+            pictureBox2 = new PictureBox();
+            pictureBox1 = new PictureBox();
             lblAgenda = new Label();
             label7 = new Label();
             IconoPerfil = new PictureBox();
@@ -35,37 +40,32 @@
             lblPanel = new Label();
             lblBernat = new Label();
             panel2 = new Panel();
-            panel4 = new Panel();
-            pictureBox3 = new PictureBox();
-            panel3 = new Panel();
-            pictureBox4 = new PictureBox();
-            label5 = new Label();
-            panelPorServi = new Panel();
-            pictureBox2 = new PictureBox();
-            panelCitas = new Panel();
-            pictureBox1 = new PictureBox();
             label4 = new Label();
             lblTitulo = new Label();
             label2 = new Label();
             lblUbi = new Label();
             lblBernatS = new Label();
+            dgvCitasHoy = new DataGridView();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)IconoPerfil).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconoFP).BeginInit();
             panel2.SuspendLayout();
-            panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
-            panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
-            panelPorServi.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            panelCitas.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvCitasHoy).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BackColor = Color.Transparent;
+            panel1.Controls.Add(pictureBox5);
+            panel1.Controls.Add(pictureBox4);
+            panel1.Controls.Add(pictureBox3);
+            panel1.Controls.Add(pictureBox2);
+            panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(lblAgenda);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(IconoPerfil);
@@ -87,14 +87,65 @@
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
             // 
+            // pictureBox5
+            // 
+            pictureBox5.Image = (Image)resources.GetObject("pictureBox5.Image");
+            pictureBox5.Location = new Point(29, 353);
+            pictureBox5.Name = "pictureBox5";
+            pictureBox5.Size = new Size(34, 40);
+            pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox5.TabIndex = 25;
+            pictureBox5.TabStop = false;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
+            pictureBox4.Location = new Point(24, 316);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(39, 41);
+            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox4.TabIndex = 24;
+            pictureBox4.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
+            pictureBox3.Location = new Point(25, 276);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(38, 43);
+            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox3.TabIndex = 23;
+            pictureBox3.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
+            pictureBox2.Location = new Point(28, 240);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(35, 38);
+            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox2.TabIndex = 22;
+            pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(29, 202);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(33, 37);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 21;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
+            // 
             // lblAgenda
             // 
             lblAgenda.AutoSize = true;
-            lblAgenda.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAgenda.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold);
             lblAgenda.ForeColor = Color.White;
-            lblAgenda.Location = new Point(39, 345);
+            lblAgenda.Location = new Point(59, 353);
             lblAgenda.Name = "lblAgenda";
-            lblAgenda.Size = new Size(77, 25);
+            lblAgenda.Size = new Size(110, 37);
             lblAgenda.TabIndex = 20;
             lblAgenda.Text = "Horario";
             lblAgenda.Click += lblAgenda_Click;
@@ -102,11 +153,11 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(39, 311);
+            label7.Location = new Point(59, 313);
             label7.Name = "label7";
-            label7.Size = new Size(85, 25);
+            label7.Size = new Size(123, 37);
             label7.TabIndex = 19;
             label7.Text = "Usuarios";
             label7.Click += label7_Click;
@@ -167,11 +218,11 @@
             // lblServicios
             // 
             lblServicios.AutoSize = true;
-            lblServicios.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblServicios.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold);
             lblServicios.ForeColor = Color.White;
-            lblServicios.Location = new Point(39, 276);
+            lblServicios.Location = new Point(60, 276);
             lblServicios.Name = "lblServicios";
-            lblServicios.Size = new Size(88, 25);
+            lblServicios.Size = new Size(126, 37);
             lblServicios.TabIndex = 7;
             lblServicios.Text = "Servicios";
             lblServicios.Click += lblServicios_Click;
@@ -179,11 +230,11 @@
             // lblCitas
             // 
             lblCitas.AutoSize = true;
-            lblCitas.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblCitas.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold);
             lblCitas.ForeColor = Color.White;
-            lblCitas.Location = new Point(39, 245);
+            lblCitas.Location = new Point(60, 239);
             lblCitas.Name = "lblCitas";
-            lblCitas.Size = new Size(54, 25);
+            lblCitas.Size = new Size(77, 37);
             lblCitas.TabIndex = 6;
             lblCitas.Text = "Citas";
             lblCitas.Click += lblCitas_Click;
@@ -191,11 +242,11 @@
             // lblHome
             // 
             lblHome.AutoSize = true;
-            lblHome.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblHome.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold);
             lblHome.ForeColor = Color.White;
-            lblHome.Location = new Point(39, 208);
+            lblHome.Location = new Point(59, 202);
             lblHome.Name = "lblHome";
-            lblHome.Size = new Size(64, 25);
+            lblHome.Size = new Size(91, 37);
             lblHome.TabIndex = 5;
             lblHome.Text = "Home";
             lblHome.Click += lblHome_Click;
@@ -205,7 +256,7 @@
             lblGestion.AutoSize = true;
             lblGestion.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblGestion.ForeColor = Color.WhiteSmoke;
-            lblGestion.Location = new Point(39, 174);
+            lblGestion.Location = new Point(29, 179);
             lblGestion.Name = "lblGestion";
             lblGestion.Size = new Size(59, 20);
             lblGestion.TabIndex = 4;
@@ -259,10 +310,7 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(238, 238, 238);
-            panel2.Controls.Add(panel4);
-            panel2.Controls.Add(panel3);
-            panel2.Controls.Add(panelPorServi);
-            panel2.Controls.Add(panelCitas);
+            panel2.Controls.Add(dgvCitasHoy);
             panel2.Controls.Add(label4);
             panel2.Controls.Add(lblTitulo);
             panel2.Controls.Add(label2);
@@ -273,92 +321,6 @@
             panel2.Size = new Size(1048, 630);
             panel2.TabIndex = 1;
             panel2.Paint += panel2_Paint;
-            // 
-            // panel4
-            // 
-            panel4.BackColor = SystemColors.ControlDark;
-            panel4.Controls.Add(pictureBox3);
-            panel4.Location = new Point(39, 296);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(941, 310);
-            panel4.TabIndex = 24;
-            panel4.Paint += panel4_Paint;
-            // 
-            // pictureBox3
-            // 
-            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(-39, -10);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(1013, 330);
-            pictureBox3.TabIndex = 2;
-            pictureBox3.TabStop = false;
-            // 
-            // panel3
-            // 
-            panel3.BackColor = SystemColors.ControlDark;
-            panel3.Controls.Add(pictureBox4);
-            panel3.Controls.Add(label5);
-            panel3.Location = new Point(690, 135);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(290, 135);
-            panel3.TabIndex = 23;
-            panel3.Paint += panel3_Paint;
-            // 
-            // pictureBox4
-            // 
-            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(-304, -225);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(1112, 717);
-            pictureBox4.TabIndex = 2;
-            pictureBox4.TabStop = false;
-            // 
-            // label5
-            // 
-            label5.Location = new Point(0, -18);
-            label5.Name = "label5";
-            label5.Size = new Size(301, 158);
-            label5.TabIndex = 0;
-            // 
-            // panelPorServi
-            // 
-            panelPorServi.BackColor = SystemColors.ControlDark;
-            panelPorServi.Controls.Add(pictureBox2);
-            panelPorServi.Location = new Point(365, 135);
-            panelPorServi.Name = "panelPorServi";
-            panelPorServi.Size = new Size(290, 135);
-            panelPorServi.TabIndex = 23;
-            panelPorServi.Paint += panelPorServi_Paint;
-            // 
-            // pictureBox2
-            // 
-            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(-19, -18);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(530, 330);
-            pictureBox2.TabIndex = 1;
-            pictureBox2.TabStop = false;
-            pictureBox2.Click += pictureBox2_Click;
-            // 
-            // panelCitas
-            // 
-            panelCitas.BackColor = SystemColors.ControlDark;
-            panelCitas.Controls.Add(pictureBox1);
-            panelCitas.Location = new Point(39, 135);
-            panelCitas.Name = "panelCitas";
-            panelCitas.Size = new Size(290, 135);
-            panelCitas.TabIndex = 22;
-            panelCitas.Paint += panelCitas_Paint;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(-134, -89);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(530, 330);
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click_1;
             // 
             // label4
             // 
@@ -415,6 +377,14 @@
             lblBernatS.Text = "Bernat Sarriá >";
             lblBernatS.Click += lblBernatS_Click;
             // 
+            // dgvCitasHoy
+            // 
+            dgvCitasHoy.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvCitasHoy.Location = new Point(257, 265);
+            dgvCitasHoy.Name = "dgvCitasHoy";
+            dgvCitasHoy.Size = new Size(240, 150);
+            dgvCitasHoy.TabIndex = 22;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -426,18 +396,16 @@
             Text = "Form1";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)IconoPerfil).EndInit();
             ((System.ComponentModel.ISupportInitialize)iconoFP).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
-            panel4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
-            panel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
-            panelPorServi.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            panelCitas.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvCitasHoy).EndInit();
             ResumeLayout(false);
         }
 
@@ -461,18 +429,15 @@
         private Label label2;
         private Label lblUbi;
         private Label lblBernatS;
-        private Panel panelCitas;
         private Label label4;
         private Label lblTitulo;
-        private Panel panelPorServi;
-        private Panel panel3;
-        private Label label5;
-        private Panel panel4;
         private Label label7;
-        private PictureBox pictureBox1;
-        private PictureBox pictureBox2;
-        private PictureBox pictureBox3;
-        private PictureBox pictureBox4;
         private Label lblAgenda;
+        private PictureBox pictureBox1;
+        private PictureBox pictureBox5;
+        private PictureBox pictureBox4;
+        private PictureBox pictureBox3;
+        private PictureBox pictureBox2;
+        private DataGridView dgvCitasHoy;
     }
 }
