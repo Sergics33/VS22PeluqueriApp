@@ -1,11 +1,11 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,6 +16,7 @@ namespace PeluqueriAPP
     {
         private Form formularioActivo = null;
         private const string API_CITAS_URL = "http://localhost:8080/api/citas/";
+        private const string API_VALORACIONES_URL = "http://localhost:8080/api/valoraciones/";
         private static readonly HttpClient httpClient = new HttpClient();
 
         public Home()
@@ -26,42 +27,143 @@ namespace PeluqueriAPP
             ConfigurarTransparencias();
             ConfigurarEfectosMenu();
             EstilizarTabla(dgvCitasHoy);
+
+            // Ãšnico cambio: Suscribir el evento para el borde del panel
+            panelEstadisticas.Paint += panelEstadisticas_Paint;
         }
 
-        private void ConfigurarTransparencias()
+        // --- DTOs ---
+        public class CitaResumenHoy
         {
-            foreach (Control c in panel1.Controls)
+            public string Hora { get; set; }
+            public string Cliente { get; set; }
+            public string Servicio { get; set; }
+            public string Aula { get; set; }
+        }
+
+        public class ValoracionDTO
+        {
+            public double tratoPersonal { get; set; }
+            public double desarrolloServicio { get; set; }
+            public double claridadComunicacion { get; set; }
+            public double limpieza { get; set; }
+            public double general { get; set; }
+        }
+
+        // --- LÃ“GICA DEL PANEL (BORDES) ---
+        private void panelEstadisticas_Paint(object sender, PaintEventArgs e)
+        {
+            Panel panel = (Panel)sender;
+            float borderRadius = 20f; // Curvatura
+            float borderThickness = 2f; // Grosor
+            Color borderColor = Color.FromArgb(64, 64, 64); // Gris oscuro solicitado
+
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
+            using (GraphicsPath path = new GraphicsPath())
             {
-                if (c is Label || c is PictureBox)
+                path.AddArc(0, 0, borderRadius, borderRadius, 180, 90);
+                path.AddArc(panel.Width - borderRadius - 1, 0, borderRadius, borderRadius, 270, 90);
+                path.AddArc(panel.Width - borderRadius - 1, panel.Height - borderRadius - 1, borderRadius, borderRadius, 0, 90);
+                path.AddArc(0, panel.Height - borderRadius - 1, borderRadius, borderRadius, 90, 90);
+                path.CloseAllFigures();
+
+                panel.Region = new Region(path); // Redondea el fondo
+
+                using (Pen pen = new Pen(borderColor, borderThickness))
                 {
-                    c.BackColor = Color.Transparent;
+                    e.Graphics.DrawPath(pen, path); // Dibuja el borde oscuro
                 }
             }
         }
 
-        private void ConfigurarEfectosMenu()
+        // --- CARGA DE DATOS ---
+        private async Task CargarCitasHoy()
         {
-            Label[] menuItems = { lblHome, lblCitas, lblServicios, label7, lblAgenda, lblCerrarSesion };
+            await Task.Delay(50);
 
-            foreach (var lbl in menuItems)
+            var listaFalsa = new List<CitaResumenHoy>
             {
-                lbl.MouseEnter += (s, e) => {
-                    ((Label)s).ForeColor = Color.Silver;
-                    ((Label)s).Cursor = Cursors.Hand;
-                };
-                lbl.MouseLeave += (s, e) => {
-                    ((Label)s).ForeColor = Color.White;
-                    ((Label)s).Cursor = Cursors.Default;
-                };
-            }
+                new CitaResumenHoy { Hora = "09:00", Cliente = "Juan PÃ©rez", Servicio = "Corte Caballero", Aula = "Aula 101" },
+                new CitaResumenHoy { Hora = "12:00", Cliente = "Carlos LÃ³pez", Servicio = "Barba Pro", Aula = "Aula 101" },
+                new CitaResumenHoy { Hora = "10:30", Cliente = "MarÃ­a GarcÃ­a", Servicio = "Tinte y Peinado", Aula = "Aula 102" },
+                new CitaResumenHoy { Hora = "16:00", Cliente = "Ana MartÃ­nez", Servicio = "Mechas Balayage", Aula = "Aula 103" },
+                new CitaResumenHoy { Hora = "18:30", Cliente = "Luis RodrÃ­guez", Servicio = "Corte ClÃ¡sico", Aula = "Aula 102" }
+            };
+
+            var bindingList = new BindingList<CitaResumenHoy>(listaFalsa);
+
+            this.Invoke((MethodInvoker)delegate {
+                dgvCitasHoy.DataSource = null;
+                dgvCitasHoy.DataSource = bindingList;
+
+                foreach (DataGridViewColumn col in dgvCitasHoy.Columns)
+                {
+                    col.SortMode = DataGridViewColumnSortMode.Automatic;
+                }
+
+                dgvCitasHoy.Refresh();
+                dgvCitasHoy.BringToFront();
+            });
         }
 
+        private async Task CargarMediaValoraciones()
+        {
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync(API_VALORACIONES_URL);
+                if (response.IsSuccessStatusCode)
+                {
+                    var valoraciones = await response.Content.ReadFromJsonAsync<List<ValoracionDTO>>();
+                    if (valoraciones != null && valoraciones.Any())
+                    {
+                        double sTrato = 0, sDesarrollo = 0, sClaridad = 0, sLimpieza = 0, sGeneral = 0;
+                        int total = valoraciones.Count;
+
+                        foreach (var v in valoraciones)
+                        {
+                            sTrato += v.tratoPersonal;
+                            sDesarrollo += v.desarrolloServicio;
+                            sClaridad += v.claridadComunicacion;
+                            sLimpieza += v.limpieza;
+                            sGeneral += v.general;
+                        }
+
+                        double mTrato = sTrato / total;
+                        double mDesarrollo = sDesarrollo / total;
+                        double mClaridad = sClaridad / total;
+                        double mLimpieza = sLimpieza / total;
+                        double mGeneral = sGeneral / total;
+                        double mediaGlobal = (mTrato + mDesarrollo + mClaridad + mLimpieza + mGeneral) / 5;
+
+                        this.Invoke((MethodInvoker)delegate {
+                            lblMediaGeneral.Text = $"{mediaGlobal:F1} â˜…";
+                            lblMediaTrato.Text = $"Trato: {mTrato:F1}";
+                            lblMediaDesarrollo.Text = $"Servicio: {mDesarrollo:F1}";
+                            lblMediaClaridad.Text = $"ComunicaciÃ³n: {mClaridad:F1}";
+                            lblMediaLimpieza.Text = $"Limpieza: {mLimpieza:F1}";
+                            lblMediaPuntualidad.Text = $"General: {mGeneral:F1}";
+                            lblMediaGeneral.ForeColor = mediaGlobal >= 4.0 ? Color.FromArgb(255, 128, 0) : Color.Gray;
+                        });
+                    }
+                }
+            }
+            catch { /* Backend no disponible */ }
+        }
+
+        protected override async void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            await CargarCitasHoy();
+            await CargarMediaValoraciones();
+        }
+
+        // --- ESTILOS Y NAVEGACIÃ“N (ORIGINALES) ---
         private void EstilizarTabla(DataGridView dgv)
         {
-            // --- CONFIGURACIÓN DE ESTRUCTURA ---
             dgv.AllowUserToAddRows = false;
             dgv.AllowUserToDeleteRows = false;
-            dgv.AllowUserToOrderColumns = true; // Permite mover columnas si se desea
+            dgv.AllowUserToOrderColumns = true;
             dgv.ReadOnly = true;
             dgv.MultiSelect = false;
             dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -73,102 +175,58 @@ namespace PeluqueriAPP
             dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dgv.EnableHeadersVisualStyles = false;
             dgv.GridColor = Color.FromArgb(230, 230, 230);
-
-            // --- DIMENSIONES (Copiado de tu Designer de Citas) ---
-            dgv.Location = new Point(50, 234);
-            dgv.Size = new Size(903, 379);
             dgv.RowTemplate.Height = 40;
             dgv.ColumnHeadersHeight = 45;
-            dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 
-            // --- ESTILO DE CABECERA (dataGridViewCellStyle1) ---
             DataGridViewCellStyle headerStyle = new DataGridViewCellStyle();
-            headerStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            headerStyle.BackColor = Color.FromArgb(45, 45, 48); // El color oscuro de tu app
+            headerStyle.BackColor = Color.FromArgb(45, 45, 48);
             headerStyle.Font = new Font("Segoe UI Semibold", 10.5F, FontStyle.Bold);
             headerStyle.ForeColor = Color.White;
-            headerStyle.Padding = new Padding(10, 0, 0, 0);
             headerStyle.SelectionBackColor = Color.FromArgb(45, 45, 48);
-            headerStyle.SelectionForeColor = Color.White;
-            headerStyle.WrapMode = DataGridViewTriState.True;
             dgv.ColumnHeadersDefaultCellStyle = headerStyle;
 
-            // --- ESTILO DE CELDAS (dataGridViewCellStyle2) ---
             DataGridViewCellStyle cellStyle = new DataGridViewCellStyle();
-            cellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            cellStyle.BackColor = Color.White;
             cellStyle.Font = new Font("Segoe UI", 9.5F);
             cellStyle.ForeColor = Color.FromArgb(70, 70, 70);
-            cellStyle.Padding = new Padding(10, 0, 0, 0);
             cellStyle.SelectionBackColor = Color.FromArgb(235, 245, 255);
             cellStyle.SelectionForeColor = Color.FromArgb(0, 120, 215);
-            cellStyle.WrapMode = DataGridViewTriState.False;
             dgv.DefaultCellStyle = cellStyle;
         }
 
-        // METODO MODIFICADO: Genera información falsa para previsualización
-        private async Task CargarCitasHoy()
+        private void ConfigurarTransparencias()
         {
-            // Simulamos carga
-            await Task.Delay(100);
-
-            // Lista de datos falsos para probar el diseño y la ordenación
-            var listaFalsa = new List<CitaResumenHoy>
-    {
-        new CitaResumenHoy { Hora = "09:00", Cliente = "Juan Pérez", Servicio = "Corte Caballero", Aula = "Aula 101" },
-        new CitaResumenHoy { Hora = "12:00", Cliente = "Carlos López", Servicio = "Barba Pro", Aula = "Aula 101" },
-        new CitaResumenHoy { Hora = "10:30", Cliente = "María García", Servicio = "Tinte y Peinado", Aula = "Aula 102" },
-        new CitaResumenHoy { Hora = "16:00", Cliente = "Ana Martínez", Servicio = "Mechas Balayage", Aula = "Aula 103" },
-        new CitaResumenHoy { Hora = "18:30", Cliente = "Luis Rodríguez", Servicio = "Corte Clásico", Aula = "Aula 102" }
-    };
-
-            // Usamos una BindingList para que el grid soporte ordenación automática de objetos
-            var bindingList = new System.ComponentModel.BindingList<CitaResumenHoy>(listaFalsa);
-            var source = new BindingSource(bindingList, null);
-
-            dgvCitasHoy.DataSource = source;
-
-            // Habilitamos el modo de ordenación en cada columna explícitamente
-            foreach (DataGridViewColumn col in dgvCitasHoy.Columns)
+            foreach (Control c in panel1.Controls)
             {
-                col.SortMode = DataGridViewColumnSortMode.Automatic;
+                if (c is Label || c is PictureBox) c.BackColor = Color.Transparent;
             }
         }
 
-        // Clase DTO necesaria para que la ordenación funcione correctamente en el grid
-        public class CitaResumenHoy
+        private void ConfigurarEfectosMenu()
         {
-            public string Hora { get; set; }
-            public string Cliente { get; set; }
-            public string Servicio { get; set; }
-            public string Aula { get; set; }
-        }
-
-        private async void Home_Load(object sender, EventArgs e)
-        {
-            await CargarCitasHoy();
+            Label[] menuItems = { lblHome, lblCitas, lblServicios, label7, lblAgenda, lblCerrarSesion };
+            foreach (var lbl in menuItems)
+            {
+                lbl.MouseEnter += (s, e) => { ((Label)s).ForeColor = Color.Silver; ((Label)s).Cursor = Cursors.Hand; };
+                lbl.MouseLeave += (s, e) => { ((Label)s).ForeColor = Color.White; ((Label)s).Cursor = Cursors.Default; };
+            }
         }
 
         private void AbrirFormEnPanel(Form formularioHijo)
         {
             if (formularioActivo != null) formularioActivo.Close();
-
             formularioActivo = formularioHijo;
             formularioHijo.TopLevel = false;
             formularioHijo.FormBorderStyle = FormBorderStyle.None;
             formularioHijo.Dock = DockStyle.Fill;
             formularioHijo.BackColor = panel2.BackColor;
-
             panel2.Controls.Add(formularioHijo);
             panel2.Tag = formularioHijo;
             formularioHijo.BringToFront();
             formularioHijo.Show();
-
             lblUbi.Text = formularioHijo.Text;
             lblTitulo.Text = formularioHijo.Text;
         }
 
-        // --- NAVEGACIÓN ---
         private async void lblHome_Click(object sender, EventArgs e)
         {
             if (formularioActivo != null)
@@ -178,6 +236,7 @@ namespace PeluqueriAPP
                 lblUbi.Text = "Home";
                 lblTitulo.Text = "Home";
                 await CargarCitasHoy();
+                await CargarMediaValoraciones();
             }
         }
 
@@ -187,19 +246,15 @@ namespace PeluqueriAPP
         private void lblAgenda_Click(object sender, EventArgs e) => AbrirFormEnPanel(new Agendas());
         private void lblCerrarSesion_Click(object sender, EventArgs e) => Application.Exit();
 
-        // --- MÉTODOS DEL DISEÑADOR (NO BORRAR) ---
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            using (LinearGradientBrush brush = new LinearGradientBrush(
-                panel1.ClientRectangle,
-                Color.FromArgb(255, 128, 0),
-                Color.FromArgb(255, 200, 100),
-                LinearGradientMode.Vertical))
+            using (LinearGradientBrush brush = new LinearGradientBrush(panel1.ClientRectangle, Color.FromArgb(255, 128, 0), Color.FromArgb(255, 200, 100), LinearGradientMode.Vertical))
             {
                 e.Graphics.FillRectangle(brush, panel1.ClientRectangle);
             }
         }
 
+        // Handlers vacÃ­os
         private void lblBernat_Click(object sender, EventArgs e) { }
         private void lblPanel_Click(object sender, EventArgs e) { }
         private void label3_Click(object sender, EventArgs e) { }

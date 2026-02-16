@@ -40,12 +40,19 @@
             lblPanel = new Label();
             lblBernat = new Label();
             panel2 = new Panel();
+            panelEstadisticas = new Panel();
+            lblMediaLimpieza = new Label();
+            lblMediaClaridad = new Label();
+            lblMediaDesarrollo = new Label();
+            lblMediaTrato = new Label();
+            lblMediaGeneral = new Label();
             dgvCitasHoy = new DataGridView();
             label4 = new Label();
             lblTitulo = new Label();
             label2 = new Label();
             lblUbi = new Label();
             lblBernatS = new Label();
+            lblMediaPuntualidad = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
@@ -55,6 +62,7 @@
             ((System.ComponentModel.ISupportInitialize)IconoPerfil).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconoFP).BeginInit();
             panel2.SuspendLayout();
+            panelEstadisticas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCitasHoy).BeginInit();
             SuspendLayout();
             // 
@@ -90,9 +98,9 @@
             // pictureBox5
             // 
             pictureBox5.Image = (Image)resources.GetObject("pictureBox5.Image");
-            pictureBox5.Location = new Point(29, 353);
+            pictureBox5.Location = new Point(24, 364);
             pictureBox5.Name = "pictureBox5";
-            pictureBox5.Size = new Size(34, 40);
+            pictureBox5.Size = new Size(36, 22);
             pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox5.TabIndex = 25;
             pictureBox5.TabStop = false;
@@ -100,9 +108,9 @@
             // pictureBox4
             // 
             pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(24, 316);
+            pictureBox4.Location = new Point(19, 326);
             pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(39, 41);
+            pictureBox4.Size = new Size(41, 23);
             pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox4.TabIndex = 24;
             pictureBox4.TabStop = false;
@@ -110,9 +118,9 @@
             // pictureBox3
             // 
             pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(25, 276);
+            pictureBox3.Location = new Point(20, 288);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(38, 43);
+            pictureBox3.Size = new Size(40, 25);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3.TabIndex = 23;
             pictureBox3.TabStop = false;
@@ -120,9 +128,9 @@
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(28, 240);
+            pictureBox2.Location = new Point(21, 254);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(35, 38);
+            pictureBox2.Size = new Size(37, 20);
             pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox2.TabIndex = 22;
             pictureBox2.TabStop = false;
@@ -130,9 +138,9 @@
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(29, 202);
+            pictureBox1.Location = new Point(24, 216);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(33, 37);
+            pictureBox1.Size = new Size(35, 19);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 21;
             pictureBox1.TabStop = false;
@@ -141,11 +149,11 @@
             // lblAgenda
             // 
             lblAgenda.AutoSize = true;
-            lblAgenda.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold);
+            lblAgenda.Font = new Font("Segoe UI Semibold", 17F, FontStyle.Bold);
             lblAgenda.ForeColor = Color.White;
-            lblAgenda.Location = new Point(59, 353);
+            lblAgenda.Location = new Point(63, 358);
             lblAgenda.Name = "lblAgenda";
-            lblAgenda.Size = new Size(110, 37);
+            lblAgenda.Size = new Size(95, 31);
             lblAgenda.TabIndex = 20;
             lblAgenda.Text = "Horario";
             lblAgenda.Click += lblAgenda_Click;
@@ -153,11 +161,11 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold);
+            label7.Font = new Font("Segoe UI Semibold", 17F, FontStyle.Bold);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(59, 313);
+            label7.Location = new Point(62, 320);
             label7.Name = "label7";
-            label7.Size = new Size(123, 37);
+            label7.Size = new Size(104, 31);
             label7.TabIndex = 19;
             label7.Text = "Usuarios";
             label7.Click += label7_Click;
@@ -218,11 +226,11 @@
             // lblServicios
             // 
             lblServicios.AutoSize = true;
-            lblServicios.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold);
+            lblServicios.Font = new Font("Segoe UI Semibold", 17F, FontStyle.Bold);
             lblServicios.ForeColor = Color.White;
-            lblServicios.Location = new Point(60, 276);
+            lblServicios.Location = new Point(61, 284);
             lblServicios.Name = "lblServicios";
-            lblServicios.Size = new Size(126, 37);
+            lblServicios.Size = new Size(108, 31);
             lblServicios.TabIndex = 7;
             lblServicios.Text = "Servicios";
             lblServicios.Click += lblServicios_Click;
@@ -230,11 +238,11 @@
             // lblCitas
             // 
             lblCitas.AutoSize = true;
-            lblCitas.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold);
+            lblCitas.Font = new Font("Segoe UI Semibold", 17F, FontStyle.Bold);
             lblCitas.ForeColor = Color.White;
-            lblCitas.Location = new Point(60, 239);
+            lblCitas.Location = new Point(61, 248);
             lblCitas.Name = "lblCitas";
-            lblCitas.Size = new Size(77, 37);
+            lblCitas.Size = new Size(64, 31);
             lblCitas.TabIndex = 6;
             lblCitas.Text = "Citas";
             lblCitas.Click += lblCitas_Click;
@@ -242,11 +250,11 @@
             // lblHome
             // 
             lblHome.AutoSize = true;
-            lblHome.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold);
+            lblHome.Font = new Font("Segoe UI Semibold", 17F, FontStyle.Bold);
             lblHome.ForeColor = Color.White;
-            lblHome.Location = new Point(59, 202);
+            lblHome.Location = new Point(60, 208);
             lblHome.Name = "lblHome";
-            lblHome.Size = new Size(91, 37);
+            lblHome.Size = new Size(77, 31);
             lblHome.TabIndex = 5;
             lblHome.Text = "Home";
             lblHome.Click += lblHome_Click;
@@ -256,7 +264,7 @@
             lblGestion.AutoSize = true;
             lblGestion.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblGestion.ForeColor = Color.WhiteSmoke;
-            lblGestion.Location = new Point(29, 179);
+            lblGestion.Location = new Point(27, 182);
             lblGestion.Name = "lblGestion";
             lblGestion.Size = new Size(59, 20);
             lblGestion.TabIndex = 4;
@@ -310,6 +318,7 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(238, 238, 238);
+            panel2.Controls.Add(panelEstadisticas);
             panel2.Controls.Add(dgvCitasHoy);
             panel2.Controls.Add(label4);
             panel2.Controls.Add(lblTitulo);
@@ -322,12 +331,80 @@
             panel2.TabIndex = 1;
             panel2.Paint += panel2_Paint;
             // 
+            // panelEstadisticas
+            // 
+            panelEstadisticas.Controls.Add(lblMediaLimpieza);
+            panelEstadisticas.Controls.Add(lblMediaClaridad);
+            panelEstadisticas.Controls.Add(lblMediaDesarrollo);
+            panelEstadisticas.Controls.Add(lblMediaTrato);
+            panelEstadisticas.Controls.Add(lblMediaGeneral);
+            panelEstadisticas.Location = new Point(13, 139);
+            panelEstadisticas.Name = "panelEstadisticas";
+            panelEstadisticas.Padding = new Padding(10);
+            panelEstadisticas.Size = new Size(590, 174);
+            panelEstadisticas.TabIndex = 23;
+            // 
+            // lblMediaLimpieza
+            // 
+            lblMediaLimpieza.AutoSize = true;
+            lblMediaLimpieza.Font = new Font("Segoe UI", 11F);
+            lblMediaLimpieza.ForeColor = Color.DimGray;
+            lblMediaLimpieza.Location = new Point(300, 75);
+            lblMediaLimpieza.Name = "lblMediaLimpieza";
+            lblMediaLimpieza.Size = new Size(82, 20);
+            lblMediaLimpieza.TabIndex = 4;
+            lblMediaLimpieza.Text = "Limpieza: -";
+            // 
+            // lblMediaClaridad
+            // 
+            lblMediaClaridad.AutoSize = true;
+            lblMediaClaridad.Font = new Font("Segoe UI", 11F);
+            lblMediaClaridad.ForeColor = Color.DimGray;
+            lblMediaClaridad.Location = new Point(30, 135);
+            lblMediaClaridad.Name = "lblMediaClaridad";
+            lblMediaClaridad.Size = new Size(116, 20);
+            lblMediaClaridad.TabIndex = 3;
+            lblMediaClaridad.Text = "Comunicación: -";
+            // 
+            // lblMediaDesarrollo
+            // 
+            lblMediaDesarrollo.AutoSize = true;
+            lblMediaDesarrollo.Font = new Font("Segoe UI", 11F);
+            lblMediaDesarrollo.ForeColor = Color.DimGray;
+            lblMediaDesarrollo.Location = new Point(30, 105);
+            lblMediaDesarrollo.Name = "lblMediaDesarrollo";
+            lblMediaDesarrollo.Size = new Size(74, 20);
+            lblMediaDesarrollo.TabIndex = 2;
+            lblMediaDesarrollo.Text = "Servicio: -";
+            // 
+            // lblMediaTrato
+            // 
+            lblMediaTrato.AutoSize = true;
+            lblMediaTrato.Font = new Font("Segoe UI", 11F);
+            lblMediaTrato.ForeColor = Color.DimGray;
+            lblMediaTrato.Location = new Point(30, 75);
+            lblMediaTrato.Name = "lblMediaTrato";
+            lblMediaTrato.Size = new Size(56, 20);
+            lblMediaTrato.TabIndex = 1;
+            lblMediaTrato.Text = "Trato: -";
+            // 
+            // lblMediaGeneral
+            // 
+            lblMediaGeneral.AutoSize = true;
+            lblMediaGeneral.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold);
+            lblMediaGeneral.ForeColor = Color.FromArgb(255, 128, 0);
+            lblMediaGeneral.Location = new Point(25, 15);
+            lblMediaGeneral.Name = "lblMediaGeneral";
+            lblMediaGeneral.Size = new Size(101, 45);
+            lblMediaGeneral.TabIndex = 0;
+            lblMediaGeneral.Text = "0.0 ★";
+            // 
             // dgvCitasHoy
             // 
             dgvCitasHoy.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCitasHoy.Location = new Point(13, 260);
+            dgvCitasHoy.Location = new Point(13, 331);
             dgvCitasHoy.Name = "dgvCitasHoy";
-            dgvCitasHoy.Size = new Size(1022, 356);
+            dgvCitasHoy.Size = new Size(1022, 285);
             dgvCitasHoy.TabIndex = 22;
             // 
             // label4
@@ -385,6 +462,17 @@
             lblBernatS.Text = "Bernat Sarriá >";
             lblBernatS.Click += lblBernatS_Click;
             // 
+            // lblMediaPuntualidad
+            // 
+            lblMediaPuntualidad.AutoSize = true;
+            lblMediaPuntualidad.Font = new Font("Segoe UI", 11F);
+            lblMediaPuntualidad.ForeColor = Color.DimGray;
+            lblMediaPuntualidad.Location = new Point(300, 105);
+            lblMediaPuntualidad.Name = "lblMediaPuntualidad";
+            lblMediaPuntualidad.Size = new Size(105, 20);
+            lblMediaPuntualidad.TabIndex = 5;
+            lblMediaPuntualidad.Text = "Puntualidad: -";
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -405,6 +493,8 @@
             ((System.ComponentModel.ISupportInitialize)iconoFP).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            panelEstadisticas.ResumeLayout(false);
+            panelEstadisticas.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCitasHoy).EndInit();
             ResumeLayout(false);
         }
@@ -439,5 +529,12 @@
         private PictureBox pictureBox3;
         private PictureBox pictureBox2;
         private DataGridView dgvCitasHoy;
+        private Panel panelEstadisticas;
+        private Label lblMediaPuntualidad;
+        private Label lblMediaLimpieza;
+        private Label lblMediaClaridad;
+        private Label lblMediaDesarrollo;
+        private Label lblMediaTrato;
+        private Label lblMediaGeneral;
     }
 }
