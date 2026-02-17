@@ -53,6 +53,7 @@
             lblUbi = new Label();
             lblBernatS = new Label();
             lblMediaPuntualidad = new Label();
+            lblBloqueos = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
@@ -69,6 +70,7 @@
             // panel1
             // 
             panel1.BackColor = Color.Transparent;
+            panel1.Controls.Add(lblBloqueos);
             panel1.Controls.Add(pictureBox5);
             panel1.Controls.Add(pictureBox4);
             panel1.Controls.Add(pictureBox3);
@@ -473,6 +475,18 @@
             lblMediaPuntualidad.TabIndex = 5;
             lblMediaPuntualidad.Text = "Puntualidad: -";
             // 
+            // lblBloqueos
+            // 
+            lblBloqueos.AutoSize = true;
+            lblBloqueos.Font = new Font("Segoe UI Semibold", 17F, FontStyle.Bold);
+            lblBloqueos.ForeColor = Color.White;
+            lblBloqueos.Location = new Point(63, 399);
+            lblBloqueos.Name = "lblBloqueos";
+            lblBloqueos.Size = new Size(101, 31);
+            lblBloqueos.TabIndex = 26;
+            lblBloqueos.Text = "Bloqueo";
+            lblBloqueos.Click += lblBloqueos_Click;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -536,5 +550,6 @@
         private Label lblMediaDesarrollo;
         private Label lblMediaTrato;
         private Label lblMediaGeneral;
+        private Label lblBloqueos;
     }
 }

@@ -93,7 +93,8 @@ namespace PeluqueriAPP
 
             var bindingList = new BindingList<CitaResumenHoy>(listaFalsa);
 
-            this.Invoke((MethodInvoker)delegate {
+            this.Invoke((MethodInvoker)delegate
+            {
                 dgvCitasHoy.DataSource = null;
                 dgvCitasHoy.DataSource = bindingList;
 
@@ -136,7 +137,8 @@ namespace PeluqueriAPP
                         double mGeneral = sGeneral / total;
                         double mediaGlobal = (mTrato + mDesarrollo + mClaridad + mLimpieza + mGeneral) / 5;
 
-                        this.Invoke((MethodInvoker)delegate {
+                        this.Invoke((MethodInvoker)delegate
+                        {
                             lblMediaGeneral.Text = $"{mediaGlobal:F1} ★";
                             lblMediaTrato.Text = $"Trato: {mTrato:F1}";
                             lblMediaDesarrollo.Text = $"Servicio: {mDesarrollo:F1}";
@@ -203,11 +205,19 @@ namespace PeluqueriAPP
 
         private void ConfigurarEfectosMenu()
         {
-            Label[] menuItems = { lblHome, lblCitas, lblServicios, label7, lblAgenda, lblCerrarSesion };
+            // He añadido lblBloqueos al array para que reciba los mismos eventos
+            Label[] menuItems = { lblHome, lblCitas, lblServicios, label7, lblAgenda, lblBloqueos, lblCerrarSesion };
+
             foreach (var lbl in menuItems)
             {
-                lbl.MouseEnter += (s, e) => { ((Label)s).ForeColor = Color.Silver; ((Label)s).Cursor = Cursors.Hand; };
-                lbl.MouseLeave += (s, e) => { ((Label)s).ForeColor = Color.White; ((Label)s).Cursor = Cursors.Default; };
+                lbl.MouseEnter += (s, e) => {
+                    ((Label)s).ForeColor = Color.Silver;
+                    ((Label)s).Cursor = Cursors.Hand;
+                };
+                lbl.MouseLeave += (s, e) => {
+                    ((Label)s).ForeColor = Color.White;
+                    ((Label)s).Cursor = Cursors.Default;
+                };
             }
         }
 
@@ -244,6 +254,7 @@ namespace PeluqueriAPP
         private void lblServicios_Click(object sender, EventArgs e) => AbrirFormEnPanel(new Servicios());
         private void label7_Click(object sender, EventArgs e) => AbrirFormEnPanel(new Admins());
         private void lblAgenda_Click(object sender, EventArgs e) => AbrirFormEnPanel(new Agendas());
+        private void lblBloqueos_Click(object sender, EventArgs e) => AbrirFormEnPanel(new Bloqueos());
         private void lblCerrarSesion_Click(object sender, EventArgs e) => Application.Exit();
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -269,5 +280,7 @@ namespace PeluqueriAPP
         private void lblTitulo_Click(object sender, EventArgs e) { }
         private void label4_Click(object sender, EventArgs e) { }
         private void panel2_Paint(object sender, PaintEventArgs e) { }
+
+
     }
 }

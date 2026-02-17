@@ -21,20 +21,44 @@ namespace PeluqueriAPP
 
             pnlLateral.Paint += PnlLateral_Paint;
             iconoFP.Paint += IconoFP_Paint;
+
+            // 1. Foco automático al abrir
+            this.Load += Iniciar_Load;
+
+            // 2. Detectar Enter en los campos
+            txtUsuario.KeyDown += Login_KeyDown;
+            txtContrasenya.KeyDown += Login_KeyDown;
+        }
+
+        private void Iniciar_Load(object sender, EventArgs e)
+        {
+            // Ponemos el foco en el usuario al arrancar
+            this.ActiveControl = txtUsuario;
+            txtUsuario.Focus();
+        }
+
+        private void Login_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 3. Si pulsa Enter, ejecuta el clic del botón iniciar
+            if (e.KeyCode == Keys.Enter)
+            {
+                // Evita el sonido de "beep" de Windows al dar Enter en un TextBox
+                e.SuppressKeyPress = true;
+                btnIniciar_Click(sender, e);
+            }
         }
 
         private void ConfigurarEstilos()
         {
-            // El botón se queda como está en el Designer.
-
             // Configuramos las cápsulas grises redondeadas para los inputs
-            ConfigurarCapsulaLogin(txtUsuario, 165, 85);
-            ConfigurarCapsulaLogin(txtContrasenya, 165, 148);
+            ConfigurarCapsulaLogin(txtUsuario, 165, 85, 0); // TabIndex 0
+            ConfigurarCapsulaLogin(txtContrasenya, 165, 148, 1); // TabIndex 1
+
+            btnIniciar.TabIndex = 2; // El botón será el siguiente en el Tab
         }
 
-        private void ConfigurarCapsulaLogin(TextBox txt, int x, int y)
+        private void ConfigurarCapsulaLogin(TextBox txt, int x, int y, int tabIdx)
         {
-            // Color gris sutil
             Color grisSutil = Color.FromArgb(245, 245, 245);
 
             Panel pnlFondo = new Panel();
@@ -50,20 +74,17 @@ namespace PeluqueriAPP
             txt.Width = pnlFondo.Width - 20;
             txt.Location = new Point(10, 10);
 
+            // Configurar el orden de tabulación
+            txt.TabIndex = tabIdx;
+
             this.Controls.Add(pnlFondo);
             pnlFondo.BringToFront();
 
-            // Dibujado de los BORDES REDONDEADOS
             pnlFondo.Paint += (s, e) => {
                 e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-
-                // 15 es el radio de redondeo para que coincida con tus otras pantallas
                 using (GraphicsPath path = CrearPathRedondeado(pnlFondo.ClientRectangle, 15))
                 {
-                    // Recorta el panel para que el fondo sea redondo
                     pnlFondo.Region = new Region(path);
-
-                    // Dibuja la línea del borde redondeado
                     using (Pen pen = new Pen(Color.FromArgb(225, 225, 225), 1))
                     {
                         e.Graphics.DrawPath(pen, path);
@@ -72,21 +93,14 @@ namespace PeluqueriAPP
             };
         }
 
-        // Método para generar la geometría de los bordes redondeados
         private GraphicsPath CrearPathRedondeado(Rectangle rect, int radio)
         {
             GraphicsPath path = new GraphicsPath();
             int diametro = radio * 2;
-
-            // Esquina superior izquierda
             path.AddArc(rect.X, rect.Y, diametro, diametro, 180, 90);
-            // Esquina superior derecha
             path.AddArc(rect.Right - diametro, rect.Y, diametro, diametro, 270, 90);
-            // Esquina inferior derecha
             path.AddArc(rect.Right - diametro, rect.Bottom - diametro, diametro, diametro, 0, 90);
-            // Esquina inferior izquierda
             path.AddArc(rect.X, rect.Bottom - diametro, diametro, diametro, 90, 90);
-
             path.CloseAllFigures();
             return path;
         }
