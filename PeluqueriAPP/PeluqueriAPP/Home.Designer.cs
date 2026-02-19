@@ -19,6 +19,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Home));
             panel1 = new Panel();
+            lblBloqueos = new Label();
             pictureBox5 = new PictureBox();
             pictureBox4 = new PictureBox();
             pictureBox3 = new PictureBox();
@@ -53,7 +54,7 @@
             lblUbi = new Label();
             lblBernatS = new Label();
             lblMediaPuntualidad = new Label();
-            lblBloqueos = new Label();
+            pictureBox6 = new PictureBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
@@ -65,11 +66,13 @@
             panel2.SuspendLayout();
             panelEstadisticas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCitasHoy).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BackColor = Color.Transparent;
+            panel1.Controls.Add(pictureBox6);
             panel1.Controls.Add(lblBloqueos);
             panel1.Controls.Add(pictureBox5);
             panel1.Controls.Add(pictureBox4);
@@ -96,6 +99,18 @@
             panel1.Size = new Size(228, 633);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
+            // 
+            // lblBloqueos
+            // 
+            lblBloqueos.AutoSize = true;
+            lblBloqueos.Font = new Font("Segoe UI Semibold", 17F, FontStyle.Bold);
+            lblBloqueos.ForeColor = Color.White;
+            lblBloqueos.Location = new Point(63, 399);
+            lblBloqueos.Name = "lblBloqueos";
+            lblBloqueos.Size = new Size(101, 31);
+            lblBloqueos.TabIndex = 26;
+            lblBloqueos.Text = "Bloqueo";
+            lblBloqueos.Click += lblBloqueos_Click;
             // 
             // pictureBox5
             // 
@@ -130,9 +145,9 @@
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(21, 254);
+            pictureBox2.Location = new Point(20, 253);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(37, 20);
+            pictureBox2.Size = new Size(43, 26);
             pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox2.TabIndex = 22;
             pictureBox2.TabStop = false;
@@ -475,17 +490,15 @@
             lblMediaPuntualidad.TabIndex = 5;
             lblMediaPuntualidad.Text = "Puntualidad: -";
             // 
-            // lblBloqueos
+            // pictureBox6
             // 
-            lblBloqueos.AutoSize = true;
-            lblBloqueos.Font = new Font("Segoe UI Semibold", 17F, FontStyle.Bold);
-            lblBloqueos.ForeColor = Color.White;
-            lblBloqueos.Location = new Point(63, 399);
-            lblBloqueos.Name = "lblBloqueos";
-            lblBloqueos.Size = new Size(101, 31);
-            lblBloqueos.TabIndex = 26;
-            lblBloqueos.Text = "Bloqueo";
-            lblBloqueos.Click += lblBloqueos_Click;
+            pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
+            pictureBox6.Location = new Point(27, 399);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(30, 31);
+            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox6.TabIndex = 27;
+            pictureBox6.TabStop = false;
             // 
             // Home
             // 
@@ -510,6 +523,7 @@
             panelEstadisticas.ResumeLayout(false);
             panelEstadisticas.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCitasHoy).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ResumeLayout(false);
         }
 
@@ -551,5 +565,6 @@
         private Label lblMediaTrato;
         private Label lblMediaGeneral;
         private Label lblBloqueos;
+        private PictureBox pictureBox6;
     }
 }
