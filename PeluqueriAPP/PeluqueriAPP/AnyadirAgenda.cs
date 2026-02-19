@@ -18,34 +18,75 @@ namespace PeluqueriAPP
         public AgendaResponseDTO NuevaAgenda { get; private set; }
         private bool esEdicion = false;
         private bool cargando = false;
-        private bool capsulasCreadas = false;
-
         private List<Servicio> listaServiciosMaestra = new List<Servicio>();
 
         public AnyadirAgenda(AgendaResponseDTO agendaExistente = null)
         {
             InitializeComponent();
+            ConfigurarEstilosPersonalizados();
 
+            // Vincular eventos manualmente para asegurar que funcionen
             btnGuardar.Click += btnGuardar_Click;
             btnCancelar.Click += btnCancelar_Click;
-
-            // Suscripción al cambio de grupo para filtrar servicios
-            cbGrupos.SelectedIndexChanged += async (s, e) =>
-            {
-                if (!cargando) await FiltrarServiciosPorGrupo();
-            };
 
             if (agendaExistente != null)
             {
                 this.esEdicion = true;
                 this.NuevaAgenda = agendaExistente;
                 label7.Text = "EDITAR HORARIO";
+                btnGuardar.Text = "ACTUALIZAR";
             }
 
-            this.Load += async (s, e) => {
-                ConfigurarEstilosPersonalizados();
-                await CargarDatosIniciales();
-            };
+            this.Load += async (s, e) => await CargarDatosIniciales();
+        }
+
+        private void ConfigurarEstilosPersonalizados()
+        {
+            // Redondeo y Estilo de Botones
+            btnGuardar.BackColor = Color.SeaGreen;
+            btnGuardar.ForeColor = Color.White;
+            btnGuardar.FlatStyle = FlatStyle.Flat;
+            btnGuardar.FlatAppearance.BorderSize = 0;
+            btnGuardar.Cursor = Cursors.Hand;
+            btnGuardar.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            btnGuardar.Paint += (s, e) => DibujarBordeRedondeado(btnGuardar, e.Graphics, 38);
+
+            btnCancelar.BackColor = Color.Crimson;
+            btnCancelar.ForeColor = Color.White;
+            btnCancelar.FlatStyle = FlatStyle.Flat;
+            btnCancelar.FlatAppearance.BorderSize = 0;
+            btnCancelar.Cursor = Cursors.Hand;
+            btnCancelar.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            btnCancelar.Paint += (s, e) => DibujarBordeRedondeado(btnCancelar, e.Graphics, 38);
+
+            // Estética del Panel
+            panelContenedor.Paint += (s, e) => DibujarBordeRedondeado(panelContenedor, e.Graphics, 25);
+
+            // Crear las cápsulas blancas (X, Y, Ancho)
+            ConfigurarCapsulaControl(tbAula, 20, 40, 340);
+            ConfigurarCapsulaControl(cbServicios, 20, 110, 160);
+            ConfigurarCapsulaControl(cbGrupos, 200, 110, 160);
+            ConfigurarCapsulaControl(dtpInicio, 20, 180, 160);
+            ConfigurarCapsulaControl(dtpFin, 200, 180, 160);
+            ConfigurarCapsulaControl(numSillas, 20, 250, 100);
+        }
+
+        private void ConfigurarCapsulaControl(Control ctrl, int x, int y, int width)
+        {
+            Panel pnl = new Panel { BackColor = Color.White, Size = new Size(width, 36), Location = new Point(x, y) };
+
+            if (ctrl is ComboBox cb) { cb.DropDownStyle = ComboBoxStyle.DropDownList; cb.FlatStyle = FlatStyle.Flat; }
+            if (ctrl is DateTimePicker dtp) { dtp.Format = DateTimePickerFormat.Custom; dtp.CustomFormat = "HH:mm"; dtp.ShowUpDown = true; }
+            if (ctrl is TextBox tb) { tb.BorderStyle = BorderStyle.None; }
+
+            ctrl.Parent = pnl;
+            ctrl.BackColor = Color.White;
+            ctrl.Width = pnl.Width - 10;
+            ctrl.Location = new Point(5, 8);
+
+            panelContenedor.Controls.Add(pnl);
+            pnl.BringToFront();
+            pnl.Paint += (s, e) => DibujarBordeRedondeado(pnl, e.Graphics, 15);
         }
 
         private async Task CargarDatosIniciales()
@@ -55,14 +96,12 @@ namespace PeluqueriAPP
                 cargando = true;
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
-                // 1. Cargar servicios maestros
                 listaServiciosMaestra = await httpClient.GetFromJsonAsync<List<Servicio>>("http://localhost:8080/api/tipos-servicio/") ?? new List<Servicio>();
-
-                // 2. Cargar Grupos
                 var grupos = await httpClient.GetFromJsonAsync<List<Grupo>>("http://localhost:8080/api/grupos/");
+
                 cbGrupos.DataSource = grupos;
                 cbGrupos.DisplayMember = "nombreCompleto";
-                cbGrupos.ValueMember = "id"; // Si falla en ejecución, prueba "Id"
+                cbGrupos.ValueMember = "Id";
 
                 if (esEdicion && NuevaAgenda != null)
                 {
@@ -71,38 +110,28 @@ namespace PeluqueriAPP
                     dtpInicio.Value = NuevaAgenda.HoraInicio;
                     dtpFin.Value = NuevaAgenda.HoraFin;
                     monthCalendar1.SetDate(NuevaAgenda.HoraInicio);
-
-                    if (NuevaAgenda.Grupo != null)
-                    {
-                        dynamic g = NuevaAgenda.Grupo;
-                        try { cbGrupos.SelectedValue = g.id; } catch { cbGrupos.SelectedValue = g.Id; }
-                    }
+                    cbGrupos.SelectedValue = NuevaAgenda.Grupo.Id;
                 }
 
                 cargando = false;
                 await FiltrarServiciosPorGrupo();
 
-                if (esEdicion && NuevaAgenda?.Servicio != null)
+                // Si es edición, seleccionar el servicio que ya tenía
+                if (esEdicion && NuevaAgenda != null)
                 {
-                    dynamic s = NuevaAgenda.Servicio;
-                    try { cbServicios.SelectedValue = s.id; } catch { cbServicios.SelectedValue = s.Id; }
+                    cbServicios.SelectedValue = NuevaAgenda.Servicio.id;
                 }
             }
-            catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); cargando = false; }
+            catch (Exception ex) { MessageBox.Show("Error al cargar datos: " + ex.Message); }
         }
 
         private async Task FiltrarServiciosPorGrupo()
         {
             if (cbGrupos.SelectedValue == null) return;
-
-            // CORRECCIÓN AQUÍ: Usamos Convert.ToInt64 sobre el SelectedValue directamente
-            // para evitar acceder a la propiedad .id del objeto Grupo que da error.
             try
             {
                 long grupoId = Convert.ToInt64(cbGrupos.SelectedValue);
-
-                string url = $"http://localhost:8080/api/agendas/?grupo={grupoId}";
-                var response = await httpClient.GetAsync(url);
+                var response = await httpClient.GetAsync($"http://localhost:8080/api/agendas/?grupo={grupoId}");
                 if (!response.IsSuccessStatusCode) return;
 
                 string jsonRaw = await response.Content.ReadAsStringAsync();
@@ -110,123 +139,81 @@ namespace PeluqueriAPP
                 var idsServicios = new HashSet<long>();
 
                 foreach (var elemento in doc.RootElement.EnumerateArray())
-                {
                     if (elemento.TryGetProperty("servicio", out var serv) && serv.TryGetProperty("id", out var idProp))
-                    {
                         idsServicios.Add(idProp.GetInt64());
-                    }
-                }
 
-                // Filtrar la maestra
-                var filtrados = listaServiciosMaestra.Where(s => {
-                    dynamic ds = s;
-                    try { return idsServicios.Contains((long)ds.id); }
-                    catch { return idsServicios.Contains((long)ds.Id); }
-                }).ToList();
+                var filtrados = listaServiciosMaestra.Where(s => idsServicios.Contains(s.id)).ToList();
 
                 cargando = true;
                 cbServicios.DataSource = filtrados.Any() ? filtrados : null;
                 cbServicios.DisplayMember = "nombre";
-                cbServicios.ValueMember = "id"; // Si falla en ejecución, cambiar a "Id"
+                cbServicios.ValueMember = "id";
                 cargando = false;
             }
             catch { cargando = false; }
         }
 
-        // --- MÉTODOS VISUALES ---
-
-        private void ConfigurarEstilosPersonalizados()
-        {
-            if (capsulasCreadas) return;
-            btnGuardar.Paint += (s, e) => DibujarBordeRedondeado(btnGuardar, e.Graphics, 38);
-            btnCancelar.Paint += (s, e) => DibujarBordeRedondeado(btnCancelar, e.Graphics, 38);
-            ConfigurarCapsulaControl(tbAula, 20, 38, 340);
-            ConfigurarCapsulaControl(cbServicios, 20, 108, 160);
-            ConfigurarCapsulaControl(cbGrupos, 200, 108, 160);
-            ConfigurarCapsulaControl(dtpInicio, 20, 178, 160);
-            ConfigurarCapsulaControl(dtpFin, 200, 178, 160);
-            ConfigurarCapsulaControl(numSillas, 20, 248, 100);
-            capsulasCreadas = true;
-        }
-
-        private void ConfigurarCapsulaControl(Control ctrl, int x, int y, int width)
-        {
-            Panel pnl = new Panel { BackColor = Color.White, Size = new Size(width, 36), Location = new Point(x, y) };
-            if (ctrl is ComboBox cb) { cb.DropDownStyle = ComboBoxStyle.DropDownList; cb.FlatStyle = FlatStyle.Flat; }
-            if (ctrl is DateTimePicker dtp) { dtp.Format = DateTimePickerFormat.Custom; dtp.CustomFormat = "HH:mm"; dtp.ShowUpDown = true; }
-            ctrl.Parent = pnl;
-            ctrl.BackColor = Color.White;
-            ctrl.Width = pnl.Width - 10;
-            ctrl.Location = new Point(5, 7);
-            panelContenedor.Controls.Add(pnl);
-            pnl.BringToFront();
-            pnl.Paint += (s, e) => DibujarBordeRedondeado(pnl, e.Graphics, 15);
-        }
-
         private async void btnGuardar_Click(object sender, EventArgs e)
         {
-            // 1. Validación de campos vacíos
-            if (string.IsNullOrWhiteSpace(tbAula.Text) || cbServicios.SelectedItem == null || cbGrupos.SelectedItem == null)
+            // Validación básica
+            if (string.IsNullOrWhiteSpace(tbAula.Text) || cbServicios.SelectedValue == null || cbGrupos.SelectedValue == null)
             {
-                MessageBox.Show("Por favor, completa todos los campos obligatorios.");
+                MessageBox.Show("Por favor, rellena todos los campos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             try
             {
-                // 2. Obtención de los objetos seleccionados
-                var servicioSel = (Servicio)cbServicios.SelectedItem;
-                var grupoSel = (Grupo)cbGrupos.SelectedItem;
-
-                // 3. Construcción del objeto coincidiendo EXACTAMENTE con AgendaRequest.java
                 var agendaRequest = new
                 {
-                    // Java espera Strings para horaInicio y horaFin según tu AgendaRequest
                     horaInicio = monthCalendar1.SelectionStart.Date.Add(dtpInicio.Value.TimeOfDay).ToString("yyyy-MM-ddTHH:mm:ss"),
                     horaFin = monthCalendar1.SelectionStart.Date.Add(dtpFin.Value.TimeOfDay).ToString("yyyy-MM-ddTHH:mm:ss"),
-
-                    // Nombres de variables idénticos a los de tu clase Java
-                    grupoId = (long)grupoSel.Id,   // Usamos .Id (Mayúscula) de tu clase Grupo C#
-                    servicioId = (long)servicioSel.id, // Usamos .id (Minúscula) de tu clase Servicio C#
-
+                    grupoId = Convert.ToInt64(cbGrupos.SelectedValue),
+                    servicioId = Convert.ToInt64(cbServicios.SelectedValue),
                     aula = tbAula.Text,
                     sillas = (int)numSillas.Value
                 };
 
-                // 4. Envío de la petición
                 string url = "http://localhost:8080/api/agendas/";
-                HttpResponseMessage response;
+                HttpResponseMessage res;
 
-                if (esEdicion && NuevaAgenda != null)
+                if (esEdicion)
                 {
-                    response = await httpClient.PutAsJsonAsync(url + NuevaAgenda.Id, agendaRequest);
+                    res = await httpClient.PutAsJsonAsync(url + NuevaAgenda.Id, agendaRequest);
+                    if (res.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("¡Horario actualizado correctamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
                 else
                 {
-                    response = await httpClient.PostAsJsonAsync(url, agendaRequest);
+                    res = await httpClient.PostAsJsonAsync(url, agendaRequest);
+                    if (res.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("¡Horario agregado correctamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
 
-                // 5. Manejo de respuesta
-                if (response.IsSuccessStatusCode)
+                if (res.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Agenda guardada con éxito.");
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
                 else
                 {
-                    string errorDetalle = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show("Error del servidor: " + errorDetalle);
+                    var error = await res.Content.ReadAsStringAsync();
+                    MessageBox.Show("Error al guardar: " + error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error en la aplicación: " + ex.Message);
+                MessageBox.Show("Error de conexión: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnCancelar_Click(object sender, EventArgs e) => this.Close();
 
+        // --- DIBUJO ---
         protected override void OnPaintBackground(PaintEventArgs e)
         {
             using (LinearGradientBrush brush = new LinearGradientBrush(this.ClientRectangle,
@@ -236,7 +223,8 @@ namespace PeluqueriAPP
 
         private void DibujarBordeRedondeado(Control control, Graphics g, int radio)
         {
-            g.SmoothingMode = SmoothingMode.AntiAlias;
+            Graphics graphics = g ?? control.CreateGraphics();
+            graphics.SmoothingMode = SmoothingMode.AntiAlias;
             using (GraphicsPath path = new GraphicsPath())
             {
                 path.AddArc(0, 0, radio, radio, 180, 90);
