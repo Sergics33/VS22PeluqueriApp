@@ -19,6 +19,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Home));
             panel1 = new Panel();
+            pictureBox6 = new PictureBox();
             lblBloqueos = new Label();
             pictureBox5 = new PictureBox();
             pictureBox4 = new PictureBox();
@@ -41,6 +42,8 @@
             lblPanel = new Label();
             lblBernat = new Label();
             panel2 = new Panel();
+            label6 = new Label();
+            label5 = new Label();
             panelEstadisticas = new Panel();
             lblMediaLimpieza = new Label();
             lblMediaClaridad = new Label();
@@ -54,8 +57,8 @@
             lblUbi = new Label();
             lblBernatS = new Label();
             lblMediaPuntualidad = new Label();
-            pictureBox6 = new PictureBox();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -66,7 +69,6 @@
             panel2.SuspendLayout();
             panelEstadisticas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCitasHoy).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -99,6 +101,16 @@
             panel1.Size = new Size(228, 633);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
+            // 
+            // pictureBox6
+            // 
+            pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
+            pictureBox6.Location = new Point(27, 399);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(30, 31);
+            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox6.TabIndex = 27;
+            pictureBox6.TabStop = false;
             // 
             // lblBloqueos
             // 
@@ -335,6 +347,8 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(238, 238, 238);
+            panel2.Controls.Add(label6);
+            panel2.Controls.Add(label5);
             panel2.Controls.Add(panelEstadisticas);
             panel2.Controls.Add(dgvCitasHoy);
             panel2.Controls.Add(label4);
@@ -348,6 +362,27 @@
             panel2.TabIndex = 1;
             panel2.Paint += panel2_Paint;
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.Location = new Point(751, 163);
+            label6.Name = "label6";
+            label6.Size = new Size(219, 37);
+            label6.TabIndex = 25;
+            label6.Text = "VALORACIONES";
+            label6.Click += label6_Click;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.Location = new Point(213, 163);
+            label5.Name = "label5";
+            label5.Size = new Size(195, 37);
+            label5.TabIndex = 24;
+            label5.Text = "CITAS DE HOY";
+            // 
             // panelEstadisticas
             // 
             panelEstadisticas.Controls.Add(lblMediaLimpieza);
@@ -355,10 +390,10 @@
             panelEstadisticas.Controls.Add(lblMediaDesarrollo);
             panelEstadisticas.Controls.Add(lblMediaTrato);
             panelEstadisticas.Controls.Add(lblMediaGeneral);
-            panelEstadisticas.Location = new Point(13, 139);
+            panelEstadisticas.Location = new Point(687, 216);
             panelEstadisticas.Name = "panelEstadisticas";
             panelEstadisticas.Padding = new Padding(10);
-            panelEstadisticas.Size = new Size(590, 174);
+            panelEstadisticas.Size = new Size(328, 400);
             panelEstadisticas.TabIndex = 23;
             // 
             // lblMediaLimpieza
@@ -366,7 +401,7 @@
             lblMediaLimpieza.AutoSize = true;
             lblMediaLimpieza.Font = new Font("Segoe UI", 11F);
             lblMediaLimpieza.ForeColor = Color.DimGray;
-            lblMediaLimpieza.Location = new Point(300, 75);
+            lblMediaLimpieza.Location = new Point(64, 231);
             lblMediaLimpieza.Name = "lblMediaLimpieza";
             lblMediaLimpieza.Size = new Size(82, 20);
             lblMediaLimpieza.TabIndex = 4;
@@ -377,7 +412,7 @@
             lblMediaClaridad.AutoSize = true;
             lblMediaClaridad.Font = new Font("Segoe UI", 11F);
             lblMediaClaridad.ForeColor = Color.DimGray;
-            lblMediaClaridad.Location = new Point(30, 135);
+            lblMediaClaridad.Location = new Point(64, 288);
             lblMediaClaridad.Name = "lblMediaClaridad";
             lblMediaClaridad.Size = new Size(116, 20);
             lblMediaClaridad.TabIndex = 3;
@@ -388,7 +423,7 @@
             lblMediaDesarrollo.AutoSize = true;
             lblMediaDesarrollo.Font = new Font("Segoe UI", 11F);
             lblMediaDesarrollo.ForeColor = Color.DimGray;
-            lblMediaDesarrollo.Location = new Point(30, 105);
+            lblMediaDesarrollo.Location = new Point(64, 166);
             lblMediaDesarrollo.Name = "lblMediaDesarrollo";
             lblMediaDesarrollo.Size = new Size(74, 20);
             lblMediaDesarrollo.TabIndex = 2;
@@ -399,7 +434,7 @@
             lblMediaTrato.AutoSize = true;
             lblMediaTrato.Font = new Font("Segoe UI", 11F);
             lblMediaTrato.ForeColor = Color.DimGray;
-            lblMediaTrato.Location = new Point(30, 75);
+            lblMediaTrato.Location = new Point(64, 111);
             lblMediaTrato.Name = "lblMediaTrato";
             lblMediaTrato.Size = new Size(56, 20);
             lblMediaTrato.TabIndex = 1;
@@ -410,7 +445,7 @@
             lblMediaGeneral.AutoSize = true;
             lblMediaGeneral.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold);
             lblMediaGeneral.ForeColor = Color.FromArgb(255, 128, 0);
-            lblMediaGeneral.Location = new Point(25, 15);
+            lblMediaGeneral.Location = new Point(112, 10);
             lblMediaGeneral.Name = "lblMediaGeneral";
             lblMediaGeneral.Size = new Size(101, 45);
             lblMediaGeneral.TabIndex = 0;
@@ -419,9 +454,9 @@
             // dgvCitasHoy
             // 
             dgvCitasHoy.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCitasHoy.Location = new Point(13, 331);
+            dgvCitasHoy.Location = new Point(13, 216);
             dgvCitasHoy.Name = "dgvCitasHoy";
-            dgvCitasHoy.Size = new Size(1022, 285);
+            dgvCitasHoy.Size = new Size(644, 400);
             dgvCitasHoy.TabIndex = 22;
             // 
             // label4
@@ -490,16 +525,6 @@
             lblMediaPuntualidad.TabIndex = 5;
             lblMediaPuntualidad.Text = "Puntualidad: -";
             // 
-            // pictureBox6
-            // 
-            pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
-            pictureBox6.Location = new Point(27, 399);
-            pictureBox6.Name = "pictureBox6";
-            pictureBox6.Size = new Size(30, 31);
-            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox6.TabIndex = 27;
-            pictureBox6.TabStop = false;
-            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -511,6 +536,7 @@
             Text = "Form1";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
@@ -523,7 +549,6 @@
             panelEstadisticas.ResumeLayout(false);
             panelEstadisticas.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCitasHoy).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ResumeLayout(false);
         }
 
@@ -566,5 +591,7 @@
         private Label lblMediaGeneral;
         private Label lblBloqueos;
         private PictureBox pictureBox6;
+        private Label label5;
+        private Label label6;
     }
 }
