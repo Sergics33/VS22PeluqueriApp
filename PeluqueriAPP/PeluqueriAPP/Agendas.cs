@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Json;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace PeluqueriAPP
 {
@@ -19,23 +20,19 @@ namespace PeluqueriAPP
         {
             InitializeComponent();
 
-            // Configuración del DataGridView
             dgvServicios.AutoGenerateColumns = false;
             dgvServicios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvServicios.MultiSelect = false;
             ConfigurarColumnas();
 
-            // Evitamos duplicidad de eventos limpiando antes de asignar
             btnAnyadir.Click -= btnAnyadir_Click;
             btnAnyadir.Click += btnAnyadir_Click;
-
             btnEditar.Click -= btnEditar_Click;
             btnEditar.Click += btnEditar_Click;
-
             btnBorrar.Click -= btnBorrar_Click;
             btnBorrar.Click += btnBorrar_Click;
 
-            this.Load += Agendas_Load;
+            this.Load += async (s, e) => await CargarAgendas();
         }
 
         private void ConfigurarColumnas()
@@ -50,8 +47,6 @@ namespace PeluqueriAPP
             dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Estado", DataPropertyName = "disponibilidadStr", Name = "EstadoCol", Width = 200 });
         }
 
-        private async void Agendas_Load(object sender, EventArgs e) => await CargarAgendas();
-
         private async Task CargarAgendas()
         {
             try
@@ -59,12 +54,13 @@ namespace PeluqueriAPP
                 if (!Session.IsLoggedIn) return;
 
                 httpClient.DefaultRequestHeaders.Clear();
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
                 var response = await httpClient.GetAsync(API_BASE_URL);
                 if (response.IsSuccessStatusCode)
                 {
-                    listaAgendasOriginal = await response.Content.ReadFromJsonAsync<List<AgendaResponseDTO>>() ?? new List<AgendaResponseDTO>();
+                    string json = await response.Content.ReadAsStringAsync();
+                    listaAgendasOriginal = JsonConvert.DeserializeObject<List<AgendaResponseDTO>>(json) ?? new List<AgendaResponseDTO>();
                     ActualizarGrid(listaAgendasOriginal);
                 }
             }
@@ -81,9 +77,13 @@ namespace PeluqueriAPP
                 horaFinStr = a.HoraFin.ToString("HH:mm"),
                 servicioNombre = a.Servicio?.Nombre ?? "N/A",
                 grupoNombre = a.Grupo?.NombreCompleto ?? "N/A",
-                disponibilidadStr = a.HorasDisponiblesEstado != null
-                    ? string.Join(" | ", a.HorasDisponiblesEstado.OrderBy(h => h.Key).Select(h => $"{h.Key.Substring(Math.Max(0, h.Key.Length - 5))}: {(h.Value ? "Libre" : "Ocupado")}"))
-                    : "Sin datos"
+
+                // CAMBIO AQUÍ: 'a.Bloqueada' ya es bool, no se compara con 1
+                disponibilidadStr = a.Bloqueada
+                    ? "BLOQUEADA: " + (string.IsNullOrEmpty(a.MotivoBloqueo) ? "Manual" : a.MotivoBloqueo)
+                    : (a.HorasDisponiblesEstado != null
+                        ? string.Join(" | ", a.HorasDisponiblesEstado.OrderBy(h => h.Key).Select(h => $"{h.Key.Substring(Math.Max(0, h.Key.Length - 5))}: {(h.Value ? "Libre" : "Ocupado")}"))
+                        : "Sin datos")
             }).ToList();
 
             dgvServicios.DataSource = null;
@@ -167,17 +167,25 @@ namespace PeluqueriAPP
         {
             try
             {
-                // Bloquear UI para evitar dobles mensajes
                 this.Enabled = false;
-
                 httpClient.DefaultRequestHeaders.Clear();
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
                 HttpResponseMessage res;
-
-                if (metodo == HttpMethod.Post) res = await httpClient.PostAsJsonAsync(url, data);
-                else if (metodo == HttpMethod.Put) res = await httpClient.PutAsJsonAsync(url, data);
-                else res = await httpClient.DeleteAsync(url);
+                if (metodo == HttpMethod.Post)
+                {
+                    string json = JsonConvert.SerializeObject(data);
+                    res = await httpClient.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
+                }
+                else if (metodo == HttpMethod.Put)
+                {
+                    string json = JsonConvert.SerializeObject(data);
+                    res = await httpClient.PutAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
+                }
+                else
+                {
+                    res = await httpClient.DeleteAsync(url);
+                }
 
                 if (res.IsSuccessStatusCode)
                 {
@@ -186,25 +194,11 @@ namespace PeluqueriAPP
                 else
                 {
                     string errorMsg = await res.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Error en la operación: {res.StatusCode}\nDetalle: {errorMsg}");
+                    MessageBox.Show($"Error: {res.StatusCode}\n{errorMsg}");
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error de comunicación: " + ex.Message);
-            }
-            finally
-            {
-                this.Enabled = true; // Reactivar UI
-            }
+            catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
+            finally { this.Enabled = true; }
         }
-
-        #region Navegación
-        private void lblHomeAdmin_Click(object sender, EventArgs e) { new Home().Show(); this.Close(); }
-        private void lblServicios_Click(object sender, EventArgs e) { new Servicios().Show(); this.Close(); }
-        private void lblCitas_Click(object sender, EventArgs e) { new Citas().Show(); this.Close(); }
-        private void label7_Click(object sender, EventArgs e) { new Admins().Show(); this.Close(); }
-        private void lblAgenda_Click(object sender, EventArgs e) { /* Ya estamos aquí */ }
-        #endregion
     }
 }

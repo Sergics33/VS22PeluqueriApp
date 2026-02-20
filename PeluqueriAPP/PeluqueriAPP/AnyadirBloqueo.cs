@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Drawing;
 using System.Net.Http;
-using System.Net.Http.Json;
-using System.Windows.Forms;
 using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace PeluqueriAPP
 {
@@ -16,35 +18,27 @@ namespace PeluqueriAPP
         {
             InitializeComponent();
             ConfigurarControlesManuales();
+
+            // Conexión de eventos
+            btnGuardarBloqueo.Click += btnGuardarBloqueo_Click;
+            btnCancelar.Click += (s, e) => this.DialogResult = DialogResult.Cancel;
         }
 
         private void ConfigurarControlesManuales()
         {
-            // Creamos y configuramos los Pickers para que encajen en el panel
+            // Ajustes visuales de los controles dentro del panel
             dtpHoraInicio.Format = DateTimePickerFormat.Custom;
             dtpHoraInicio.CustomFormat = "HH:mm";
             dtpHoraInicio.ShowUpDown = true;
             dtpHoraInicio.Font = new Font("Segoe UI", 11F);
-            dtpHoraInicio.Location = new Point(20, 55);
-            dtpHoraInicio.Size = new Size(200, 30);
 
             dtpHoraFin.Format = DateTimePickerFormat.Custom;
             dtpHoraFin.CustomFormat = "HH:mm";
             dtpHoraFin.ShowUpDown = true;
             dtpHoraFin.Font = new Font("Segoe UI", 11F);
-            dtpHoraFin.Location = new Point(20, 125);
-            dtpHoraFin.Size = new Size(200, 30);
 
             txtMotivo.Font = new Font("Segoe UI", 11F);
-            txtMotivo.Location = new Point(20, 195);
-            txtMotivo.Size = new Size(200, 80);
             txtMotivo.Multiline = true;
-            txtMotivo.BorderStyle = BorderStyle.None;
-
-            // Añadirlos al panel contenedor
-            panelContenedor.Controls.Add(dtpHoraInicio);
-            panelContenedor.Controls.Add(dtpHoraFin);
-            panelContenedor.Controls.Add(txtMotivo);
         }
 
         private async void btnGuardarBloqueo_Click(object sender, EventArgs e)
@@ -65,7 +59,7 @@ namespace PeluqueriAPP
                 return;
             }
 
-            var request = new
+            var requestBody = new
             {
                 fechaInicio = inicio.ToString("yyyy-MM-ddTHH:mm:ss"),
                 fechaFin = fin.ToString("yyyy-MM-ddTHH:mm:ss"),
@@ -75,9 +69,15 @@ namespace PeluqueriAPP
             try
             {
                 btnGuardarBloqueo.Enabled = false;
+                httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
-                var res = await httpClient.PostAsJsonAsync(API_BASE_URL, request);
+                // Serializamos con Newtonsoft para asegurar compatibilidad
+                var json = JsonConvert.SerializeObject(requestBody);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var res = await httpClient.PostAsync(API_BASE_URL, content);
+
                 if (res.IsSuccessStatusCode)
                 {
                     MessageBox.Show("Bloqueo aplicado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -86,11 +86,18 @@ namespace PeluqueriAPP
                 }
                 else
                 {
-                    MessageBox.Show("Error al aplicar el bloqueo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    string error = await res.Content.ReadAsStringAsync();
+                    MessageBox.Show("Error al aplicar bloqueo: " + error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (Exception ex) { MessageBox.Show("Error de conexión: " + ex.Message); }
-            finally { btnGuardarBloqueo.Enabled = true; }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error de red: " + ex.Message);
+            }
+            finally
+            {
+                btnGuardarBloqueo.Enabled = true;
+            }
         }
     }
 }

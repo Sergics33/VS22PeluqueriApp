@@ -19,7 +19,6 @@
             ((System.ComponentModel.ISupportInitialize)dgvBloqueos).BeginInit();
             panelBlancoFondo.SuspendLayout();
             SuspendLayout();
-
             // lblTitulo
             lblTitulo.AutoSize = true;
             lblTitulo.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
@@ -28,7 +27,6 @@
             lblTitulo.Name = "lblTitulo";
             lblTitulo.Size = new Size(320, 41);
             lblTitulo.Text = "Historial de Bloqueos";
-
             // btnNuevoBloqueo (Igual que el de Citas: Naranja)
             btnNuevoBloqueo.BackColor = Color.FromArgb(255, 128, 0);
             btnNuevoBloqueo.FlatStyle = FlatStyle.Flat;
@@ -39,7 +37,6 @@
             btnNuevoBloqueo.Size = new Size(200, 45);
             btnNuevoBloqueo.Text = "+ NUEVO BLOQUEO";
             btnNuevoBloqueo.FlatAppearance.BorderSize = 0;
-
             // panelBlancoFondo
             panelBlancoFondo.BackColor = Color.White;
             panelBlancoFondo.Controls.Add(dgvBloqueos);
@@ -47,14 +44,12 @@
             panelBlancoFondo.Name = "panelBlancoFondo";
             panelBlancoFondo.Padding = new Padding(15);
             panelBlancoFondo.Size = new Size(900, 410);
-
             // dgvBloqueos
             dgvBloqueos.BackgroundColor = Color.White;
             dgvBloqueos.BorderStyle = BorderStyle.None;
             dgvBloqueos.Dock = DockStyle.Fill;
             dgvBloqueos.RowHeadersVisible = false;
             dgvBloqueos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
             // Form Bloqueos
             ClientSize = new Size(1014, 568);
             Controls.Add(panelBlancoFondo);

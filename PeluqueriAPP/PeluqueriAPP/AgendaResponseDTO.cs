@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace PeluqueriAPP
 {
@@ -7,33 +9,48 @@ namespace PeluqueriAPP
         [JsonProperty("id")]
         public long Id { get; set; }
 
+        [JsonProperty("aula")]
+        public string Aula { get; set; }
+
         [JsonProperty("horaInicio")]
         public DateTime HoraInicio { get; set; }
 
         [JsonProperty("horaFin")]
         public DateTime HoraFin { get; set; }
 
-        [JsonProperty("aula")]
-        public string Aula { get; set; }
-
         [JsonProperty("sillas")]
         public int Sillas { get; set; }
 
-        // --- NUEVOS CAMPOS PARA BLOQUEOS ---
         [JsonProperty("bloqueada")]
-        public int Bloqueada { get; set; } // 1 si está bloqueada, 0 si no
+        public bool Bloqueada { get; set; }
 
-        [JsonProperty("motivo_bloqueo")]
+        // Este es el campo que acabas de activar en Java
+        [JsonProperty("motivoBloqueo")]
         public string MotivoBloqueo { get; set; }
-        // -----------------------------------
 
         [JsonProperty("servicio")]
-        public Servicio Servicio { get; set; }
+        public ServicioDTO Servicio { get; set; }
 
         [JsonProperty("grupo")]
-        public Grupo Grupo { get; set; }
+        public GrupoDTO Grupo { get; set; }
 
         [JsonProperty("horasDisponiblesEstado")]
-        public Dictionary<string, bool> HorasDisponiblesEstado { get; set; }
+        public Dictionary<string, bool> HorasDisponiblesEstado { get; set; } = new Dictionary<string, bool>();
+    }
+
+    public class ServicioDTO
+    {
+        [JsonProperty("id")]
+        public long id { get; set; }
+        [JsonProperty("nombre")]
+        public string Nombre { get; set; }
+    }
+
+    public class GrupoDTO
+    {
+        [JsonProperty("id")]
+        public long Id { get; set; }
+        [JsonProperty("nombreCompleto")]
+        public string NombreCompleto { get; set; }
     }
 }
