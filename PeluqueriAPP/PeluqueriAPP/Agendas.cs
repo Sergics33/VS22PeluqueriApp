@@ -19,12 +19,20 @@ namespace PeluqueriAPP
         {
             InitializeComponent();
 
-            // Nota: Los eventos Click y TextChanged ya se gestionan en InitializeComponent()
-            // a través del archivo Agendas.Designer.cs para evitar ejecuciones dobles.
-
+            // Configuración del Grid
             dgvServicios.AutoGenerateColumns = false;
             dgvServicios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             ConfigurarColumnas();
+
+            // Limpieza preventiva de eventos para evitar ejecuciones dobles si el Designer ya los tiene
+            btnAnyadir.Click -= btnAnyadir_Click;
+            btnAnyadir.Click += btnAnyadir_Click;
+
+            btnEditar.Click -= btnEditar_Click;
+            btnEditar.Click += btnEditar_Click;
+
+            btnBorrar.Click -= btnBorrar_Click;
+            btnBorrar.Click += btnBorrar_Click;
 
             this.Load += Agendas_Load;
         }
@@ -48,6 +56,7 @@ namespace PeluqueriAPP
             try
             {
                 if (!Session.IsLoggedIn) return;
+
                 httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
 
@@ -157,7 +166,12 @@ namespace PeluqueriAPP
         {
             try
             {
+                // Aseguramos que el botón no se pulse dos veces durante la transacción
+                btnAnyadir.Enabled = false;
+
+                httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
+
                 HttpResponseMessage res;
 
                 if (metodo == HttpMethod.Post) res = await httpClient.PostAsJsonAsync(url, data);
@@ -166,6 +180,8 @@ namespace PeluqueriAPP
 
                 if (res.IsSuccessStatusCode)
                 {
+                    // El mensaje de "Éxito" debe estar dentro del formulario AnyadirAgenda 
+                    // o gestionarse aquí UNA SOLA VEZ.
                     await CargarAgendas();
                 }
                 else
@@ -178,6 +194,10 @@ namespace PeluqueriAPP
             {
                 MessageBox.Show("Error de comunicación: " + ex.Message);
             }
+            finally
+            {
+                btnAnyadir.Enabled = true;
+            }
         }
 
         #region Navegación
@@ -188,7 +208,6 @@ namespace PeluqueriAPP
 
         private void lblAgenda_Click(object sender, EventArgs e)
         {
-            // Evitar abrir la misma ventana si ya estamos en ella
             if (this.GetType() != typeof(Agendas))
             {
                 new Agendas().Show();
@@ -196,7 +215,5 @@ namespace PeluqueriAPP
             }
         }
         #endregion
-
-        private void dgvServicios_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
     }
 }

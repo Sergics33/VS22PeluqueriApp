@@ -12,7 +12,7 @@ namespace PeluqueriAPP
     public partial class Bloqueos : Form
     {
         private readonly HttpClient httpClient = new HttpClient();
-        private const string API_BASE_URL = "http://localhost:8080/api/bloqueos/";
+        private const string API_BASE_URL = "http://localhost:8080/api/agendas/bloquear";
 
         // Colores de la App
         private Color colorNaranja = Color.FromArgb(255, 128, 0);
@@ -22,6 +22,9 @@ namespace PeluqueriAPP
         {
             InitializeComponent();
             ConfigurarEstilos();
+
+            // NOTA: No añadimos btnGuardarBloqueo.Click aquí porque 
+            // ya está enlazado desde el Diseñador de Visual Studio.
 
             // Suscripción a eventos de dibujo
             panelContenedor.Paint += panelContenedor_Paint;
@@ -41,23 +44,25 @@ namespace PeluqueriAPP
             dtpHoraFin.CustomFormat = "HH:mm";
             dtpHoraFin.ShowUpDown = true;
 
-            // Para el TextBox de motivo, si quieres que no tenga bordes feos:
             txtMotivo.BorderStyle = BorderStyle.FixedSingle;
-
             this.Text = "Bloqueo de Horarios";
         }
 
         private async void btnGuardarBloqueo_Click(object sender, EventArgs e)
         {
+            // 1. Evitar clics múltiples si ya se está procesando
+            if (!btnGuardarBloqueo.Enabled) return;
+
+            // 2. Validaciones iniciales
+            if (string.IsNullOrWhiteSpace(txtMotivo.Text))
+            {
+                MessageBox.Show("Por favor, introduce un motivo para el bloqueo.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             DateTime diaSeleccionado = calendarioBloqueo.SelectionStart;
-
-            DateTime inicio = new DateTime(
-                diaSeleccionado.Year, diaSeleccionado.Month, diaSeleccionado.Day,
-                dtpHoraInicio.Value.Hour, dtpHoraInicio.Value.Minute, 0);
-
-            DateTime fin = new DateTime(
-                diaSeleccionado.Year, diaSeleccionado.Month, diaSeleccionado.Day,
-                dtpHoraFin.Value.Hour, dtpHoraFin.Value.Minute, 0);
+            DateTime inicio = diaSeleccionado.Date.Add(dtpHoraInicio.Value.TimeOfDay);
+            DateTime fin = diaSeleccionado.Date.Add(dtpHoraFin.Value.TimeOfDay);
 
             if (fin <= inicio)
             {
@@ -65,7 +70,15 @@ namespace PeluqueriAPP
                 return;
             }
 
-            var nuevoBloqueo = new
+            // 3. Confirmación del usuario
+            var confirm = MessageBox.Show(
+                "¿Estás seguro de que deseas aplicar este bloqueo?\nSe cancelarán todas las citas existentes en este horario.",
+                "Confirmar Bloqueo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (confirm != DialogResult.Yes) return;
+
+            // 4. Preparar petición
+            var bloqueoRequest = new
             {
                 fechaInicio = inicio.ToString("yyyy-MM-ddTHH:mm:ss"),
                 fechaFin = fin.ToString("yyyy-MM-ddTHH:mm:ss"),
@@ -74,33 +87,43 @@ namespace PeluqueriAPP
 
             try
             {
-                // Solo si Session está disponible:
-                // httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
+                btnGuardarBloqueo.Enabled = false; // Deshabilitar durante la carga
 
-                var response = await httpClient.PostAsJsonAsync(API_BASE_URL, nuevoBloqueo);
+                // Autenticación
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
+
+                var response = await httpClient.PostAsJsonAsync(API_BASE_URL, bloqueoRequest);
+
                 if (response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Bloqueo guardado correctamente.", "Éxito");
+                    string mensajeExito = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show(mensajeExito, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     txtMotivo.Clear();
                 }
+                else
+                {
+                    string error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show("No se pudo aplicar el bloqueo: " + error, "Error API", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            catch (Exception ex) { MessageBox.Show("Error de conexión: " + ex.Message); }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error de conexión: " + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                btnGuardarBloqueo.Enabled = true; // Re-habilitar al terminar
+            }
         }
 
         // --- MÉTODOS DE DIBUJO ---
 
         private void panelContenedor_Paint(object sender, PaintEventArgs e)
         {
-            // Dibujamos el borde redondeado del panel blanco principal
             DibujarBordeRedondeado(panelContenedor, e.Graphics, 20, 2, colorGrisBorde);
-
-            // Opcional: Dibujar rectángulos grises suaves alrededor de los DateTimePickers 
-            // para dar sensación de input moderno sin usar paneles extra
             using (Pen p = new Pen(Color.LightGray, 1))
             {
-                // Alrededor de Hora Inicio
                 e.Graphics.DrawRectangle(p, dtpHoraInicio.Bounds.X - 2, dtpHoraInicio.Bounds.Y - 2, dtpHoraInicio.Width + 4, dtpHoraInicio.Height + 4);
-                // Alrededor de Hora Fin
                 e.Graphics.DrawRectangle(p, dtpHoraFin.Bounds.X - 2, dtpHoraFin.Bounds.Y - 2, dtpHoraFin.Width + 4, dtpHoraFin.Height + 4);
             }
         }
@@ -127,7 +150,7 @@ namespace PeluqueriAPP
             g.SmoothingMode = SmoothingMode.AntiAlias;
             using (GraphicsPath path = GetRoundedPath(control.ClientRectangle, radius))
             {
-                control.Region = new Region(path); // Esto hace que el panel sea físicamente redondeado
+                control.Region = new Region(path);
                 using (Pen pen = new Pen(color, thickness))
                 {
                     g.DrawPath(pen, path);

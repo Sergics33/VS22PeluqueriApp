@@ -182,6 +182,7 @@
             btnGuardarBloqueo.TabIndex = 0;
             btnGuardarBloqueo.Text = "APLICAR BLOQUEO";
             btnGuardarBloqueo.UseVisualStyleBackColor = false;
+            btnGuardarBloqueo.Click += btnGuardarBloqueo_Click;
             // 
             // Bloqueos
             // 
