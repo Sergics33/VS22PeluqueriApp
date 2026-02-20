@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -13,7 +14,10 @@ namespace PeluqueriAPP
     {
         private const string API_CITAS_URL = "http://localhost:8080/api/citas/";
         private HttpClient httpClient = new HttpClient();
+
+        // Listas para el manejo de datos
         private List<Cita> listaCitasOriginal = new();
+        private List<dynamic> listaFiltrable = new();
 
         public Citas()
         {
@@ -23,15 +27,31 @@ namespace PeluqueriAPP
             this.TopLevel = false;
             this.FormBorderStyle = FormBorderStyle.None;
             this.Dock = DockStyle.Fill;
-            // ----------------------------------------
+            this.BackColor = Color.FromArgb(242, 242, 242);
 
+            // IMPORTANTE: Evita que la tabla cree columnas nuevas al filtrar
             dgvCitas.AutoGenerateColumns = false;
             dgvCitas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
             ConfigurarColumnas();
+
+            // Suscripción de eventos
+            tbBusqueda.TextChanged -= tbBusqueda_TextChanged;
+            tbBusqueda.TextChanged += tbBusqueda_TextChanged;
         }
 
         private void ConfigurarColumnas()
         {
+            // Estilos visuales para que coincida con Bloqueos
+            dgvCitas.EnableHeadersVisualStyles = false;
+            dgvCitas.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(45, 45, 48);
+            dgvCitas.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvCitas.ColumnHeadersHeight = 45;
+            dgvCitas.RowTemplate.Height = 40;
+            dgvCitas.BackgroundColor = Color.White;
+            dgvCitas.BorderStyle = BorderStyle.None;
+            dgvCitas.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+
             dgvCitas.Columns.Clear();
             dgvCitas.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "ID", DataPropertyName = "Id", Name = "IdCol", Visible = false });
             dgvCitas.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Fecha", DataPropertyName = "Fecha", Name = "FechaCol", Width = 100 });
@@ -51,7 +71,19 @@ namespace PeluqueriAPP
 
                 var citas = await httpClient.GetFromJsonAsync<List<Cita>>(API_CITAS_URL);
                 listaCitasOriginal = citas ?? new List<Cita>();
-                ActualizarGrid(listaCitasOriginal);
+
+                // Preparamos la lista filtrable con los mismos nombres de propiedad que Bloqueos
+                listaFiltrable = listaCitasOriginal.Select(c => (dynamic)new
+                {
+                    Id = c.id,
+                    Fecha = c.fechaHoraInicio.ToString("dd/MM/yyyy"),
+                    Hora = c.fechaHoraInicio.ToString("HH:mm"),
+                    Cliente = c.cliente?.nombreCompleto ?? "N/A",
+                    Servicio = c.agenda?.servicio?.nombre ?? "N/A",
+                    Aula = c.agenda?.aula ?? "N/A"
+                }).ToList<dynamic>();
+
+                AplicarFiltro();
             }
             catch (Exception ex)
             {
@@ -59,21 +91,33 @@ namespace PeluqueriAPP
             }
         }
 
-        private void ActualizarGrid(List<Cita> citas)
+        private void AplicarFiltro()
         {
-            var listaParaGrid = citas.Select(c => new
-            {
-                Id = c.id,
-                Fecha = c.fechaHoraInicio.ToString("dd/MM/yyyy"),
-                Hora = c.fechaHoraInicio.ToString("HH:mm"),
-                Cliente = c.cliente?.nombreCompleto ?? "N/A",
-                Servicio = c.agenda?.servicio?.nombre ?? "N/A",
-                Aula = c.agenda?.aula ?? "N/A"
-            }).ToList();
+            string busqueda = tbBusqueda.Text.Trim().ToLower();
+
+            var filtrados = listaFiltrable.Where(c =>
+                c.Cliente.ToLower().Contains(busqueda) ||
+                c.Servicio.ToLower().Contains(busqueda) ||
+                c.Aula.ToLower().Contains(busqueda) ||
+                c.Fecha.ToLower().Contains(busqueda) ||
+                c.Hora.ToLower().Contains(busqueda)
+            ).ToList();
 
             dgvCitas.DataSource = null;
-            dgvCitas.DataSource = listaParaGrid;
+            dgvCitas.DataSource = filtrados;
         }
+
+        private void tbBusqueda_TextChanged(object sender, EventArgs e)
+        {
+            AplicarFiltro();
+        }
+
+        private async void Citas_Load(object sender, EventArgs e)
+        {
+            await CargarCitas();
+        }
+
+        // --- MÉTODOS DE ACCIÓN ---
 
         private async void btnAnyadir_Click(object sender, EventArgs e)
         {
@@ -162,13 +206,6 @@ namespace PeluqueriAPP
             catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
         }
 
-        private async void Citas_Load(object sender, EventArgs e)
-        {
-            await CargarCitas();
-        }
-
-        // --- MÉTODOS VACÍOS PARA CALMAR AL DESIGNER ---
-        // Estos métodos son necesarios porque el Citas.Designer.cs aún tiene los eventos click asignados
         private void lblHome_Click(object sender, EventArgs e) { }
     }
 

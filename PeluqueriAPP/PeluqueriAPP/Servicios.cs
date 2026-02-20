@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Net.Http.Headers;
 
 namespace PeluqueriAPP
 {
@@ -14,83 +16,63 @@ namespace PeluqueriAPP
         private const string API_BASE_URL = "http://localhost:8080/api/servicios/";
 
         private List<Servicio> listaServiciosOriginal = new List<Servicio>();
+        // Lista para el manejo del filtrado en tiempo real
+        private List<dynamic> listaFiltrable = new List<dynamic>();
 
         public Servicios()
         {
             InitializeComponent();
-            Load += Servicios_Load;
 
-            dgvServicios.AutoGenerateColumns = false; // Controlamos las columnas
-            dgvServicios.ReadOnly = true;
-            dgvServicios.AllowUserToAddRows = false;
-            dgvServicios.AllowUserToDeleteRows = false;
+            // --- AJUSTES PARA SER FORMULARIO HIJO ---
+            this.TopLevel = false;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.Dock = DockStyle.Fill;
+            this.BackColor = Color.FromArgb(242, 242, 242);
+
+            // IMPORTANTE: Evita que la tabla cree columnas nuevas al filtrar
+            dgvServicios.AutoGenerateColumns = false;
             dgvServicios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvServicios.MultiSelect = false;
+            dgvServicios.ReadOnly = true;
+            dgvServicios.AllowUserToAddRows = false;
 
             ConfigurarColumnas();
+
+            // Suscripción de eventos
+            tbBusqueda.TextChanged -= tbBusqueda_TextChanged;
+            tbBusqueda.TextChanged += tbBusqueda_TextChanged;
+
+            this.Load += async (s, e) => await CargarServicios();
         }
 
         private void ConfigurarColumnas()
         {
+            // Estilos visuales consistentes con Citas y Bloqueos
+            dgvServicios.EnableHeadersVisualStyles = false;
+            dgvServicios.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(45, 45, 48);
+            dgvServicios.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvServicios.ColumnHeadersHeight = 45;
+            dgvServicios.RowTemplate.Height = 40;
+            dgvServicios.BackgroundColor = Color.White;
+            dgvServicios.BorderStyle = BorderStyle.None;
+            dgvServicios.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvServicios.RowHeadersVisible = false;
+            dgvServicios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
             dgvServicios.Columns.Clear();
-
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                HeaderText = "ID",
-                DataPropertyName = "id",
-                Name = "IdCol"
-            });
-
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                HeaderText = "Nombre",
-                DataPropertyName = "nombre",
-                Name = "NombreCol"
-            });
-
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                HeaderText = "Descripción",
-                DataPropertyName = "descripcion",
-                Name = "DescripcionCol"
-            });
-
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                HeaderText = "Duración (min)",
-                DataPropertyName = "duracion",
-                Name = "DuracionCol"
-            });
-
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                HeaderText = "Precio (€)",
-                DataPropertyName = "precio",
-                Name = "PrecioCol"
-            });
-
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                HeaderText = "Tipo de Servicio",
-                DataPropertyName = "tipoServicioNombre",
-                Name = "TipoServicioCol"
-            });
-        }
-
-        private async void Servicios_Load(object sender, EventArgs e)
-        {
-            await CargarServicios();
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "ID", DataPropertyName = "id", Name = "IdCol", Visible = false });
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Nombre", DataPropertyName = "nombre", Name = "NombreCol", FillWeight = 120 });
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Descripción", DataPropertyName = "descripcion", Name = "DescripcionCol", FillWeight = 180 });
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Duración (min)", DataPropertyName = "duracion", Name = "DuracionCol", Width = 110 });
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Precio (€)", DataPropertyName = "precio", Name = "PrecioCol", Width = 90 });
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Tipo de Servicio", DataPropertyName = "tipoServicioNombre", Name = "TipoServicioCol", FillWeight = 100 });
         }
 
         private async Task CargarServicios()
         {
             try
             {
-                if (!Session.IsLoggedIn)
-                {
-                    MessageBox.Show("No hay sesión iniciada.");
-                    return;
-                }
+                if (!Session.IsLoggedIn) return;
 
                 httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Authorization =
@@ -98,16 +80,24 @@ namespace PeluqueriAPP
 
                 var response = await httpClient.GetAsync(API_BASE_URL);
 
-                if (!response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Error al obtener servicios: " + response.StatusCode);
-                    return;
+                    var servicios = await response.Content.ReadFromJsonAsync<List<Servicio>>();
+                    listaServiciosOriginal = servicios ?? new List<Servicio>();
+
+                    // Preparamos la lista filtrable con objetos anónimos
+                    listaFiltrable = listaServiciosOriginal.Select(s => (dynamic)new
+                    {
+                        s.id,
+                        nombre = s.Nombre, // Asegúrate que el DTO use 'Nombre' o 'nombre'
+                        s.descripcion,
+                        s.duracion,
+                        s.precio,
+                        tipoServicioNombre = s.tipoServicio?.nombre ?? "N/A"
+                    }).ToList<dynamic>();
+
+                    AplicarFiltro();
                 }
-
-                var servicios = await response.Content.ReadFromJsonAsync<List<Servicio>>();
-
-                listaServiciosOriginal = servicios; // Guardamos la lista original
-                ActualizarGrid(listaServiciosOriginal);
             }
             catch (Exception ex)
             {
@@ -115,207 +105,117 @@ namespace PeluqueriAPP
             }
         }
 
-        private void ActualizarGrid(List<Servicio> lista)
+        private void AplicarFiltro()
         {
-            var listaParaGrid = new List<object>();
-            foreach (var s in lista)
-            {
-                listaParaGrid.Add(new
-                {
-                    s.id,
-                    s.Nombre,
-                    s.descripcion,
-                    s.duracion,
-                    s.precio,
-                    tipoServicioNombre = s.tipoServicio?.nombre ?? ""
-                });
-            }
+            string busqueda = tbBusqueda.Text.Trim().ToLower();
 
-            dgvServicios.DataSource = listaParaGrid;
+            var filtrados = listaFiltrable.Where(s =>
+                s.nombre.ToLower().Contains(busqueda) ||
+                s.descripcion.ToLower().Contains(busqueda) ||
+                s.tipoServicioNombre.ToLower().Contains(busqueda)
+            ).ToList();
+
+            dgvServicios.DataSource = null;
+            dgvServicios.DataSource = filtrados;
         }
 
         private void tbBusqueda_TextChanged(object sender, EventArgs e)
         {
-            string filtro = tbBusqueda.Text.Trim().ToLower();
-
-            var filtrados = listaServiciosOriginal
-                .FindAll(s => s.Nombre.ToLower().StartsWith(filtro));
-
-            ActualizarGrid(filtrados);
+            AplicarFiltro();
         }
 
+        // --- ACCIONES (Añadir, Editar, Borrar) ---
 
         private async void btnAnyadir_Click(object sender, EventArgs e)
         {
-            AnyadirServicio formAnyadir = new AnyadirServicio();
-            if (formAnyadir.ShowDialog() == DialogResult.OK)
+            using (AnyadirServicio formAnyadir = new AnyadirServicio())
             {
-                var nuevoServicio = formAnyadir.NuevoServicio;
-
-                // Preparamos objeto sin el ID para el backend
-                var nuevoServicioParaEnviar = new
+                if (formAnyadir.ShowDialog() == DialogResult.OK)
                 {
-                    nombre = nuevoServicio.Nombre,
-                    descripcion = nuevoServicio.descripcion,
-                    duracion = nuevoServicio.duracion,
-                    precio = nuevoServicio.precio,
-                    tipoServicio = new { id = nuevoServicio.tipoServicio.id }
-                };
-
-                try
-                {
-                    // Limpiar headers y añadir token
-                    httpClient.DefaultRequestHeaders.Clear();
-                    httpClient.DefaultRequestHeaders.Authorization =
-                        new System.Net.Http.Headers.AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
-
-                    // Hacemos POST
-                    var response = await httpClient.PostAsJsonAsync(API_BASE_URL, nuevoServicioParaEnviar);
-
-                    if (response.IsSuccessStatusCode)
+                    var n = formAnyadir.NuevoServicio;
+                    var payload = new
                     {
-                        MessageBox.Show("Servicio añadido correctamente.");
-                        await CargarServicios(); // Recargamos grid
-                    }
-                    else
-                    {
-                        // Mostrar mensaje del backend
-                        var contenido = await response.Content.ReadAsStringAsync();
-                        MessageBox.Show($"Error al añadir servicio: {response.StatusCode}\n{contenido}");
-                    }
+                        nombre = n.Nombre,
+                        descripcion = n.descripcion,
+                        duracion = n.duracion,
+                        precio = n.precio,
+                        tipoServicio = new { id = n.tipoServicio.id }
+                    };
+
+                    await EjecutarOperacion(HttpMethod.Post, API_BASE_URL, payload);
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al añadir servicio: " + ex.Message);
-                }
-            }
-        }
-
-
-
-
-        private void dgvServicios_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-        }
-
-        private async void btnBorrar_Click(object sender, EventArgs e)
-        {
-            if (dgvServicios.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Selecciona un servicio para borrar.");
-                return;
-            }
-
-            // Obtener el ID del servicio seleccionado
-            var row = dgvServicios.SelectedRows[0];
-            int idServicio = Convert.ToInt32(row.Cells["IdCol"].Value);
-
-            // Confirmar borrado
-            var confirm = MessageBox.Show("¿Seguro que quieres borrar este servicio?", "Confirmar borrado", MessageBoxButtons.YesNo);
-            if (confirm != DialogResult.Yes) return;
-
-            try
-            {
-                httpClient.DefaultRequestHeaders.Clear();
-                httpClient.DefaultRequestHeaders.Authorization =
-                    new System.Net.Http.Headers.AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
-
-                var response = await httpClient.DeleteAsync(API_BASE_URL + idServicio);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    MessageBox.Show("Servicio borrado correctamente.");
-                    await CargarServicios(); // Actualizar el grid
-                }
-                else
-                {
-                    MessageBox.Show("Error al borrar servicio: " + response.StatusCode);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al borrar servicio: " + ex.Message);
             }
         }
 
         private async void btnEditar_Click(object sender, EventArgs e)
         {
-            if (dgvServicios.SelectedRows.Count == 0)
+            if (dgvServicios.SelectedRows.Count == 0) return;
+
+            int idServicio = Convert.ToInt32(dgvServicios.SelectedRows[0].Cells["IdCol"].Value);
+            var seleccionado = listaServiciosOriginal.Find(s => s.id == idServicio);
+
+            using (AnyadirServicio formEditar = new AnyadirServicio(seleccionado))
             {
-                MessageBox.Show("Selecciona un servicio para editar.");
-                return;
-            }
-
-            // Obtener el servicio seleccionado
-            var row = dgvServicios.SelectedRows[0];
-            int idServicio = Convert.ToInt32(row.Cells["IdCol"].Value);
-            var servicioSeleccionado = listaServiciosOriginal.Find(s => s.id == idServicio);
-
-            // Abrir formulario AnyadirServicio en modo edición
-            AnyadirServicio formEditar = new AnyadirServicio(servicioSeleccionado);
-            if (formEditar.ShowDialog() == DialogResult.OK)
-            {
-                var servicioEditado = formEditar.NuevoServicio;
-
-                // Preparar objeto para enviar al backend
-                var servicioParaEnviar = new
+                if (formEditar.ShowDialog() == DialogResult.OK)
                 {
-                    nombre = servicioEditado.Nombre,
-                    descripcion = servicioEditado.descripcion,
-                    duracion = servicioEditado.duracion,
-                    precio = servicioEditado.precio,
-                    tipoServicio = new { id = servicioEditado.tipoServicio.id }
-                };
-
-                try
-                {
-                    // Limpiar headers y añadir token
-                    httpClient.DefaultRequestHeaders.Clear();
-                    httpClient.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
-
-                    // Hacer PUT al backend
-                    var response = await httpClient.PutAsJsonAsync(API_BASE_URL + idServicio, servicioParaEnviar);
-
-                    if (response.IsSuccessStatusCode)
+                    var n = formEditar.NuevoServicio;
+                    var payload = new
                     {
-                        MessageBox.Show("Servicio editado correctamente.");
-                        await CargarServicios(); // Recargar grid
-                    }
-                    else
-                    {
-                        var contenido = await response.Content.ReadAsStringAsync();
-                        MessageBox.Show($"Error al editar servicio: {response.StatusCode}\n{contenido}");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al editar servicio: " + ex.Message);
+                        nombre = n.Nombre,
+                        descripcion = n.descripcion,
+                        duracion = n.duracion,
+                        precio = n.precio,
+                        tipoServicio = new { id = n.tipoServicio.id }
+                    };
+
+                    await EjecutarOperacion(HttpMethod.Put, API_BASE_URL + idServicio, payload);
                 }
             }
         }
 
-        private void lblHome_Click(object sender, EventArgs e)
+        private async void btnBorrar_Click(object sender, EventArgs e)
         {
-            Home anterior = new Home();
-            anterior.Show();
-            Close();
+            if (dgvServicios.SelectedRows.Count == 0) return;
+
+            int idServicio = Convert.ToInt32(dgvServicios.SelectedRows[0].Cells["IdCol"].Value);
+
+            if (MessageBox.Show("¿Seguro que quieres borrar este servicio?", "Confirmar", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                await EjecutarOperacion(HttpMethod.Delete, API_BASE_URL + idServicio, null);
+            }
         }
 
-
-
-        private void label7_Click(object sender, EventArgs e)
+        // Método auxiliar para evitar repetición de código en llamadas API
+        private async Task EjecutarOperacion(HttpMethod metodo, string url, object data)
         {
-            Admins anterior = new Admins();
-            anterior.Show();
-            Close();
+            try
+            {
+                httpClient.DefaultRequestHeaders.Clear();
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
+
+                HttpResponseMessage response;
+                if (metodo == HttpMethod.Post) response = await httpClient.PostAsJsonAsync(url, data);
+                else if (metodo == HttpMethod.Put) response = await httpClient.PutAsJsonAsync(url, data);
+                else if (metodo == HttpMethod.Delete) response = await httpClient.DeleteAsync(url);
+                else return;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Operación realizada con éxito.");
+                    await CargarServicios();
+                }
+                else
+                {
+                    var contenido = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error: {response.StatusCode}\n{contenido}");
+                }
+            }
+            catch (Exception ex) { MessageBox.Show("Error de red: " + ex.Message); }
         }
 
-        private void lblAgenda_Click(object sender, EventArgs e)
-        {
-            Admins anterior = new Admins();
-            anterior.Show();
-            Close();
-        }
+        // --- NAVEGACIÓN ---
+        private void lblHome_Click(object sender, EventArgs e) { /* Tu lógica de navegación */ }
+        private void lblAgenda_Click(object sender, EventArgs e) { /* Tu lógica de navegación */ }
     }
 }

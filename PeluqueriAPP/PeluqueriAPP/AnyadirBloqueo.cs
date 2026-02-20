@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Drawing;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -19,33 +19,49 @@ namespace PeluqueriAPP
             InitializeComponent();
             ConfigurarControlesManuales();
 
-            // Conexión de eventos
             btnGuardarBloqueo.Click += btnGuardarBloqueo_Click;
             btnCancelar.Click += (s, e) => this.DialogResult = DialogResult.Cancel;
+
+            this.Load += async (s, e) => await CargarGrupos();
+        }
+
+        private async Task CargarGrupos()
+        {
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
+
+                var resGrup = await httpClient.GetAsync("http://localhost:8080/api/grupos/");
+                if (resGrup.IsSuccessStatusCode)
+                {
+                    var jsonGrup = await resGrup.Content.ReadAsStringAsync();
+                    var grups = JsonConvert.DeserializeObject<List<GrupoDTO>>(jsonGrup);
+
+                    // Asegúrate de que este nombre sea el mismo que el del diseñador
+                    cmbGrupo.DataSource = grups;
+                    cmbGrupo.DisplayMember = "NombreCompleto";
+                    cmbGrupo.ValueMember = "Id";
+                }
+            }
+            catch (Exception ex) { MessageBox.Show("Error al cargar grupos: " + ex.Message); }
         }
 
         private void ConfigurarControlesManuales()
         {
-            // Ajustes visuales de los controles dentro del panel
             dtpHoraInicio.Format = DateTimePickerFormat.Custom;
             dtpHoraInicio.CustomFormat = "HH:mm";
             dtpHoraInicio.ShowUpDown = true;
-            dtpHoraInicio.Font = new Font("Segoe UI", 11F);
 
             dtpHoraFin.Format = DateTimePickerFormat.Custom;
             dtpHoraFin.CustomFormat = "HH:mm";
             dtpHoraFin.ShowUpDown = true;
-            dtpHoraFin.Font = new Font("Segoe UI", 11F);
-
-            txtMotivo.Font = new Font("Segoe UI", 11F);
-            txtMotivo.Multiline = true;
         }
 
         private async void btnGuardarBloqueo_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtMotivo.Text))
+            if (cmbGrupo.SelectedValue == null || string.IsNullOrWhiteSpace(txtMotivo.Text))
             {
-                MessageBox.Show("Por favor, introduce un motivo.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor, selecciona un grupo e indica el motivo.", "Validación");
                 return;
             }
 
@@ -55,24 +71,24 @@ namespace PeluqueriAPP
 
             if (fin <= inicio)
             {
-                MessageBox.Show("La hora de fin debe ser posterior a la de inicio.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("La hora de fin debe ser posterior a la de inicio.");
                 return;
             }
 
+            // Enviamos solo los datos del grupo y el tiempo
             var requestBody = new
             {
                 fechaInicio = inicio.ToString("yyyy-MM-ddTHH:mm:ss"),
                 fechaFin = fin.ToString("yyyy-MM-ddTHH:mm:ss"),
-                motivo = txtMotivo.Text.Trim()
+                motivo = txtMotivo.Text.Trim(),
+                grupoId = (long)cmbGrupo.SelectedValue
             };
 
             try
             {
                 btnGuardarBloqueo.Enabled = false;
-                httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
-                // Serializamos con Newtonsoft para asegurar compatibilidad
                 var json = JsonConvert.SerializeObject(requestBody);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -80,24 +96,17 @@ namespace PeluqueriAPP
 
                 if (res.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Bloqueo aplicado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Bloqueo de grupo aplicado con éxito.");
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
                 else
                 {
-                    string error = await res.Content.ReadAsStringAsync();
-                    MessageBox.Show("Error al aplicar bloqueo: " + error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error: " + await res.Content.ReadAsStringAsync());
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error de red: " + ex.Message);
-            }
-            finally
-            {
-                btnGuardarBloqueo.Enabled = true;
-            }
+            catch (Exception ex) { MessageBox.Show("Error de red: " + ex.Message); }
+            finally { btnGuardarBloqueo.Enabled = true; }
         }
     }
 }

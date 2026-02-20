@@ -58,21 +58,21 @@
             panel3.Size = new Size(903, 83);
             panel3.TabIndex = 0;
             // 
-            // btnAnyadir
+            // btnBorrar
             // 
-            btnAnyadir.BackColor = Color.FromArgb(33, 150, 83);
-            btnAnyadir.Cursor = Cursors.Hand;
-            btnAnyadir.FlatAppearance.BorderSize = 0;
-            btnAnyadir.FlatStyle = FlatStyle.Flat;
-            btnAnyadir.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            btnAnyadir.ForeColor = Color.White;
-            btnAnyadir.Location = new Point(431, 35);
-            btnAnyadir.Name = "btnAnyadir";
-            btnAnyadir.Size = new Size(125, 35);
-            btnAnyadir.TabIndex = 4;
-            btnAnyadir.Text = "✚  Nueva";
-            btnAnyadir.UseVisualStyleBackColor = false;
-            btnAnyadir.Click += btnAnyadir_Click;
+            btnBorrar.BackColor = Color.FromArgb(235, 87, 87);
+            btnBorrar.Cursor = Cursors.Hand;
+            btnBorrar.FlatAppearance.BorderSize = 0;
+            btnBorrar.FlatStyle = FlatStyle.Flat;
+            btnBorrar.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            btnBorrar.ForeColor = Color.White;
+            btnBorrar.Location = new Point(700, 35);
+            btnBorrar.Name = "btnBorrar";
+            btnBorrar.Size = new Size(115, 35);
+            btnBorrar.TabIndex = 0;
+            btnBorrar.Text = "🗑  Borrar";
+            btnBorrar.UseVisualStyleBackColor = false;
+            btnBorrar.Click += btnBorrar_Click;
             // 
             // btnEditar
             // 
@@ -90,22 +90,6 @@
             btnEditar.UseVisualStyleBackColor = false;
             btnEditar.Click += btnEditar_Click;
             // 
-            // btnBorrar
-            // 
-            btnBorrar.BackColor = Color.FromArgb(235, 87, 87);
-            btnBorrar.Cursor = Cursors.Hand;
-            btnBorrar.FlatAppearance.BorderSize = 0;
-            btnBorrar.FlatStyle = FlatStyle.Flat;
-            btnBorrar.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            btnBorrar.ForeColor = Color.White;
-            btnBorrar.Location = new Point(700, 35);
-            btnBorrar.Name = "btnBorrar";
-            btnBorrar.Size = new Size(115, 35);
-            btnBorrar.TabIndex = 0;
-            btnBorrar.Text = "🗑  Borrar";
-            btnBorrar.UseVisualStyleBackColor = false;
-            btnBorrar.Click += btnBorrar_Click;
-            // 
             // tbBusqueda
             // 
             tbBusqueda.Font = new Font("Segoe UI", 10F);
@@ -114,6 +98,7 @@
             tbBusqueda.PlaceholderText = "Escribe para buscar...";
             tbBusqueda.Size = new Size(388, 25);
             tbBusqueda.TabIndex = 2;
+            tbBusqueda.TextChanged += tbBusqueda_TextChanged;
             // 
             // lblBuscar
             // 
@@ -124,6 +109,22 @@
             lblBuscar.Size = new Size(118, 25);
             lblBuscar.TabIndex = 3;
             lblBuscar.Text = "Buscar Citas";
+            // 
+            // btnAnyadir
+            // 
+            btnAnyadir.BackColor = Color.FromArgb(33, 150, 83);
+            btnAnyadir.Cursor = Cursors.Hand;
+            btnAnyadir.FlatAppearance.BorderSize = 0;
+            btnAnyadir.FlatStyle = FlatStyle.Flat;
+            btnAnyadir.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            btnAnyadir.ForeColor = Color.White;
+            btnAnyadir.Location = new Point(431, 35);
+            btnAnyadir.Name = "btnAnyadir";
+            btnAnyadir.Size = new Size(125, 35);
+            btnAnyadir.TabIndex = 4;
+            btnAnyadir.Text = "✚  Nueva";
+            btnAnyadir.UseVisualStyleBackColor = false;
+            btnAnyadir.Click += btnAnyadir_Click;
             // 
             // dgvCitas
             // 

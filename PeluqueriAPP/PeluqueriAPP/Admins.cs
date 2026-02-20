@@ -92,18 +92,12 @@ namespace PeluqueriAPP
         {
             string filtro = tbBusqueda.Text.Trim().ToLower();
 
-            var filtrada = listaUsuariosOriginal.Where(u =>
-                (u.NombreCompleto?.ToLower().Contains(filtro) ?? false) ||
-                (u.Email?.ToLower().Contains(filtro) ?? false) ||
-                (u.Rol?.ToLower().Contains(filtro) ?? false) ||
-                (u.Clase?.ToLower().Contains(filtro) ?? false)
-            ).ToList();
-
-            dgvAdmins.DataSource = null;
-            dgvAdmins.DataSource = filtrada.Select(u =>
+            // 1. Primero mapeamos los datos a la estructura final (la que el usuario ve)
+            var listaMapeada = listaUsuariosOriginal.Select(u =>
             {
                 string nombreMostrado = "Sin Nombre";
                 string apellidosMostrados = "";
+                string rolMostrado = u.Rol?.Replace("ROLE_", "").ToUpper() ?? "S/R";
 
                 if (!string.IsNullOrEmpty(u.NombreCompleto))
                 {
@@ -122,10 +116,21 @@ namespace PeluqueriAPP
                     u.Id,
                     Nombre = nombreMostrado,
                     Apellidos = apellidosMostrados,
-                    u.Email,
-                    Rol = u.Rol?.Replace("ROLE_", "").ToUpper() ?? "S/R"
+                    Email = u.Email ?? "",
+                    Rol = rolMostrado
                 };
             }).ToList();
+
+            // 2. Aplicamos el filtro sobre la lista mapeada (busca en todas las columnas visibles)
+            var filtrada = listaMapeada.Where(x =>
+                x.Nombre.ToLower().Contains(filtro) ||
+                x.Apellidos.ToLower().Contains(filtro) ||
+                x.Email.ToLower().Contains(filtro) ||
+                x.Rol.ToLower().Contains(filtro)
+            ).ToList();
+
+            dgvAdmins.DataSource = null;
+            dgvAdmins.DataSource = filtrada;
         }
 
         private async void BtnAnyadir_Click(object sender, EventArgs e)
@@ -173,8 +178,6 @@ namespace PeluqueriAPP
             }
         }
 
-        // --- MÉTODOS DE GUARDADO (POST) ---
-
         private async Task GuardarNuevoAdmin(AnyadirAdmin form)
         {
             var request = new { nombreCompleto = form.Nombre, email = form.Email, password = form.Contrasena, especialidad = form.Especialidad };
@@ -201,8 +204,6 @@ namespace PeluqueriAPP
             }
             catch (Exception ex) { MessageBox.Show("Error de conexión: " + ex.Message); }
         }
-
-        // --- MÉTODOS DE EDICIÓN (PUT) ---
 
         private async void BtnEditar_Click(object sender, EventArgs e)
         {
@@ -241,8 +242,6 @@ namespace PeluqueriAPP
                 {
                     if (form.ShowDialog() == DialogResult.OK)
                     {
-                        // Si AnyadirGrupo no tiene lógica propia de guardado, 
-                        // deberías crear un método ActualizarGrupo similar a los otros.
                         await RefrescarUsuarios();
                     }
                 }
@@ -280,8 +279,6 @@ namespace PeluqueriAPP
             catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
         }
 
-        // --- MÉTODO DE BORRADO (DELETE) ---
-
         private async void BtnBorrar_Click(object sender, EventArgs e)
         {
             if (dgvAdmins.SelectedRows.Count == 0) return;
@@ -304,9 +301,8 @@ namespace PeluqueriAPP
             }
         }
 
-        private void TbBusqueda_TextChanged(object sender, EventArgs e) => AplicarFiltroYActualizarGrid();
+        private void tbBusqueda_TextChanged(object sender, EventArgs e) => AplicarFiltroYActualizarGrid();
 
-        // Navegación
         private void lblServicios_Click(object sender, EventArgs e) { new Servicios().Show(); this.Close(); }
         private void lblHomeAdmin_Click(object sender, EventArgs e) { new Home().Show(); this.Close(); }
         private void lblAgenda_Click(object sender, EventArgs e) { new Agendas().Show(); this.Close(); }

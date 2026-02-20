@@ -87,6 +87,7 @@
             tbBusqueda.Name = "tbBusqueda";
             tbBusqueda.Size = new Size(388, 25);
             tbBusqueda.TabIndex = 43;
+            tbBusqueda.TextChanged += tbBusqueda_TextChanged;
             // 
             // lblBuscar
             // 

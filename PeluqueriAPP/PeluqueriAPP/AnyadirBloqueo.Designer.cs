@@ -22,7 +22,9 @@
             label1 = new Label();
             labelTitulo = new Label();
             panelContenedor = new Panel();
+            lblGrupo = new Label();
             btnCancelar = new Button();
+            cmbGrupo = new ComboBox();
             panelContenedor.SuspendLayout();
             SuspendLayout();
             // 
@@ -53,10 +55,10 @@
             // txtMotivo
             // 
             txtMotivo.Font = new Font("Segoe UI", 10F);
-            txtMotivo.Location = new Point(20, 195);
+            txtMotivo.Location = new Point(20, 233);
             txtMotivo.Multiline = true;
             txtMotivo.Name = "txtMotivo";
-            txtMotivo.Size = new Size(220, 100);
+            txtMotivo.Size = new Size(220, 69);
             txtMotivo.TabIndex = 6;
             // 
             // label5
@@ -65,7 +67,7 @@
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
             label5.ForeColor = Color.FromArgb(50, 50, 50);
-            label5.Location = new Point(20, 170);
+            label5.Location = new Point(20, 207);
             label5.Name = "label5";
             label5.Size = new Size(64, 17);
             label5.TabIndex = 9;
@@ -74,7 +76,7 @@
             // dtpHoraFin
             // 
             dtpHoraFin.Format = DateTimePickerFormat.Time;
-            dtpHoraFin.Location = new Point(20, 125);
+            dtpHoraFin.Location = new Point(20, 169);
             dtpHoraFin.Name = "dtpHoraFin";
             dtpHoraFin.ShowUpDown = true;
             dtpHoraFin.Size = new Size(220, 23);
@@ -86,7 +88,7 @@
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
             label3.ForeColor = Color.FromArgb(50, 50, 50);
-            label3.Location = new Point(20, 100);
+            label3.Location = new Point(20, 138);
             label3.Name = "label3";
             label3.Size = new Size(74, 17);
             label3.TabIndex = 8;
@@ -95,7 +97,7 @@
             // dtpHoraInicio
             // 
             dtpHoraInicio.Format = DateTimePickerFormat.Time;
-            dtpHoraInicio.Location = new Point(20, 55);
+            dtpHoraInicio.Location = new Point(20, 97);
             dtpHoraInicio.Name = "dtpHoraInicio";
             dtpHoraInicio.ShowUpDown = true;
             dtpHoraInicio.Size = new Size(220, 23);
@@ -107,7 +109,7 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
             label1.ForeColor = Color.FromArgb(50, 50, 50);
-            label1.Location = new Point(20, 30);
+            label1.Location = new Point(20, 66);
             label1.Name = "label1";
             label1.Size = new Size(93, 17);
             label1.TabIndex = 7;
@@ -128,6 +130,8 @@
             // panelContenedor
             // 
             panelContenedor.BackColor = Color.FromArgb(180, 240, 240, 240);
+            panelContenedor.Controls.Add(cmbGrupo);
+            panelContenedor.Controls.Add(lblGrupo);
             panelContenedor.Controls.Add(txtMotivo);
             panelContenedor.Controls.Add(dtpHoraFin);
             panelContenedor.Controls.Add(dtpHoraInicio);
@@ -139,6 +143,18 @@
             panelContenedor.Name = "panelContenedor";
             panelContenedor.Size = new Size(520, 320);
             panelContenedor.TabIndex = 1;
+            // 
+            // lblGrupo
+            // 
+            lblGrupo.AutoSize = true;
+            lblGrupo.BackColor = Color.Transparent;
+            lblGrupo.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            lblGrupo.ForeColor = Color.FromArgb(50, 50, 50);
+            lblGrupo.Location = new Point(20, 14);
+            lblGrupo.Name = "lblGrupo";
+            lblGrupo.Size = new Size(56, 17);
+            lblGrupo.TabIndex = 10;
+            lblGrupo.Text = "GRUPO:";
             // 
             // btnCancelar
             // 
@@ -154,6 +170,14 @@
             btnCancelar.TabIndex = 3;
             btnCancelar.Text = "CANCELAR";
             btnCancelar.UseVisualStyleBackColor = false;
+            // 
+            // cmbGrupo
+            // 
+            cmbGrupo.FormattingEnabled = true;
+            cmbGrupo.Location = new Point(20, 34);
+            cmbGrupo.Name = "cmbGrupo";
+            cmbGrupo.Size = new Size(121, 23);
+            cmbGrupo.TabIndex = 11;
             // 
             // AnyadirBloqueo
             // 
@@ -186,5 +210,7 @@
         private DateTimePicker dtpHoraInicio;
         private Label label1;
         private Label labelTitulo;
+        private Label lblGrupo;
+        private ComboBox cmbGrupo;
     }
 }

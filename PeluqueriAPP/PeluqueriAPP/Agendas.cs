@@ -25,6 +25,7 @@ namespace PeluqueriAPP
             dgvServicios.MultiSelect = false;
             ConfigurarColumnas();
 
+            // Suscripción a eventos de botones
             btnAnyadir.Click -= btnAnyadir_Click;
             btnAnyadir.Click += btnAnyadir_Click;
             btnEditar.Click -= btnEditar_Click;
@@ -61,24 +62,27 @@ namespace PeluqueriAPP
                 {
                     string json = await response.Content.ReadAsStringAsync();
                     listaAgendasOriginal = JsonConvert.DeserializeObject<List<AgendaResponseDTO>>(json) ?? new List<AgendaResponseDTO>();
-                    ActualizarGrid(listaAgendasOriginal);
+
+                    // Aplicamos el filtro (si hay algo escrito en el buscador se mantiene, si no, carga todo)
+                    AplicarFiltroYActualizarGrid();
                 }
             }
             catch (Exception ex) { MessageBox.Show("Error de carga: " + ex.Message); }
         }
 
-        private void ActualizarGrid(List<AgendaResponseDTO> lista)
+        private void AplicarFiltroYActualizarGrid()
         {
-            var listaParaGrid = lista.Select(a => new
+            string filtro = tbBusqueda.Text.Trim().ToLower();
+
+            // 1. Mapeamos la lista original a los strings que el usuario ve en el Grid
+            var listaMapeada = listaAgendasOriginal.Select(a => new
             {
                 id = a.Id,
-                aula = a.Aula,
+                aula = a.Aula ?? "",
                 fechaInicioStr = a.HoraInicio.ToString("dd/MM/yyyy HH:mm"),
                 horaFinStr = a.HoraFin.ToString("HH:mm"),
                 servicioNombre = a.Servicio?.Nombre ?? "N/A",
                 grupoNombre = a.Grupo?.NombreCompleto ?? "N/A",
-
-                // CAMBIO AQUÍ: 'a.Bloqueada' ya es bool, no se compara con 1
                 disponibilidadStr = a.Bloqueada
                     ? "BLOQUEADA: " + (string.IsNullOrEmpty(a.MotivoBloqueo) ? "Manual" : a.MotivoBloqueo)
                     : (a.HorasDisponiblesEstado != null
@@ -86,18 +90,22 @@ namespace PeluqueriAPP
                         : "Sin datos")
             }).ToList();
 
+            // 2. Filtramos sobre la lista ya procesada
+            var filtrados = listaMapeada.Where(x =>
+                x.aula.ToLower().Contains(filtro) ||
+                x.servicioNombre.ToLower().Contains(filtro) ||
+                x.grupoNombre.ToLower().Contains(filtro) ||
+                x.disponibilidadStr.ToLower().Contains(filtro) ||
+                x.fechaInicioStr.Contains(filtro)
+            ).ToList();
+
             dgvServicios.DataSource = null;
-            dgvServicios.DataSource = listaParaGrid;
+            dgvServicios.DataSource = filtrados;
         }
 
         private void tbBusqueda_TextChanged(object sender, EventArgs e)
         {
-            string filtro = tbBusqueda.Text.Trim().ToLower();
-            var filtrados = listaAgendasOriginal.Where(a =>
-                (a.Aula != null && a.Aula.ToLower().Contains(filtro)) ||
-                (a.Servicio != null && a.Servicio.Nombre != null && a.Servicio.Nombre.ToLower().Contains(filtro))
-            ).ToList();
-            ActualizarGrid(filtrados);
+            AplicarFiltroYActualizarGrid();
         }
 
         private async void btnAnyadir_Click(object sender, EventArgs e)
@@ -200,5 +208,10 @@ namespace PeluqueriAPP
             catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
             finally { this.Enabled = true; }
         }
+
+        // Navegación
+        private void lblServicios_Click(object sender, EventArgs e) { new Servicios().Show(); this.Close(); }
+        private void lblHomeAdmin_Click(object sender, EventArgs e) { new Home().Show(); this.Close(); }
+        private void lblAdmins_Click(object sender, EventArgs e) { new Admins().Show(); this.Close(); }
     }
 }
