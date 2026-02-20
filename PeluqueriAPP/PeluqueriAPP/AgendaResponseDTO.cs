@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace PeluqueriAPP
 {
@@ -21,7 +19,14 @@ namespace PeluqueriAPP
         [JsonProperty("sillas")]
         public int Sillas { get; set; }
 
-        // 1. Usamos tus clases REALES en lugar de DTOs genéricos
+        // --- NUEVOS CAMPOS PARA BLOQUEOS ---
+        [JsonProperty("bloqueada")]
+        public int Bloqueada { get; set; } // 1 si está bloqueada, 0 si no
+
+        [JsonProperty("motivo_bloqueo")]
+        public string MotivoBloqueo { get; set; }
+        // -----------------------------------
+
         [JsonProperty("servicio")]
         public Servicio Servicio { get; set; }
 

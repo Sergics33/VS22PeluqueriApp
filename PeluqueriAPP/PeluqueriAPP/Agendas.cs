@@ -19,12 +19,13 @@ namespace PeluqueriAPP
         {
             InitializeComponent();
 
-            // Configuración del Grid
+            // Configuración del DataGridView
             dgvServicios.AutoGenerateColumns = false;
             dgvServicios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvServicios.MultiSelect = false;
             ConfigurarColumnas();
 
-            // Limpieza preventiva de eventos para evitar ejecuciones dobles si el Designer ya los tiene
+            // Evitamos duplicidad de eventos limpiando antes de asignar
             btnAnyadir.Click -= btnAnyadir_Click;
             btnAnyadir.Click += btnAnyadir_Click;
 
@@ -40,13 +41,13 @@ namespace PeluqueriAPP
         private void ConfigurarColumnas()
         {
             dgvServicios.Columns.Clear();
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "ID", DataPropertyName = "id", Name = "IdCol" });
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Aula", DataPropertyName = "aula", Name = "AulaCol" });
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Inicio", DataPropertyName = "fechaInicioStr", Name = "InicioCol" });
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Fin", DataPropertyName = "horaFinStr", Name = "FinCol" });
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Servicio", DataPropertyName = "servicioNombre", Name = "ServicioCol" });
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Grupo", DataPropertyName = "grupoNombre", Name = "GrupoCol" });
-            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Estado", DataPropertyName = "disponibilidadStr", Name = "EstadoCol" });
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "ID", DataPropertyName = "id", Name = "IdCol", Visible = false });
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Aula", DataPropertyName = "aula", Name = "AulaCol", AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells });
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Inicio", DataPropertyName = "fechaInicioStr", Name = "InicioCol", Width = 120 });
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Fin", DataPropertyName = "horaFinStr", Name = "FinCol", Width = 80 });
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Servicio", DataPropertyName = "servicioNombre", Name = "ServicioCol", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Grupo", DataPropertyName = "grupoNombre", Name = "GrupoCol", Width = 100 });
+            dgvServicios.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Estado", DataPropertyName = "disponibilidadStr", Name = "EstadoCol", Width = 200 });
         }
 
         private async void Agendas_Load(object sender, EventArgs e) => await CargarAgendas();
@@ -166,8 +167,8 @@ namespace PeluqueriAPP
         {
             try
             {
-                // Aseguramos que el botón no se pulse dos veces durante la transacción
-                btnAnyadir.Enabled = false;
+                // Bloquear UI para evitar dobles mensajes
+                this.Enabled = false;
 
                 httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Session.TokenType, Session.AccessToken);
@@ -180,8 +181,6 @@ namespace PeluqueriAPP
 
                 if (res.IsSuccessStatusCode)
                 {
-                    // El mensaje de "Éxito" debe estar dentro del formulario AnyadirAgenda 
-                    // o gestionarse aquí UNA SOLA VEZ.
                     await CargarAgendas();
                 }
                 else
@@ -196,7 +195,7 @@ namespace PeluqueriAPP
             }
             finally
             {
-                btnAnyadir.Enabled = true;
+                this.Enabled = true; // Reactivar UI
             }
         }
 
@@ -205,15 +204,7 @@ namespace PeluqueriAPP
         private void lblServicios_Click(object sender, EventArgs e) { new Servicios().Show(); this.Close(); }
         private void lblCitas_Click(object sender, EventArgs e) { new Citas().Show(); this.Close(); }
         private void label7_Click(object sender, EventArgs e) { new Admins().Show(); this.Close(); }
-
-        private void lblAgenda_Click(object sender, EventArgs e)
-        {
-            if (this.GetType() != typeof(Agendas))
-            {
-                new Agendas().Show();
-                this.Close();
-            }
-        }
+        private void lblAgenda_Click(object sender, EventArgs e) { /* Ya estamos aquí */ }
         #endregion
     }
 }

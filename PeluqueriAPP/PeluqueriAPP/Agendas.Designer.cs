@@ -216,7 +216,6 @@
             dgvServicios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvServicios.Size = new Size(903, 379);
             dgvServicios.TabIndex = 1;
-            dgvServicios.CellContentClick += dgvServicios_CellContentClick;
             // 
             // Agendas
             // 

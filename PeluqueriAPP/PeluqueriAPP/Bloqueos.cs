@@ -1,173 +1,186 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Net.Http.Headers;
 
 namespace PeluqueriAPP
 {
     public partial class Bloqueos : Form
     {
         private readonly HttpClient httpClient = new HttpClient();
-        private const string API_BASE_URL = "http://localhost:8080/api/agendas/bloquear";
-
-        // Colores de la App
-        private Color colorNaranja = Color.FromArgb(255, 128, 0);
-        private Color colorGrisBorde = Color.FromArgb(224, 224, 224);
+        private const string API_BASE_URL = "http://localhost:8080/api/agendas/";
+        private List<AgendaResponseDTO> listaAgendasOriginal = new List<AgendaResponseDTO>();
 
         public Bloqueos()
         {
             InitializeComponent();
-            ConfigurarEstilos();
 
-            // NOTA: No añadimos btnGuardarBloqueo.Click aquí porque 
-            // ya está enlazado desde el Diseñador de Visual Studio.
-
-            // Suscripción a eventos de dibujo
-            panelContenedor.Paint += panelContenedor_Paint;
-            btnGuardarBloqueo.Paint += btnRedondeado_Paint;
-        }
-
-        private void ConfigurarEstilos()
-        {
+            // --- CONFIGURACIÓN DE FORMULARIO HIJO (IGUAL QUE CITAS) ---
+            this.TopLevel = false;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.Dock = DockStyle.Fill;
+            this.DoubleBuffered = true;
             this.BackColor = Color.FromArgb(245, 245, 245);
 
-            // Configuramos formato de horas (HH:mm)
-            dtpHoraInicio.Format = DateTimePickerFormat.Custom;
-            dtpHoraInicio.CustomFormat = "HH:mm";
-            dtpHoraInicio.ShowUpDown = true;
+            // --- CONFIGURACIÓN DE LA TABLA ---
+            dgvBloqueos.AutoGenerateColumns = false;
+            dgvBloqueos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvBloqueos.MultiSelect = false;
+            dgvBloqueos.ReadOnly = true;
+            dgvBloqueos.AllowUserToAddRows = false;
+            dgvBloqueos.AllowUserToDeleteRows = false;
+            dgvBloqueos.RowHeadersVisible = false;
+            dgvBloqueos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            dtpHoraFin.Format = DateTimePickerFormat.Custom;
-            dtpHoraFin.CustomFormat = "HH:mm";
-            dtpHoraFin.ShowUpDown = true;
+            ConfigurarColumnas();
+            ConfigurarEstiloVisual();
 
-            txtMotivo.BorderStyle = BorderStyle.FixedSingle;
-            this.Text = "Bloqueo de Horarios";
+            // --- EVENTOS ---
+            btnNuevoBloqueo.Click += btnNuevoBloqueo_Click;
+
+            this.Load += async (s, e) =>
+            {
+                // Eliminamos la llamada a RedondearComponentes para que sea cuadrado
+                await CargarHistorial();
+            };
         }
 
-        private async void btnGuardarBloqueo_Click(object sender, EventArgs e)
+        private void ConfigurarEstiloVisual()
         {
-            // 1. Evitar clics múltiples si ya se está procesando
-            if (!btnGuardarBloqueo.Enabled) return;
+            // Título
+            lblTitulo.ForeColor = Color.Black;
+            lblTitulo.BackColor = Color.Transparent;
 
-            // 2. Validaciones iniciales
-            if (string.IsNullOrWhiteSpace(txtMotivo.Text))
+            // --- ESTILO CLON DE CITAS (Encabezado Negro y Selección Azul) ---
+            dgvBloqueos.BackgroundColor = Color.White;
+            dgvBloqueos.BorderStyle = BorderStyle.None;
+            dgvBloqueos.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvBloqueos.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvBloqueos.GridColor = Color.FromArgb(230, 230, 230);
+            dgvBloqueos.EnableHeadersVisualStyles = false;
+
+            // Estilo Encabezados (Gris oscuro/Negro)
+            dgvBloqueos.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(45, 45, 48);
+            dgvBloqueos.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvBloqueos.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(45, 45, 48);
+            dgvBloqueos.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI Semibold", 10.5F, FontStyle.Bold);
+            dgvBloqueos.ColumnHeadersDefaultCellStyle.Padding = new Padding(10, 0, 0, 0);
+            dgvBloqueos.ColumnHeadersHeight = 45;
+            dgvBloqueos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+
+            // Estilo Filas (Gris 70 y Selección Azul Claro)
+            dgvBloqueos.DefaultCellStyle.BackColor = Color.White;
+            dgvBloqueos.DefaultCellStyle.ForeColor = Color.FromArgb(70, 70, 70);
+            dgvBloqueos.DefaultCellStyle.Font = new Font("Segoe UI", 9.5F);
+            dgvBloqueos.DefaultCellStyle.Padding = new Padding(10, 0, 0, 0);
+            dgvBloqueos.DefaultCellStyle.SelectionBackColor = Color.FromArgb(235, 245, 255);
+            dgvBloqueos.DefaultCellStyle.SelectionForeColor = Color.FromArgb(0, 120, 215);
+            dgvBloqueos.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            dgvBloqueos.RowTemplate.Height = 40;
+
+            // Ajuste del contenedor para que toque los bordes laterales
+            panelBlancoFondo.Padding = new Padding(0); // Sin espacio interno para que el Grid toque los bordes
+            dgvBloqueos.Dock = DockStyle.Fill;
+        }
+
+        private void ConfigurarColumnas()
+        {
+            dgvBloqueos.Columns.Clear();
+
+            dgvBloqueos.Columns.Add(new DataGridViewTextBoxColumn
             {
-                MessageBox.Show("Por favor, introduce un motivo para el bloqueo.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+                HeaderText = "ID",
+                DataPropertyName = "id",
+                Name = "IdCol",
+                Visible = false
+            });
 
-            DateTime diaSeleccionado = calendarioBloqueo.SelectionStart;
-            DateTime inicio = diaSeleccionado.Date.Add(dtpHoraInicio.Value.TimeOfDay);
-            DateTime fin = diaSeleccionado.Date.Add(dtpHoraFin.Value.TimeOfDay);
-
-            if (fin <= inicio)
+            dgvBloqueos.Columns.Add(new DataGridViewTextBoxColumn
             {
-                MessageBox.Show("La hora de fin debe ser posterior a la de inicio.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+                HeaderText = "Aula",
+                DataPropertyName = "aula",
+                Name = "AulaCol",
+                FillWeight = 20
+            });
 
-            // 3. Confirmación del usuario
-            var confirm = MessageBox.Show(
-                "¿Estás seguro de que deseas aplicar este bloqueo?\nSe cancelarán todas las citas existentes en este horario.",
-                "Confirmar Bloqueo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (confirm != DialogResult.Yes) return;
-
-            // 4. Preparar petición
-            var bloqueoRequest = new
+            dgvBloqueos.Columns.Add(new DataGridViewTextBoxColumn
             {
-                fechaInicio = inicio.ToString("yyyy-MM-ddTHH:mm:ss"),
-                fechaFin = fin.ToString("yyyy-MM-ddTHH:mm:ss"),
-                motivo = txtMotivo.Text.Trim()
-            };
+                HeaderText = "Fecha / Inicio",
+                DataPropertyName = "fechaInicioStr",
+                Name = "InicioCol",
+                FillWeight = 30
+            });
 
+            dgvBloqueos.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Fin",
+                DataPropertyName = "horaFinStr",
+                Name = "FinCol",
+                FillWeight = 15
+            });
+
+            dgvBloqueos.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Motivo del Bloqueo",
+                DataPropertyName = "motivo",
+                Name = "MotivoCol",
+                FillWeight = 35
+            });
+        }
+
+        private async Task CargarHistorial()
+        {
             try
             {
-                btnGuardarBloqueo.Enabled = false; // Deshabilitar durante la carga
+                if (string.IsNullOrEmpty(Session.AccessToken)) return;
 
-                // Autenticación
+                httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
 
-                var response = await httpClient.PostAsJsonAsync(API_BASE_URL, bloqueoRequest);
-
+                var response = await httpClient.GetAsync(API_BASE_URL);
                 if (response.IsSuccessStatusCode)
                 {
-                    string mensajeExito = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show(mensajeExito, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txtMotivo.Clear();
-                }
-                else
-                {
-                    string error = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show("No se pudo aplicar el bloqueo: " + error, "Error API", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    listaAgendasOriginal = await response.Content.ReadFromJsonAsync<List<AgendaResponseDTO>>() ?? new List<AgendaResponseDTO>();
+                    var soloBloqueadas = listaAgendasOriginal.Where(a => a.Bloqueada == 1).ToList();
+                    ActualizarGrid(soloBloqueadas);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error de conexión: " + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                btnGuardarBloqueo.Enabled = true; // Re-habilitar al terminar
+                MessageBox.Show("Error de red o servidor: " + ex.Message);
             }
         }
 
-        // --- MÉTODOS DE DIBUJO ---
-
-        private void panelContenedor_Paint(object sender, PaintEventArgs e)
+        private void ActualizarGrid(List<AgendaResponseDTO> lista)
         {
-            DibujarBordeRedondeado(panelContenedor, e.Graphics, 20, 2, colorGrisBorde);
-            using (Pen p = new Pen(Color.LightGray, 1))
+            var listaParaGrid = lista.Select(a => new
             {
-                e.Graphics.DrawRectangle(p, dtpHoraInicio.Bounds.X - 2, dtpHoraInicio.Bounds.Y - 2, dtpHoraInicio.Width + 4, dtpHoraInicio.Height + 4);
-                e.Graphics.DrawRectangle(p, dtpHoraFin.Bounds.X - 2, dtpHoraFin.Bounds.Y - 2, dtpHoraFin.Width + 4, dtpHoraFin.Height + 4);
-            }
+                id = a.Id,
+                aula = a.Aula,
+                fechaInicioStr = a.HoraInicio.ToString("dd/MM/yyyy HH:mm"),
+                horaFinStr = a.HoraFin.ToString("HH:mm"),
+                motivo = string.IsNullOrEmpty(a.MotivoBloqueo) ? "Sin motivo" : a.MotivoBloqueo
+            }).ToList();
+
+            dgvBloqueos.DataSource = null;
+            dgvBloqueos.DataSource = listaParaGrid;
         }
 
-        private void btnRedondeado_Paint(object sender, PaintEventArgs e)
+        private async void btnNuevoBloqueo_Click(object sender, EventArgs e)
         {
-            Button btn = (Button)sender;
-            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-
-            using (GraphicsPath path = GetRoundedPath(btn.ClientRectangle, 15))
+            using (AnyadirBloqueo form = new AnyadirBloqueo())
             {
-                btn.Region = new Region(path);
-                using (SolidBrush brush = new SolidBrush(btn.BackColor))
+                if (form.ShowDialog() == DialogResult.OK)
                 {
-                    e.Graphics.FillPath(brush, path);
-                }
-                TextRenderer.DrawText(e.Graphics, btn.Text, btn.Font, btn.ClientRectangle,
-                    btn.ForeColor, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-            }
-        }
-
-        private void DibujarBordeRedondeado(Control control, Graphics g, int radius, int thickness, Color color)
-        {
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            using (GraphicsPath path = GetRoundedPath(control.ClientRectangle, radius))
-            {
-                control.Region = new Region(path);
-                using (Pen pen = new Pen(color, thickness))
-                {
-                    g.DrawPath(pen, path);
+                    await CargarHistorial();
                 }
             }
-        }
-
-        private GraphicsPath GetRoundedPath(Rectangle rect, int radius)
-        {
-            GraphicsPath path = new GraphicsPath();
-            float r = radius;
-            path.AddArc(rect.X, rect.Y, r, r, 180, 90);
-            path.AddArc(rect.Width - r - 1, rect.Y, r, r, 270, 90);
-            path.AddArc(rect.Width - r - 1, rect.Height - r - 1, r, r, 0, 90);
-            path.AddArc(rect.X, rect.Height - r - 1, r, r, 90, 90);
-            path.CloseAllFigures();
-            return path;
         }
     }
 }
