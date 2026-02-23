@@ -44,14 +44,23 @@ namespace PeluqueriAPP
 
         public class ValoracionDTO
         {
+            [JsonProperty("tratoPersonal")]
             public double tratoPersonal { get; set; }
+
+            [JsonProperty("desarrolloServicio")]
             public double desarrolloServicio { get; set; }
+
+            [JsonProperty("claridadComunicacion")]
             public double claridadComunicacion { get; set; }
+
+            [JsonProperty("limpieza")]
             public double limpieza { get; set; }
+
+            [JsonProperty("general")]
             public double general { get; set; }
         }
 
-        // --- LÓGICA DE VALORACIONES (CENTRADO, GRANDE Y COLOR FIJO) ---
+        // --- LÓGICA DE VALORACIONES (CORREGIDA) ---
         private async Task CargarMediaValoraciones()
         {
             try
@@ -62,10 +71,12 @@ namespace PeluqueriAPP
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session.AccessToken);
                 }
 
-                HttpResponseMessage response = await httpClient.GetAsync(API_VALORACIONES_URL);
+                var response = await httpClient.GetAsync(API_VALORACIONES_URL);
                 if (response.IsSuccessStatusCode)
                 {
-                    var valoraciones = await response.Content.ReadFromJsonAsync<List<ValoracionDTO>>();
+                    string jsonRaw = await response.Content.ReadAsStringAsync();
+                    var valoraciones = JsonConvert.DeserializeObject<List<ValoracionDTO>>(jsonRaw);
+
                     if (valoraciones != null && valoraciones.Any())
                     {
                         double mTrato = valoraciones.Average(v => v.tratoPersonal);
@@ -73,17 +84,12 @@ namespace PeluqueriAPP
                         double mClaridad = valoraciones.Average(v => v.claridadComunicacion);
                         double mLimpieza = valoraciones.Average(v => v.limpieza);
                         double mGeneral = valoraciones.Average(v => v.general);
+
                         double mediaGlobal = (mTrato + mDesarrollo + mClaridad + mLimpieza + mGeneral) / 5;
 
                         this.Invoke((MethodInvoker)delegate
                         {
-                            // Media General: Muy grande y centrada
                             lblMediaGeneral.Text = $"{mediaGlobal:F1} ★";
-                            lblMediaGeneral.Font = new Font("Segoe UI", 32F, FontStyle.Bold);
-                            lblMediaGeneral.TextAlign = ContentAlignment.MiddleCenter;
-                            lblMediaGeneral.ForeColor = Color.FromArgb(255, 128, 0); // Naranja corporativo fijo
-
-                            // Métricas individuales: Grandes y centradas simétricamente
                             FormatearLabelVistoso(lblMediaTrato, "Trato", mTrato);
                             FormatearLabelVistoso(lblMediaDesarrollo, "Servicio", mDesarrollo);
                             FormatearLabelVistoso(lblMediaClaridad, "Comunicación", mClaridad);
@@ -93,26 +99,20 @@ namespace PeluqueriAPP
                     }
                 }
             }
-            catch { /* Backend no disponible */ }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex.Message); }
         }
 
         private void FormatearLabelVistoso(Label lbl, string titulo, double valor)
         {
-            // Texto en dos líneas para simetría vertical
-            lbl.Text = $"{titulo.ToUpper()}\n{valor:F1} ★";
-
-            // Fuente más grande (12pt) y centrada
-            lbl.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lbl.TextAlign = ContentAlignment.MiddleCenter;
-
-            // Color fijo para todas las valoraciones (Gris oscuro profesional)
-            lbl.ForeColor = Color.FromArgb(45, 45, 48);
-
-            // Forzar que el label use todo su ancho para asegurar el centrado
             lbl.AutoSize = false;
+            lbl.Size = new Size(165, 65);
+            lbl.Text = $"{titulo.ToUpper()}\n{valor:F1} ★";
+            lbl.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            lbl.TextAlign = ContentAlignment.MiddleCenter;
+            lbl.ForeColor = Color.FromArgb(45, 45, 48);
         }
 
-        // --- LÓGICA DE CARGA DE CITAS ---
+        // --- LÓGICA DE CARGA DE CITAS (TU ORIGINAL SIN TOCAR) ---
         private async Task CargarCitasHoy()
         {
             try
@@ -170,7 +170,7 @@ namespace PeluqueriAPP
             await CargarMediaValoraciones();
         }
 
-        // --- ESTILO DE TABLA (ORIGINAL RESTAURADO) ---
+        // --- ESTILOS Y DISEÑO ---
         private void EstilizarTabla(DataGridView dgv)
         {
             DataGridViewCellStyle headerStyle = new DataGridViewCellStyle();
@@ -215,7 +215,6 @@ namespace PeluqueriAPP
             dgv.DefaultCellStyle = cellStyle;
         }
 
-        // --- DISEÑO DE PANELES Y NAVEGACIÓN ---
         private void panelEstadisticas_Paint(object sender, PaintEventArgs e)
         {
             Panel panel = (Panel)sender;
@@ -299,7 +298,7 @@ namespace PeluqueriAPP
                 e.Graphics.FillRectangle(brush, panel1.ClientRectangle);
         }
 
-        // Handlers vacíos para evitar errores de referencia
+        // Handlers vacíos
         private void lblBernat_Click(object sender, EventArgs e) { }
         private void lblPanel_Click(object sender, EventArgs e) { }
         private void label3_Click(object sender, EventArgs e) { }

@@ -401,7 +401,7 @@
             lblMediaLimpieza.AutoSize = true;
             lblMediaLimpieza.Font = new Font("Segoe UI", 11F);
             lblMediaLimpieza.ForeColor = Color.DimGray;
-            lblMediaLimpieza.Location = new Point(64, 231);
+            lblMediaLimpieza.Location = new Point(112, 231);
             lblMediaLimpieza.Name = "lblMediaLimpieza";
             lblMediaLimpieza.Size = new Size(82, 20);
             lblMediaLimpieza.TabIndex = 4;
@@ -412,7 +412,7 @@
             lblMediaClaridad.AutoSize = true;
             lblMediaClaridad.Font = new Font("Segoe UI", 11F);
             lblMediaClaridad.ForeColor = Color.DimGray;
-            lblMediaClaridad.Location = new Point(64, 288);
+            lblMediaClaridad.Location = new Point(97, 290);
             lblMediaClaridad.Name = "lblMediaClaridad";
             lblMediaClaridad.Size = new Size(116, 20);
             lblMediaClaridad.TabIndex = 3;
@@ -423,7 +423,7 @@
             lblMediaDesarrollo.AutoSize = true;
             lblMediaDesarrollo.Font = new Font("Segoe UI", 11F);
             lblMediaDesarrollo.ForeColor = Color.DimGray;
-            lblMediaDesarrollo.Location = new Point(64, 166);
+            lblMediaDesarrollo.Location = new Point(112, 166);
             lblMediaDesarrollo.Name = "lblMediaDesarrollo";
             lblMediaDesarrollo.Size = new Size(74, 20);
             lblMediaDesarrollo.TabIndex = 2;
@@ -434,7 +434,7 @@
             lblMediaTrato.AutoSize = true;
             lblMediaTrato.Font = new Font("Segoe UI", 11F);
             lblMediaTrato.ForeColor = Color.DimGray;
-            lblMediaTrato.Location = new Point(64, 111);
+            lblMediaTrato.Location = new Point(112, 110);
             lblMediaTrato.Name = "lblMediaTrato";
             lblMediaTrato.Size = new Size(56, 20);
             lblMediaTrato.TabIndex = 1;
