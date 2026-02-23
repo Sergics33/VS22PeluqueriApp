@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.VisualBasic.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -46,21 +47,17 @@ namespace PeluqueriAPP
         {
             [JsonProperty("tratoPersonal")]
             public double tratoPersonal { get; set; }
-
             [JsonProperty("desarrolloServicio")]
             public double desarrolloServicio { get; set; }
-
             [JsonProperty("claridadComunicacion")]
             public double claridadComunicacion { get; set; }
-
             [JsonProperty("limpieza")]
             public double limpieza { get; set; }
-
             [JsonProperty("general")]
             public double general { get; set; }
         }
 
-        // --- LÓGICA DE VALORACIONES (CORREGIDA) ---
+        // --- LÓGICA DE VALORACIONES ---
         private async Task CargarMediaValoraciones()
         {
             try
@@ -84,17 +81,43 @@ namespace PeluqueriAPP
                         double mClaridad = valoraciones.Average(v => v.claridadComunicacion);
                         double mLimpieza = valoraciones.Average(v => v.limpieza);
                         double mGeneral = valoraciones.Average(v => v.general);
-
                         double mediaGlobal = (mTrato + mDesarrollo + mClaridad + mLimpieza + mGeneral) / 5;
 
                         this.Invoke((MethodInvoker)delegate
                         {
+                            System.Windows.Forms.Label[] todos = { lblMediaGeneral, lblMediaTrato, lblMediaDesarrollo, lblMediaLimpieza, lblMediaClaridad, lblMediaPuntualidad };
+
+                            foreach (var l in todos)
+                            {
+                                if (!panelEstadisticas.Controls.Contains(l)) panelEstadisticas.Controls.Add(l);
+                                l.Dock = DockStyle.None;
+                                l.AutoSize = false;
+                                l.BackColor = Color.Transparent;
+                            }
+
                             lblMediaGeneral.Text = $"{mediaGlobal:F1} ★";
-                            FormatearLabelVistoso(lblMediaTrato, "Trato", mTrato);
-                            FormatearLabelVistoso(lblMediaDesarrollo, "Servicio", mDesarrollo);
-                            FormatearLabelVistoso(lblMediaClaridad, "Comunicación", mClaridad);
-                            FormatearLabelVistoso(lblMediaLimpieza, "Limpieza", mLimpieza);
-                            FormatearLabelVistoso(lblMediaPuntualidad, "General", mGeneral);
+                            lblMediaGeneral.Font = new Font("Segoe UI", 32F, FontStyle.Bold);
+                            lblMediaGeneral.ForeColor = Color.FromArgb(255, 128, 0);
+                            lblMediaGeneral.Size = new Size(panelEstadisticas.Width - 10, 70);
+                            lblMediaGeneral.TextAlign = ContentAlignment.MiddleCenter;
+                            lblMediaGeneral.Location = new Point(5, 10);
+
+                            int yPos = lblMediaGeneral.Bottom + 10;
+                            string[] titulos = { "TRATO PERSONAL", "DESARROLLO", "LIMPIEZA", "COMUNICACIÓN", "SATISFACCIÓN" };
+                            double[] valores = { mTrato, mDesarrollo, mLimpieza, mClaridad, mGeneral };
+
+                            for (int i = 0; i < todos.Length - 1; i++)
+                            {
+                                System.Windows.Forms.Label lbl = todos[i + 1];
+                                lbl.Size = new Size(panelEstadisticas.Width - 20, 50);
+                                lbl.Text = $"{titulos[i]}\n{valores[i]:F1} ★";
+                                lbl.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+                                lbl.ForeColor = Color.FromArgb(64, 64, 64);
+                                lbl.TextAlign = ContentAlignment.MiddleCenter;
+                                lbl.Location = new Point(10, yPos);
+                                yPos += lbl.Height + 5;
+                                lbl.BringToFront();
+                            }
                         });
                     }
                 }
@@ -102,17 +125,6 @@ namespace PeluqueriAPP
             catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex.Message); }
         }
 
-        private void FormatearLabelVistoso(Label lbl, string titulo, double valor)
-        {
-            lbl.AutoSize = false;
-            lbl.Size = new Size(165, 65);
-            lbl.Text = $"{titulo.ToUpper()}\n{valor:F1} ★";
-            lbl.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            lbl.TextAlign = ContentAlignment.MiddleCenter;
-            lbl.ForeColor = Color.FromArgb(45, 45, 48);
-        }
-
-        // --- LÓGICA DE CARGA DE CITAS (TU ORIGINAL SIN TOCAR) ---
         private async Task CargarCitasHoy()
         {
             try
@@ -139,10 +151,16 @@ namespace PeluqueriAPP
                             DateTime fechaCita = c.fechaHoraInicio;
                             if (fechaCita.Date == hoy)
                             {
+                                string nombreCliente = "ID: " + c.cliente_id;
+                                if (c.cliente != null)
+                                {
+                                    nombreCliente = (string)c.cliente.nombre_completo ?? (string)c.cliente.nombreCompleto ?? (string)c.cliente.nombre ?? "ID: " + (string)c.cliente.id;
+                                }
+
                                 listaHoy.Add(new CitaResumenHoy
                                 {
                                     Hora = fechaCita.ToString("HH:mm"),
-                                    Cliente = c.cliente != null ? (string)c.cliente.nombre : "ID: " + c.cliente_id,
+                                    Cliente = nombreCliente,
                                     Servicio = c.agenda != null && c.agenda.servicio != null ? (string)c.agenda.servicio.nombre : "Agenda: " + c.agenda_id,
                                     Aula = c.agenda != null ? (string)c.agenda.aula : "N/A"
                                 });
@@ -157,20 +175,22 @@ namespace PeluqueriAPP
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error cargando citas: " + ex.Message);
-            }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("Error cargando citas: " + ex.Message); }
         }
 
         protected override async void OnShown(EventArgs e)
         {
             base.OnShown(e);
+
+            if (!string.IsNullOrEmpty(Session.Username))
+            {
+                label1.Text = Session.Username;
+            }
+
             await CargarCitasHoy();
             await CargarMediaValoraciones();
         }
 
-        // --- ESTILOS Y DISEÑO ---
         private void EstilizarTabla(DataGridView dgv)
         {
             DataGridViewCellStyle headerStyle = new DataGridViewCellStyle();
@@ -221,9 +241,7 @@ namespace PeluqueriAPP
             float borderRadius = 20f;
             float borderThickness = 2f;
             Color borderColor = Color.FromArgb(64, 64, 64);
-
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-
             using (GraphicsPath path = new GraphicsPath())
             {
                 path.AddArc(0, 0, borderRadius, borderRadius, 180, 90);
@@ -231,29 +249,24 @@ namespace PeluqueriAPP
                 path.AddArc(panel.Width - borderRadius - 1, panel.Height - borderRadius - 1, borderRadius, borderRadius, 0, 90);
                 path.AddArc(0, panel.Height - borderRadius - 1, borderRadius, borderRadius, 90, 90);
                 path.CloseAllFigures();
-
                 panel.Region = new Region(path);
-
-                using (Pen pen = new Pen(borderColor, borderThickness))
-                {
-                    e.Graphics.DrawPath(pen, path);
-                }
+                using (Pen pen = new Pen(borderColor, borderThickness)) { e.Graphics.DrawPath(pen, path); }
             }
         }
 
         private void ConfigurarTransparencias()
         {
             foreach (Control c in panel1.Controls)
-                if (c is Label || c is PictureBox) c.BackColor = Color.Transparent;
+                if (c is System.Windows.Forms.Label || c is PictureBox) c.BackColor = Color.Transparent;
         }
 
         private void ConfigurarEfectosMenu()
         {
-            Label[] menuItems = { lblHome, lblCitas, lblServicios, label7, lblAgenda, lblBloqueos, lblCerrarSesion };
+            System.Windows.Forms.Label[] menuItems = { lblHome, lblCitas, lblServicios, label7, lblAgenda, lblBloqueos, lblCerrarSesion };
             foreach (var lbl in menuItems)
             {
-                lbl.MouseEnter += (s, e) => { ((Label)s).ForeColor = Color.Silver; ((Label)s).Cursor = Cursors.Hand; };
-                lbl.MouseLeave += (s, e) => { ((Label)s).ForeColor = Color.White; ((Label)s).Cursor = Cursors.Default; };
+                lbl.MouseEnter += (s, e) => { ((System.Windows.Forms.Label)s).ForeColor = Color.Silver; ((System.Windows.Forms.Label)s).Cursor = Cursors.Hand; };
+                lbl.MouseLeave += (s, e) => { ((System.Windows.Forms.Label)s).ForeColor = Color.White; ((System.Windows.Forms.Label)s).Cursor = Cursors.Default; };
             }
         }
 
@@ -290,7 +303,22 @@ namespace PeluqueriAPP
         private void label7_Click(object sender, EventArgs e) => AbrirFormEnPanel(new Admins());
         private void lblAgenda_Click(object sender, EventArgs e) => AbrirFormEnPanel(new Agendas());
         private void lblBloqueos_Click(object sender, EventArgs e) => AbrirFormEnPanel(new Bloqueos());
-        private void lblCerrarSesion_Click(object sender, EventArgs e) => Application.Exit();
+
+        // --- MÉTODO CERRAR SESIÓN ACTUALIZADO ---
+        private void lblCerrarSesion_Click(object sender, EventArgs e)
+        {
+            // 1. Limpiamos los datos de la sesión
+            Session.Logout();
+
+            // 2. Creamos instancia del Login (reemplaza 'Login' por el nombre real de tu form de inicio)
+            iniciar loginForm = new iniciar();
+
+            // 3. Mostramos el Login
+            loginForm.Show();
+
+            // 4. Cerramos este formulario (Home)
+            this.Close();
+        }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {

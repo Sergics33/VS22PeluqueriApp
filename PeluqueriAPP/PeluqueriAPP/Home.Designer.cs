@@ -51,7 +51,6 @@
             lblMediaTrato = new Label();
             lblMediaGeneral = new Label();
             dgvCitasHoy = new DataGridView();
-            label4 = new Label();
             lblTitulo = new Label();
             label2 = new Label();
             lblUbi = new Label();
@@ -351,7 +350,6 @@
             panel2.Controls.Add(label5);
             panel2.Controls.Add(panelEstadisticas);
             panel2.Controls.Add(dgvCitasHoy);
-            panel2.Controls.Add(label4);
             panel2.Controls.Add(lblTitulo);
             panel2.Controls.Add(label2);
             panel2.Controls.Add(lblUbi);
@@ -459,18 +457,6 @@
             dgvCitasHoy.Size = new Size(644, 400);
             dgvCitasHoy.TabIndex = 22;
             // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.ForeColor = SystemColors.ControlDark;
-            label4.Location = new Point(39, 98);
-            label4.Name = "label4";
-            label4.Size = new Size(203, 17);
-            label4.TabIndex = 21;
-            label4.Text = "Bienvenida de nuevo, Profesora 1";
-            label4.Click += label4_Click;
-            // 
             // lblTitulo
             // 
             lblTitulo.AutoSize = true;
@@ -572,7 +558,6 @@
         private Label label2;
         private Label lblUbi;
         private Label lblBernatS;
-        private Label label4;
         private Label lblTitulo;
         private Label label7;
         private Label lblAgenda;
