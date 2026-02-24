@@ -64,30 +64,30 @@
             // 
             // btnNuevoBloqueo
             // 
-            btnNuevoBloqueo.BackColor = Color.FromArgb(128, 255, 128);
+            btnNuevoBloqueo.BackColor = Color.FromArgb(33, 150, 83);
             btnNuevoBloqueo.FlatAppearance.BorderSize = 0;
             btnNuevoBloqueo.FlatStyle = FlatStyle.Flat;
-            btnNuevoBloqueo.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnNuevoBloqueo.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnNuevoBloqueo.ForeColor = Color.White;
             btnNuevoBloqueo.Location = new Point(454, 21);
             btnNuevoBloqueo.Name = "btnNuevoBloqueo";
             btnNuevoBloqueo.Size = new Size(151, 45);
             btnNuevoBloqueo.TabIndex = 1;
-            btnNuevoBloqueo.Text = "NUEVO BLOQUEO";
+            btnNuevoBloqueo.Text = "✚ NUEVO BLOQUEO";
             btnNuevoBloqueo.UseVisualStyleBackColor = false;
             // 
             // btnBorrarBloqueo
             // 
-            btnBorrarBloqueo.BackColor = Color.Red;
+            btnBorrarBloqueo.BackColor = Color.FromArgb(235, 87, 87);
             btnBorrarBloqueo.FlatAppearance.BorderSize = 0;
             btnBorrarBloqueo.FlatStyle = FlatStyle.Flat;
-            btnBorrarBloqueo.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnBorrarBloqueo.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnBorrarBloqueo.ForeColor = Color.White;
             btnBorrarBloqueo.Location = new Point(637, 21);
             btnBorrarBloqueo.Name = "btnBorrarBloqueo";
             btnBorrarBloqueo.Size = new Size(155, 45);
             btnBorrarBloqueo.TabIndex = 3;
-            btnBorrarBloqueo.Text = "ELIMINAR BLOQUEO";
+            btnBorrarBloqueo.Text = "🗑  ELIMINAR BLOQUEO";
             btnBorrarBloqueo.UseVisualStyleBackColor = false;
             // 
             // label2
