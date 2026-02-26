@@ -19,6 +19,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Home));
             panel1 = new Panel();
+            lblVerValoraciones = new Label();
             pictureBox6 = new PictureBox();
             lblBloqueos = new Label();
             pictureBox5 = new PictureBox();
@@ -56,6 +57,7 @@
             lblUbi = new Label();
             lblBernatS = new Label();
             lblMediaPuntualidad = new Label();
+            pictureBox7 = new PictureBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
@@ -68,11 +70,14 @@
             panel2.SuspendLayout();
             panelEstadisticas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCitasHoy).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BackColor = Color.Transparent;
+            panel1.Controls.Add(pictureBox7);
+            panel1.Controls.Add(lblVerValoraciones);
             panel1.Controls.Add(pictureBox6);
             panel1.Controls.Add(lblBloqueos);
             panel1.Controls.Add(pictureBox5);
@@ -100,6 +105,18 @@
             panel1.Size = new Size(228, 633);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
+            // 
+            // lblVerValoraciones
+            // 
+            lblVerValoraciones.AutoSize = true;
+            lblVerValoraciones.Font = new Font("Segoe UI Semibold", 17F, FontStyle.Bold);
+            lblVerValoraciones.ForeColor = Color.White;
+            lblVerValoraciones.Location = new Point(65, 438);
+            lblVerValoraciones.Name = "lblVerValoraciones";
+            lblVerValoraciones.Size = new Size(146, 31);
+            lblVerValoraciones.TabIndex = 28;
+            lblVerValoraciones.Text = "Valoraciones";
+            lblVerValoraciones.Click += lblVerValoraciones_Click;
             // 
             // pictureBox6
             // 
@@ -511,6 +528,16 @@
             lblMediaPuntualidad.TabIndex = 5;
             lblMediaPuntualidad.Text = "Puntualidad: -";
             // 
+            // pictureBox7
+            // 
+            pictureBox7.Image = (Image)resources.GetObject("pictureBox7.Image");
+            pictureBox7.Location = new Point(27, 438);
+            pictureBox7.Name = "pictureBox7";
+            pictureBox7.Size = new Size(30, 31);
+            pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox7.TabIndex = 29;
+            pictureBox7.TabStop = false;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -535,6 +562,7 @@
             panelEstadisticas.ResumeLayout(false);
             panelEstadisticas.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCitasHoy).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ResumeLayout(false);
         }
 
@@ -578,5 +606,7 @@
         private PictureBox pictureBox6;
         private Label label5;
         private Label label6;
+        private Label lblVerValoraciones;
+        private PictureBox pictureBox7;
     }
 }

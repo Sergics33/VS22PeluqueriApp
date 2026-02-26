@@ -31,7 +31,11 @@ namespace PeluqueriAPP
             ConfigurarEfectosMenu();
             EstilizarTabla(dgvCitasHoy);
 
+            // Suscribir el evento Paint del panel de estadísticas
             panelEstadisticas.Paint += panelEstadisticas_Paint;
+
+            // Asegurar que el click de Valoraciones esté suscrito si no lo hiciste en el diseñador
+            lblVerValoraciones.Click += new EventHandler(lblVerValoraciones_Click);
         }
 
         // --- DTOs PARA LA API ---
@@ -262,7 +266,7 @@ namespace PeluqueriAPP
 
         private void ConfigurarEfectosMenu()
         {
-            System.Windows.Forms.Label[] menuItems = { lblHome, lblCitas, lblServicios, label7, lblAgenda, lblBloqueos, lblCerrarSesion };
+            System.Windows.Forms.Label[] menuItems = { lblHome, lblCitas, lblServicios, label7, lblAgenda, lblBloqueos, lblCerrarSesion, lblVerValoraciones };
             foreach (var lbl in menuItems)
             {
                 lbl.MouseEnter += (s, e) => { ((System.Windows.Forms.Label)s).ForeColor = Color.Silver; ((System.Windows.Forms.Label)s).Cursor = Cursors.Hand; };
@@ -304,19 +308,11 @@ namespace PeluqueriAPP
         private void lblAgenda_Click(object sender, EventArgs e) => AbrirFormEnPanel(new Agendas());
         private void lblBloqueos_Click(object sender, EventArgs e) => AbrirFormEnPanel(new Bloqueos());
 
-        // --- MÉTODO CERRAR SESIÓN ACTUALIZADO ---
         private void lblCerrarSesion_Click(object sender, EventArgs e)
         {
-            // 1. Limpiamos los datos de la sesión
             Session.Logout();
-
-            // 2. Creamos instancia del Login (reemplaza 'Login' por el nombre real de tu form de inicio)
             iniciar loginForm = new iniciar();
-
-            // 3. Mostramos el Login
             loginForm.Show();
-
-            // 4. Cerramos este formulario (Home)
             this.Close();
         }
 
@@ -326,7 +322,12 @@ namespace PeluqueriAPP
                 e.Graphics.FillRectangle(brush, panel1.ClientRectangle);
         }
 
-        // Handlers vacíos
+        private void lblVerValoraciones_Click(object sender, EventArgs e)
+        {
+            AbrirFormEnPanel(new VerValoraciones());
+        }
+
+        // Handlers vacíos para no romper el Diseñador
         private void lblBernat_Click(object sender, EventArgs e) { }
         private void lblPanel_Click(object sender, EventArgs e) { }
         private void label3_Click(object sender, EventArgs e) { }
